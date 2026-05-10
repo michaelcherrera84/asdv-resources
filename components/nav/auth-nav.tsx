@@ -1,6 +1,6 @@
 "use client";
 
-import AccountDropdown from "@/app/components/account-dropdown";
+import AccountDropdown from "@/components/nav/account-dropdown";
 import { authClient } from "@/lib/auth/client";
 import Link from "next/link";
 
@@ -31,7 +31,7 @@ function AuthNav() {
                 Sign Up
             </Link>
 
-            <Link href="/auth/sign-in" className="rounded-md px-4 py-2 font-bold hover:bg-white/10">
+            <Link href="/auth/sign-in" className="rounded-md border px-4 py-2 font-bold hover:bg-white/10">
                 Sign In
             </Link>
         </div>

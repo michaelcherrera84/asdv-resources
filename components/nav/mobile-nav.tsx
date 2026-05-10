@@ -3,7 +3,7 @@
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import AccountDropdown from "@/app/components/account-dropdown";
+import AccountDropdown from "@/components/nav/account-dropdown";
 import { authClient } from "@/lib/auth/client";
 
 /**

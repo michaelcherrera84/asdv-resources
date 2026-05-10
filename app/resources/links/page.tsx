@@ -80,7 +80,7 @@ async function Links() {
     );
 
     return (
-        <main className="lg:px-6 xl:px-8">
+        <main className="mx-auto w-300 max-w-full">
             {/* Page heading */}
             <div className="my-10">
                 <h1 className="text-primary py-1 text-center text-2xl font-bold">Helpful Links</h1>

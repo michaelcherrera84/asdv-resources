@@ -3,18 +3,20 @@
 :root {
     --background: #FFFFFF;
     --foreground: #212121;
-    --color-primary: #003D78;
-    --color-secondary: #9AD7F9;
+    --primary: #003D78;
+    --secondary: #9AD7F9;
 }
 
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    /*noinspection CssUnresolvedCustomProperty*/
     --font-sans: var(--font-lato);
+    /*noinspection CssUnresolvedCustomProperty*/
     --font-mono: var(--font-jetbrains-mono);
 
-    --color-primary: var(--color-primary);
-    --color-secondary: var(--color-secondary);
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
 }
 
 @media (prefers-color-scheme: dark) {

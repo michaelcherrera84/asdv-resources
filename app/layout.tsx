@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Lato } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/app/components/navbar";
+import Navbar from "@/components/nav/navbar";
 
 const lato = Lato({
     variable: "--font-lato",

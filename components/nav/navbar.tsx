@@ -1,6 +1,6 @@
 import Link from "next/link";
-import MobileNav from "@/app/components/mobile-nav";
-import AuthNav from "@/app/components/auth-nav";
+import MobileNav from "./mobile-nav";
+import AuthNav from "./auth-nav";
 
 /**
  * Main navigation component.
