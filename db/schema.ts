@@ -27,6 +27,7 @@ export const books = pgTable("books", {
     published: text("published"),
     publisher: text("publisher"),
     description: text("description"),
+    obtain: text("obtain"),
     link: text("link"),
     cover: text("cover"),
     slug: text("slug").notNull(),

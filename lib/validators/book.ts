@@ -12,6 +12,7 @@ export const bookSchema = z.object({
     published: z.string().optional(),
     publisher: z.string().optional(),
     description: z.string().optional(),
+    obtain: z.enum(["Download", "Purchase"]).optional(),
     link: z.url().optional(),
     cover: z.url().optional(),
     slug: z.string().min(1),

@@ -42,7 +42,7 @@ async function Resources() {
                 </ResourceCard>
 
                 {/* Links card */}
-                <ResourceCard title="Important Links" link="/resources/links">
+                <ResourceCard title="Helpful Links" link="/resources/links">
                     {importantLinks.map((link) => (
                         <Link href={link.href} key={link.id} target="_blank" rel="noopener noreferrer">
                             {link.displayName}
