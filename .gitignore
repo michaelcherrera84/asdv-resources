@@ -44,3 +44,4 @@ certificates
 /drizzle/
 /db/seed.ts
 /.idea/dataSources.xml
+/app/components-tests/

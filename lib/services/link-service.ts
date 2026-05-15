@@ -1,6 +1,21 @@
 import { db } from "@/db";
 import { links } from "@/db/schema";
 import { linkSchema } from "@/lib/validators/link";
+import { eq } from "drizzle-orm";
+
+/**
+ * Retrieves all links from the database.
+ */
+export function getLinks() {
+    return db.select().from(links);
+}
+
+/**
+ * Retrieves featured links from the database.
+ */
+export function getFeaturedLinks() {
+    return db.select().from(links).where(eq(links.featured, true)).orderBy(links.displayName);
+}
 
 /**
  * Creates a new link record in the database.

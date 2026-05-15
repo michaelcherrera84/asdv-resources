@@ -3,6 +3,13 @@ import { db } from "@/db";
 import { books } from "@/db/schema";
 
 /**
+ * Retrieves all books from the database.
+ */
+export function getBooks() {
+    return db.select().from(books).orderBy(books.semesters, books.courses, books.title);
+}
+
+/**
  * Creates a new book record in the database.
  *
  * Responsibilities:

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /**
  * Home page component.
  *
@@ -49,12 +51,19 @@ export default function Home() {
                 </div>
             </div>
             <p className="min-h-48 p-4 text-center text-sm text-gray-500 md:text-base lg:text-lg">
-                Need guidance or have a suggestion for new resources? Connect through the discussion server or contact
-                your program tutor.
+                Need guidance or have a suggestion for new resources? Connect through the{" "}
+                <Link
+                    href="https://discord.com/invite/E6dn2kt2cg"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                >
+                    discussion server
+                </Link>{" "}
+                or contact your program tutor.
             </p>
 
             <footer className="bg-secondary relative min-h-48 w-full">
-                <p className="absolute bottom-4 px-4 text-sm text-gray-500">
+                <p className="absolute bottom-4 w-full px-4 text-center text-sm text-gray-500">
                     <strong>Disclaimer:</strong> ASDV Resources is an independent, community-driven project created by
                     current students and alumni of the Application Software Development program. This site is not an
                     official website of South Louisiana Community College and is not affiliated with, endorsed by, or

@@ -1,5 +1,25 @@
-import { boolean, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { boolean, pgSchema, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
+import { uuid } from "drizzle-orm/pg-core";
+
+// Neon Auth schema.
+const neonAuth = pgSchema("neon_auth");
+/**
+ * User table.
+ */
+export const users = neonAuth.table("user", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    name: text("name").notNull(),
+    email: text("email").notNull().unique(),
+    emailVerified: boolean().default(false),
+    image: text("image"),
+    role: text("role").notNull().default("user"),
+    banned: boolean("banned").notNull().default(false),
+    banReason: text("banReason"),
+    banExpires: timestamp("banExpires"),
+});
+
+export type User = InferSelectModel<typeof users>;
 
 /**
  * Links table.
@@ -36,3 +56,18 @@ export const books = pgTable("books", {
 });
 
 export type Book = InferSelectModel<typeof books>;
+
+/**
+ * Tutorials table.
+ */
+export const tutorials = pgTable("tutorials", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: text("slug").notNull().unique(),
+    title: text("title").notNull(),
+    author: uuid("author"),
+    description: text("description"),
+    content: text("content").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Tutorial = InferSelectModel<typeof tutorials>;

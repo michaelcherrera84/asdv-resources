@@ -1,8 +1,7 @@
 import ResourceCard from "../../components/resource-card";
 import Link from "next/link";
-import { db } from "@/db";
-import { links } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { getFeaturedLinks } from "@/lib/services/link-service";
+import { getRecentTutorials } from "@/lib/services/tutorial-service";
 
 /**
  * Resources landing page.
@@ -28,17 +27,18 @@ import { eq } from "drizzle-orm";
  * database queries during server-side rendering.
  */
 async function Resources() {
-    const importantLinks = await db.select().from(links).where(eq(links.featured, true)).orderBy(links.displayName);
+    const importantLinks = await getFeaturedLinks();
+    const recentTutorials = await getRecentTutorials();
 
     return (
         <main className="flex justify-center px-4 py-12 lg:px-6 xl:px-8">
             <div className="flex max-w-84 flex-wrap gap-4 min-[592px]:max-w-148 min-[896px]:max-w-4xl min-[1200px]:max-w-300 min-[1600px]:max-w-400">
                 {/* Books card */}
                 <ResourceCard title="Books" link="/resources/books">
-                    <Link href="/resources/books?semester=1">First Semester</Link>
-                    <Link href="/resources/books?semester=2">Second Semester</Link>
-                    <Link href="/resources/books?semester=3">Third Semester</Link>
-                    <Link href="/resources/books?semester=4">Fourth Semester</Link>
+                    <Link href="/resources/books?semester=1st%20Semester">First Semester</Link>
+                    <Link href="/resources/books?semester=2nd%20Semester">Second Semester</Link>
+                    <Link href="/resources/books?semester=3rd%20Semester">Third Semester</Link>
+                    <Link href="/resources/books?semester=4th%20Semester">Fourth Semester</Link>
                 </ResourceCard>
 
                 {/* Links card */}
@@ -52,8 +52,12 @@ async function Resources() {
                 </ResourceCard>
 
                 {/* Tutorials card */}
-                <ResourceCard title="Tutorials">
-                    <Link href="#">Tutorial 1</Link>
+                <ResourceCard title="Tutorials" link="/resources/tutorials">
+                    {recentTutorials.map((tutorial) => (
+                        <Link href={`/resources/tutorials/${tutorial.slug}`} key={tutorial.id}>
+                            - {tutorial.title}
+                        </Link>
+                    ))}
                 </ResourceCard>
 
                 {/* Blog card */}

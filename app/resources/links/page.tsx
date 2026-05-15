@@ -20,7 +20,7 @@ import { links } from "@/db/schema";
  * This component is asynchronous because database queries
  * execute on the server before rendering.
  */
-async function Links() {
+async function LinksPage() {
     /**
      * Retrieve all links ordered by:
      * 1. category
@@ -143,4 +143,4 @@ async function Links() {
     );
 }
 
-export default Links;
+export default LinksPage;
