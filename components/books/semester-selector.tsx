@@ -34,7 +34,7 @@ export function SemesterSelector({ selected }: { selected: string | undefined })
     );
 }
 
-export function CourseSelector() {
+export function CourseSelector({ selected }: { selected: string | undefined }) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -50,7 +50,11 @@ export function CourseSelector() {
 
     return (
         <div className="rounded-md border border-gray-300">
-            <Select className="text-primary min-w-80" onChange={(e) => handleChange(e.target.value)}>
+            <Select
+                className="text-primary min-w-80"
+                onChange={(e) => handleChange(e.target.value)}
+                defaultValue={selected}
+            >
                 <option value="">All Courses</option>
                 <option value="Information Technology Infrastructure">Information Technology Infrastructure</option>
                 <option value="Programming Fundamentals">Programming Fundamentals</option>

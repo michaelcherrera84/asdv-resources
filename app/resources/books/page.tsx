@@ -52,7 +52,7 @@ async function BooksPage({ searchParams }: BooksProps) {
                 </p>
                 <div className="flex w-fit flex-col gap-1 self-center lg:flex-row">
                     <SemesterSelector selected={semester} />
-                    <CourseSelector />
+                    <CourseSelector selected={course} />
                 </div>
             </div>
             <div className="grid auto-rows-fr grid-cols-1 gap-4 py-4 lg:grid-cols-2 2xl:grid-cols-3">
