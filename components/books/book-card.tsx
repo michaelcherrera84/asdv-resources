@@ -8,6 +8,14 @@ interface BookCardProps {
     book: Book;
 }
 
+/**
+ * Book card component.
+ *
+ * Responsibilities:
+ * - Display a book card with book details and a link to purchase or obtain the book.
+ *
+ * @param {Book} book - The book data.
+ */
 async function BookCard({ book }: BookCardProps) {
     return (
         <Card className="w-full max-w-150 items-center overflow-hidden rounded-xl shadow-md shadow-black/50 lg:max-w-115 xl:max-w-150">

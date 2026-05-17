@@ -94,7 +94,9 @@ async function LinksPage() {
                 {Object.entries(groupedLinks).map(([title, category]) => (
                     <li key={title}>
                         {/* Category heading */}
-                        <h2 className="bg-primary px-4 text-lg font-black text-nowrap text-white">{title}</h2>
+                        <h2 className="bg-primary px-4 text-lg font-black text-nowrap text-white min-[1200px]:rounded">
+                            {title}
+                        </h2>
                         <ul className="py-2">
                             {/* Links without a subcategory. */}
                             {category.uncategorized.map((link) => (

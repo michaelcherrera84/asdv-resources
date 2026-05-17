@@ -1,7 +1,10 @@
+import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
-import { MenuIcon } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 
+/**
+ * Props for the ResourceCard component.
+ */
 type ResourceCardProps = {
     title: string;
     link?: string;
@@ -19,7 +22,7 @@ function ResourceCard({ title, link, children }: ResourceCardProps) {
     return (
         <Card className="h-28 w-40 justify-end py-2 sm:h-72 sm:w-72">
             <CardHeader className="items-start gap-4 p-4">
-                <MenuIcon className="sm:hidden" />
+                <RxHamburgerMenu className="sm:hidden" size={24} />
                 <Link href={link ?? "#"} className="self-center sm:self-start">
                     <div className="text-center font-bold sm:text-left">{title}</div>
                 </Link>

@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/**
+ * Zod schema for validating tutorial data.
+ */
 export const tutorialSchema = z.object({
     slug: z.string().min(1),
     title: z.string().min(1),

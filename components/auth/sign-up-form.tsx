@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleXIcon } from "lucide-react";
+import { BsXCircle } from "react-icons/bs";
 import FloatingLabelInput from "@/components/ui/floating-label-input";
 import Button from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -155,7 +155,7 @@ function SignUpForm() {
         <form action={handleSubmit} className="flex flex-col gap-4">
             {error /* Display authentication error message */ && (
                 <div className="relative rounded-lg bg-red-200 py-2 pr-2 pl-10 text-red-700 shadow-xs inset-shadow-xs shadow-red-600 inset-shadow-red-300">
-                    <CircleXIcon className="absolute top-[50%] left-2 -translate-y-1/2" />
+                    <BsXCircle className="absolute top-[50%] left-2 -translate-y-1/2" />
                     {error}
                 </div>
             )}

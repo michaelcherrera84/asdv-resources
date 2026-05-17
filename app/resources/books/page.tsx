@@ -1,22 +1,73 @@
+/**
+ * BooksPage
+ *
+ * Displays a searchable and filterable list of course materials used in the
+ * Application Software Development (ASDV) program.
+ *
+ * Features:
+ * - Retrieves all books from the database/service layer
+ * - Filters books by semester and/or course using URL search parameters
+ * - Provides UI controls for selecting semesters and courses
+ * - Renders matching books in a responsive card grid
+ *
+ * URL Search Parameters:
+ * - semester: Filters books assigned to a specific semester
+ * - course: Filters books assigned to a specific course
+ *
+ * Example:
+ * /books?semester=1st%20Semester
+ * /books?course=Information+Technology+Infrastructure
+ * /books?semester=1st+Semester&course=Information+Technology+Infrastructure
+ */
+
 import BookCard from "@/components/books/book-card";
 import Link from "next/link";
 import { SemesterSelector, CourseSelector } from "@/components/books/semester-selector";
 import { getBooks } from "@/lib/services/book-service";
 
+/**
+ * Props passed to the BooksPage component by Next.js.
+ *
+ * searchParams is provided automatically for App Router pages and contains
+ * query string values from the current URL.
+ */
 type BooksProps = {
     searchParams: Promise<{
+        // Optional semester filter used to display books associated with a specific semester.
         semester?: string;
+        // Optional course filter used to display books associated with a specific course.
         course?: string;
     }>;
 };
 
+/**
+ * Server component responsible for rendering the course materials page.
+ *
+ * Workflow:
+ * 1. Read search parameters from the URL
+ * 2. Retrieve all books from the service layer
+ * 3. Filter books based on semester/course selections
+ * 4. Render informational content, filter controls, and matching books
+ */
 async function BooksPage({ searchParams }: BooksProps) {
+    // Resolve query string parameters from the URL
     const params = await searchParams;
+
+    // Extract selected filters
     const semester = params.semester;
     const course = params.course;
 
+    // Retrieve all available books
     const allBooks = await getBooks();
 
+    /**
+     * Filter books based on selected semester and course.
+     *
+     * Rules:
+     * - If no semester is selected, all semesters match
+     * - If no course is selected, all courses match
+     * - A book must satisfy BOTH filters to be included
+     */
     const bookList = allBooks.filter((book) => {
         const matchesSemester = !semester || book.semesters?.includes(semester);
         const matchesCourse = !course || book.courses?.includes(course);

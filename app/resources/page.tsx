@@ -22,9 +22,6 @@ import { getRecentTutorials } from "@/lib/services/tutorial-service";
  * Notes:
  * - Featured links are dynamically loaded from the database
  * - Some sections are currently placeholders and will expand later
- *
- * This is a Server Component because it performs
- * database queries during server-side rendering.
  */
 async function Resources() {
     const importantLinks = await getFeaturedLinks();
@@ -52,7 +49,7 @@ async function Resources() {
                 </ResourceCard>
 
                 {/* Tutorials card */}
-                <ResourceCard title="Tutorials" link="/resources/tutorials">
+                <ResourceCard title="Tutorials" link="#">
                     {recentTutorials.map((tutorial) => (
                         <Link href={`/resources/tutorials/${tutorial.slug}`} key={tutorial.id}>
                             - {tutorial.title}
@@ -62,12 +59,49 @@ async function Resources() {
 
                 {/* Blog card */}
                 <ResourceCard title="Blog">
-                    <Link href="#">Blog 1</Link>
+                    <Link href="#">Coming Soon...</Link>
                 </ResourceCard>
 
                 {/* Applications card */}
-                <ResourceCard title="Applications">
-                    <Link href="#">Application 1</Link>
+                <ResourceCard title="Applications" link="/resources/applications">
+                    <Link
+                        href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-generic-2.7.1.jar/download"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Logisim
+                    </Link>
+                    <Link
+                        href="https://netbeans.apache.org/front/main/download/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Apache NetBeans
+                    </Link>
+                    <Link
+                        href="https://visualstudio.microsoft.com/downloads/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Visual Studio (Windows)
+                    </Link>
+                    <Link
+                        href="https://storage.googleapis.com/asdv-resources/Relational%20Setup.exe"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Relational (Windows)
+                    </Link>
+                    <Link
+                        href="https://storage.googleapis.com/asdv-resources/Install%20Relational.dmg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Relational (Mac)
+                    </Link>
+                    <Link href="https://www.mamp.info/" target="_blank" rel="noopener noreferrer">
+                        MAMP
+                    </Link>
                 </ResourceCard>
             </div>
         </main>

@@ -1,19 +1,59 @@
 "use client";
 
+/**
+ * SemesterSelector and CourseSelector
+ *
+ * Client-side filter components used on the Course Materials page.
+ *
+ * Features:
+ * - Updates URL search parameters without a full page reload
+ * - Preserves existing query parameters when updating filters
+ * - Allows users to filter books by semester and/or course
+ * - Uses Next.js App Router navigation hooks
+ *
+ * Query Parameters:
+ * - semester: Selected semester filter
+ * - course: Selected course filter
+ *
+ * Example URLs:
+ * /books?semester=1st+Semester
+ * /books?course=Programming+Fundamentals
+ * /books?semester=2nd+Semester&course=SQL+Database+Programming
+ */
+
 import { Select } from "@headlessui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+/**
+ * SemesterSelector
+ *
+ * Dropdown component used to filter books by semester.
+ *
+ * Props:
+ * - selected: Currently selected semester value from the URL
+ */
 export function SemesterSelector({ selected }: { selected: string | undefined }) {
+    // Next.js navigation utilities
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
+    /**
+     * Updates the "semester" query parameter in the URL.
+     *
+     * Behavior:
+     * - Adds the semester parameter when a value is selected
+     * - Removes the parameter when "All Semesters" is selected
+     * - Preserves all other existing query parameters
+     */
     function handleChange(value: string) {
+        // Clone existing query parameters
         const params = new URLSearchParams(searchParams);
 
         if (value) params.set("semester", value);
         else params.delete("semester");
 
+        // Navigate to updated URL
         router.push(`${pathname}?${params.toString()}`);
     }
 
@@ -34,17 +74,36 @@ export function SemesterSelector({ selected }: { selected: string | undefined })
     );
 }
 
+/**
+ * CourseSelector
+ *
+ * Dropdown component used to filter books by course.
+ *
+ * Props:
+ * - selected: Currently selected course value from the URL
+ */
 export function CourseSelector({ selected }: { selected: string | undefined }) {
+    // Next.js navigation utilities
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
+    /**
+     * Updates the "course" query parameter in the URL.
+     *
+     * Behavior:
+     * - Adds the course parameter when a value is selected
+     * - Removes the parameter when "All Courses" is selected
+     * - Preserves all other existing query parameters
+     */
     function handleChange(value: string) {
+        // Clone existing query parameters
         const params = new URLSearchParams(searchParams);
 
         if (value) params.set("course", value);
         else params.delete("course");
 
+        // Navigate to updated URL
         router.push(`${pathname}?${params.toString()}`);
     }
 

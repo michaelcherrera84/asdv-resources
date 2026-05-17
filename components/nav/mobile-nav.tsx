@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
+import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import AccountDropdown from "@/components/nav/account-dropdown";
@@ -54,8 +54,9 @@ function MobileNav() {
     return (
         <div ref={navRef} className="absolute top-0 left-0 w-full sm:hidden">
             {/* Mobile navigation menu icon and toggle button */}
-            <MenuIcon
+            <RxHamburgerMenu
                 className="relative top-5 left-2 cursor-pointer"
+                size={26}
                 onClick={() => {
                     setIsOpen(!isOpen);
                 }}
@@ -68,22 +69,38 @@ function MobileNav() {
                 Navigation links are hidden by default and displayed when the mobile menu is open.
             */}
             <nav
-                className={`${!isOpen ? "hidden" : "flex"} bg-secondary text-primary absolute top-16 w-full justify-center gap-6 py-1 font-bold`}
+                className={`${!isOpen ? "hidden" : "grid"} bg-secondary text-primary absolute top-16 h-8 w-full grid-cols-4 font-bold`}
             >
                 {/* Close menu after navigation selection */}
-                <Link href="#" onClick={() => setIsOpen(false)}>
+                <Link
+                    href="/about"
+                    onClick={() => setIsOpen(false)}
+                    className="flex h-full items-center justify-center hover:bg-white/20"
+                >
                     About
                 </Link>
-                <Link href="/resources" onClick={() => setIsOpen(false)}>
+                <Link
+                    href="/resources"
+                    onClick={() => setIsOpen(false)}
+                    className="flex h-full items-center justify-center hover:bg-white/20"
+                >
                     Resources
                 </Link>
-                <Link href="#" onClick={() => setIsOpen(false)}>
+                <Link
+                    href="/contact"
+                    onClick={() => setIsOpen(false)}
+                    className="flex h-full items-center justify-center hover:bg-white/20"
+                >
                     Contact
                 </Link>
 
                 {/* Show sign-in link only for unauthenticated users. */}
                 {!session?.user && (
-                    <Link href="/auth/sign-in" onClick={() => setIsOpen(false)}>
+                    <Link
+                        href="/auth/sign-in"
+                        onClick={() => setIsOpen(false)}
+                        className="flex h-full items-center justify-center hover:bg-white/20"
+                    >
                         Sign In
                     </Link>
                 )}

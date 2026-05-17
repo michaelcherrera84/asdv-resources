@@ -26,13 +26,13 @@ async function Navbar() {
             {/* Navigation links displayed on larger screens */}
             <nav className="hidden items-center gap-6 bg-transparent font-normal text-white sm:flex md:gap-14">
                 <div className="flex items-center gap-8">
-                    <Link href="#" className="underline-offset-2 hover:underline">
+                    <Link href="/about" className="underline-offset-2 hover:underline">
                         About
                     </Link>
                     <Link href="/resources" className="underline-offset-2 hover:underline">
                         Resources
                     </Link>
-                    <Link href="#" className="underline-offset-2 hover:underline">
+                    <Link href="/contact" className="underline-offset-2 hover:underline">
                         Contact
                     </Link>
                 </div>
