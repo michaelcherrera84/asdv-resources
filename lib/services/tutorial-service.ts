@@ -6,7 +6,7 @@ import { desc, eq } from "drizzle-orm";
  * Retrieves all tutorials from the database.
  */
 export function getTutorials() {
-    return db.select().from(tutorials);
+    return db.select().from(tutorials).orderBy(desc(tutorials.createdAt));
 }
 
 /**

@@ -4,15 +4,23 @@
  * @param className additional classes to be added to the card
  * @param style additional styles to be added to the card
  * @param children children of the card
+ * @param ref reference to the card
  * @param props additional props to be added to the card
  * @constructor
  */
-function MainCard({ className = "", style, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function MainCard({
+    className = "",
+    style,
+    children,
+    ref,
+    ...props
+}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
     return (
         <div
             className={`inset-shadow-md mb-1 flex flex-col rounded-md shadow-md inset-shadow-xs ${className}`}
             style={{ ...style }}
             {...props}
+            ref={ref}
         >
             {children}
         </div>

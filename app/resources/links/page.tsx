@@ -82,9 +82,9 @@ async function LinksPage() {
     return (
         <main className="mx-auto w-300 max-w-full">
             {/* Page heading */}
-            <div className="my-10">
-                <h1 className="text-primary py-1 text-center text-2xl font-bold">Helpful Links</h1>
-                <p className="px-4 text-center leading-snug text-gray-500">
+            <div className="my-10 text-center">
+                <h1 className="text-primary py-1 text-2xl font-bold">Helpful Links</h1>
+                <p className="px-4 leading-snug text-gray-500">
                     Developer tools, official documentation, educational sites, and more...
                 </p>
             </div>

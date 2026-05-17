@@ -23,6 +23,7 @@
 
 import { Select } from "@headlessui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FaChevronDown } from "react-icons/fa";
 
 /**
  * SemesterSelector
@@ -58,9 +59,10 @@ export function SemesterSelector({ selected }: { selected: string | undefined })
     }
 
     return (
-        <div className="rounded-md border border-gray-300">
+        <div className="relative rounded-md border border-gray-300">
+            <FaChevronDown className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 text-gray-400" />
             <Select
-                className="text-primary min-w-80"
+                className="text-primary min-w-80 appearance-none p-1 pl-2 outline-none"
                 onChange={(e) => handleChange(e.target.value)}
                 defaultValue={selected}
             >
@@ -108,9 +110,10 @@ export function CourseSelector({ selected }: { selected: string | undefined }) {
     }
 
     return (
-        <div className="rounded-md border border-gray-300">
+        <div className="relative rounded-md border border-gray-300">
+            <FaChevronDown className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 text-gray-400" />
             <Select
-                className="text-primary min-w-80"
+                className="text-primary min-w-80 appearance-none py-1 pl-2 outline-none"
                 onChange={(e) => handleChange(e.target.value)}
                 defaultValue={selected}
             >

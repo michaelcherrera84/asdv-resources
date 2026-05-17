@@ -18,7 +18,7 @@ function ContactPage() {
                             Join our Discord server to chat with admins, classmates, and alumni.
                         </p>
                     </div>
-                    <div className="flex items-end">
+                    <div className="flex items-end justify-center">
                         {/* Discord widget */}
                         <iframe
                             src="https://discord.com/widget?id=1504239875933737154&theme=light"

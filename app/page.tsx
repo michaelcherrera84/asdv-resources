@@ -64,18 +64,16 @@ export default function Home() {
             </div>
 
             <footer className="bg-secondary flex h-fit w-full flex-col justify-end pt-4 pb-2">
-                <div className="text-primary flex items-end justify-center gap-4 py-6 text-lg font-bold">
+                <div className="text-primary flex flex-col items-center gap-2 py-6 text-lg font-bold">
                     <h1 className="text-2xl">ASDV Resources</h1>
-                    <p>&mdash;</p>
-                    <Link href="/about">About</Link>
-                    <p>&mdash;</p>
-                    <Link href="/contact">Contact</Link>
-                    <p>&mdash;</p>
-                    <Link href="/resources">Resources</Link>
-                    <p>&mdash;</p>
-                    <Link href="https://github.com/michaelcherrera84/asdv-resources" target="_blank">
-                        GitHub
-                    </Link>
+                    <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
+                        <Link href="/about">About</Link>
+                        <Link href="/contact">Contact</Link>
+                        <Link href="/resources">Resources</Link>
+                        <Link href="https://github.com/michaelcherrera84/asdv-resources" target="_blank">
+                            GitHub
+                        </Link>
+                    </div>
                 </div>
                 <p className="w-full px-4 py-4 text-center text-sm text-gray-500">
                     <strong>Disclaimer:</strong> ASDV Resources is an independent, community-driven project created by

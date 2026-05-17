@@ -27,6 +27,7 @@ async function BookCard({ book }: BookCardProps) {
                         width={460}
                         height={620}
                         className="sm:max-w-1/3 lg:max-h-155 lg:min-h-155 lg:max-w-full xl:max-h-67.5 xl:min-h-67.5 xl:max-w-1/3"
+                        loading="eager"
                     />
                 )}
                 <CardHeader className="px-4 py-2 sm:py-4 lg:items-center xl:items-start">
