@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/nav/navbar";
+import { Analytics } from "@vercel/analytics/next";
 
 const lato = Lato({
     variable: "--font-lato",
@@ -28,6 +29,7 @@ export default function RootLayout({
             <body className="flex min-h-full flex-col">
                 <Navbar />
                 {children}
+                <Analytics />
             </body>
         </html>
     );
