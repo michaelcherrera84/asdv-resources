@@ -8,6 +8,7 @@ async function TutorialsPage() {
 
     const getAuthor = async (author: string) => {
         const authorObject = await getUserById(author);
+        console.log(authorObject?.name);
         return authorObject?.name;
     };
 
