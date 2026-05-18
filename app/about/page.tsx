@@ -96,6 +96,25 @@ function AboutPage() {
                 </p>
             </section>
             <section className="flex flex-col gap-4">
+                <h2 className="text-xl font-bold">Why This Project Exists</h2>
+                <p>
+                    ASDV Resources was also created as a practical software development project — something larger and
+                    more realistic than a classroom assignment or isolated tutorial project.
+                </p>
+                <p>The site serves as:</p>
+                <ul className="list-disc pl-6">
+                    <li>A learning resource</li>
+                    <li>A collaborative development environment</li>
+                    <li>A portfolio project</li>
+                    <li>A community hub for current students and alumni</li>
+                </ul>
+                <p>
+                    By building and maintaining a platform used by real students, contributors gain experience working
+                    on an evolving application with actual users and practical requirements. Contributors can point to
+                    their work on this project as evidence of real-world development experience.
+                </p>
+            </section>
+            <section className="flex flex-col gap-4">
                 <h2 className="text-xl font-bold">Looking Forward</h2>
                 <p>
                     This project is still growing, and many planned features are actively in development. The long-term
