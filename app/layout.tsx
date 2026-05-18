@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         siteName: "ASDV Resources",
         images: [
             {
-                url: "https://asdv-resources.vercel.app/image/asdv-resources-og.png",
+                url: "https://asdv-resources.vercel.app/images/asdv-resources-og.png",
                 width: 1200,
                 height: 630,
                 alt: "ASDV Resources",
