@@ -17,6 +17,23 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
     title: "ASDV Resources",
     description: "Companion Site for the Application Software Development Program at South Louisiana Community Collage",
+    openGraph: {
+        title: "ASDV Resources",
+        description:
+            "Companion Site for the Application Software Development Program at South Louisiana Community Collage",
+        url: "https://asdv-resources.vercel.app",
+        siteName: "ASDV Resources",
+        images: [
+            {
+                url: "https://asdv-resources.vercel.app/image/asdv-resources-og.png",
+                width: 1200,
+                height: 630,
+                alt: "ASDV Resources",
+            },
+        ],
+        locale: "en_US",
+        type: "website",
+    },
 };
 
 export default function RootLayout({
