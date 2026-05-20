@@ -3,6 +3,7 @@
 import { Menu, MenuButton, MenuHeading, MenuItem, MenuItems, MenuSection } from "@headlessui/react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth/client";
+import Image from "next/image";
 
 /**
  * Account dropdown menu component.
@@ -45,7 +46,17 @@ function AccountDropdown() {
                 Displays the first letter of the authenticated user's name as a simple fallback avatar.
             */}
             <MenuButton className="text-primary h-10 w-10 rounded-full bg-white outline-none">
-                {session.user.name[0].toUpperCase()}
+                {session.user.image ? (
+                    <Image
+                        src={session.user.image}
+                        height={40}
+                        width={40}
+                        alt="profile picture"
+                        className="rounded-full"
+                    />
+                ) : (
+                    <>{session.user.name[0].toUpperCase()} </>
+                )}
             </MenuButton>
 
             {/*
