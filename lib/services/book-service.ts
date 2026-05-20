@@ -10,6 +10,14 @@ export function getBooks() {
 }
 
 /**
+ * Retrieves all unique semesters from the books table.
+ */
+export async function getBookSemesters() {
+    const results = await db.select({ semesters: books.semesters }).from(books);
+    return [...new Set(results.flatMap((r) => r.semesters ?? []))].sort();
+}
+
+/**
  * Creates a new book record in the database.
  *
  * Responsibilities:
