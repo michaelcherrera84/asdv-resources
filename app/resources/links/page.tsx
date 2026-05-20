@@ -21,15 +21,21 @@ import { links } from "@/db/schema";
  * execute on the server before rendering.
  */
 async function LinksPage() {
-    /**
-     * Retrieve all links ordered by:
-     * 1. category
-     * 2. subcategory
-     * 3. display name
-     *
-     * Ordering ensures predictable grouped rendering.
-     */
-    const allLinks = await db.select().from(links).orderBy(links.category, links.subcategory, links.displayName);
+    let allLinks;
+    try {
+        /**
+         * Retrieve all links ordered by:
+         * 1. category
+         * 2. subcategory
+         * 3. display name
+         *
+         * Ordering ensures predictable grouped rendering.
+         */
+        allLinks = await db.select().from(links).orderBy(links.category, links.subcategory, links.displayName);
+    } catch (error) {
+        console.error("Error fetching links:", error);
+        throw new Error("Failed to fetch links");
+    }
 
     /**
      * Transform flat database records into a grouped structure.

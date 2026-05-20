@@ -16,7 +16,7 @@ import { useState } from "react";
  * - Display authentication errors
  * - Redirect authenticated users to the resources page
  */
-function SignInForm() {
+function SignInForm({ redirect }: { redirect: string }) {
     // Next.js router instance used for navigation and refreshing server-rendered data.
     const router = useRouter();
     // Stores authentication or submission errors.
@@ -80,7 +80,7 @@ function SignInForm() {
 
         // Redirect authenticated user to the resources page.
         // replace() prevents returning to the sign-in page when using the browser back button.
-        router.replace("/resources");
+        router.replace(redirect || "/resources");
     }
 
     return (
