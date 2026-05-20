@@ -71,7 +71,7 @@ async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
                 </ReactMarkdown>
             </article>
             <hr className="my-10" />
-            <Comments slug={slug} />
+            {/*<Comments slug={slug} />*/}
         </main>
     );
 }
