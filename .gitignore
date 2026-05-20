@@ -43,5 +43,5 @@ next-env.d.ts
 certificates
 /drizzle/
 /db/seed.ts
-/.idea/dataSources.xml
+/.idea/
 /app/components-tests/
