@@ -1,22 +1,34 @@
-import { getTutorialBySlug } from "@/lib/services/tutorial-service";
-import { getUserById } from "@/lib/services/user-service";
+import { getTutorialAuthor, getTutorialBySlug } from "@/lib/services/tutorial-service";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
+import Comments from "@/components/tutorials/comments";
 
+/**
+ * Tutorial page component.
+ * Displays a single tutorial with its content and comments.
+ */
 async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const data = await getTutorialBySlug(slug);
-    const tutorial = data[0];
 
-    if (!tutorial) {
-        return <div>Tutorial not found</div>;
+    let tutorialData;
+    try {
+        tutorialData = await getTutorialBySlug(slug);
+    } catch (error) {
+        console.error("Error fetching tutorial:", error);
+        throw new Error("Failed to fetch tutorial");
     }
 
-    let author;
+    const tutorial = tutorialData[0];
+
+    if (!tutorial) {
+        throw new Error("Tutorial not found");
+    }
+
+    let author = "Unknown Author";
     if (tutorial.author) {
-        author = await getUserById(tutorial.author);
+        author = await getTutorialAuthor(tutorial.author);
     }
 
     const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -30,7 +42,7 @@ async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
             <article className="prose prose-neutral max-w-none">
                 <h1 className="mb-0">{tutorial.title}</h1>
                 <p className="text-gray-500 italic">
-                    {formattedDate} &nbsp;by&nbsp; <b>{author?.name}</b>
+                    {formattedDate} &nbsp;by&nbsp; <b>{author}</b>
                 </p>
                 <p>{tutorial.description}</p>
                 <hr className="my-10!" />
@@ -58,6 +70,8 @@ async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
                     {tutorial.content}
                 </ReactMarkdown>
             </article>
+            <hr className="my-10" />
+            <Comments slug={slug} />
         </main>
     );
 }

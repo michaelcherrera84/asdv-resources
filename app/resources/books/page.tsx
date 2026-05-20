@@ -57,8 +57,14 @@ async function BooksPage({ searchParams }: BooksProps) {
     const semester = params.semester;
     const course = params.course;
 
-    // Retrieve all available books
-    const allBooks = await getBooks();
+    let allBooks;
+    try {
+        // Retrieve all available books
+        allBooks = await getBooks();
+    } catch (error) {
+        console.error("Error fetching books:", error);
+        throw new Error("Failed to fetch books");
+    }
 
     /**
      * Filter books based on selected semester and course.

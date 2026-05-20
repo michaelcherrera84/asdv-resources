@@ -1,16 +1,14 @@
-import { getTutorials } from "@/lib/services/tutorial-service";
+import { getTutorialAuthor, getTutorials } from "@/lib/services/tutorial-service";
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
-import { getUserById } from "@/lib/services/user-service";
 
+/**
+ * Tutorials page component.
+ * Displays a list of tutorials.
+ * Each tutorial is a link to its detailed page.
+ */
 async function TutorialsPage() {
     const tutorials = await getTutorials();
-
-    const getAuthor = async (author: string) => {
-        const authorObject = await getUserById(author);
-        console.log(authorObject?.name);
-        return authorObject?.name;
-    };
 
     return (
         <main className="flex flex-col gap-4 px-2 pt-2 pb-12 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
@@ -35,7 +33,7 @@ async function TutorialsPage() {
                         <p>{tutorial.description}</p>
                     </CardBody>
                     <CardFooter className="flex-row justify-between px-4 py-3">
-                        {tutorial.author && <p className="text-gray-500">by {getAuthor(tutorial.author)}</p>}
+                        {tutorial.author && <p className="text-gray-500">by {getTutorialAuthor(tutorial.author)}</p>}
                         <p className="text-gray-500">
                             {tutorial.createdAt.toLocaleDateString("en-US", {
                                 month: "long",

@@ -1,25 +1,6 @@
-import { boolean, pgSchema, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { AnyPgColumn, boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
 import { uuid } from "drizzle-orm/pg-core";
-
-// Neon Auth schema.
-const neonAuth = pgSchema("neon_auth");
-/**
- * User table.
- */
-export const users = neonAuth.table("user", {
-    id: uuid("id").primaryKey().defaultRandom(),
-    name: text("name").notNull(),
-    email: text("email").notNull().unique(),
-    emailVerified: boolean().default(false),
-    image: text("image"),
-    role: text("role").notNull().default("user"),
-    banned: boolean("banned").notNull().default(false),
-    banReason: text("banReason"),
-    banExpires: timestamp("banExpires"),
-});
-
-export type User = InferSelectModel<typeof users>;
 
 /**
  * Links table.
@@ -33,7 +14,7 @@ export const links = pgTable("links", {
     featured: boolean("featured").notNull().default(false),
 });
 
-export type Link = InferSelectModel<typeof links>;
+export type ImportantLink = InferSelectModel<typeof links>;
 
 /**
  * Books table.
@@ -71,3 +52,38 @@ export const tutorials = pgTable("tutorials", {
 });
 
 export type Tutorial = InferSelectModel<typeof tutorials>;
+
+/**
+ * Tutorial comments table.
+ */
+export const tutorialComments = pgTable("tutorial_comments", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    tutorialSlug: text("tutorial_slug")
+        .references(() => tutorials.slug, { onDelete: "cascade" })
+        .notNull(),
+    authorId: uuid("author_id").notNull(),
+    replyToId: uuid("reply_to_id").references((): AnyPgColumn => tutorialComments.id, { onDelete: "no action" }),
+    content: text("content").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    deletedAt: timestamp("deleted_at"),
+});
+
+export type TutorialComment = InferSelectModel<typeof tutorialComments>;
+export type TutorialCommentWithReplies = TutorialComment & { replies: TutorialComment[] };
+export type TutorialCommentWithRepliesAndAuthor = TutorialCommentWithReplies & {
+    author: {
+        id: string;
+        name: string | null;
+        image: string | null;
+    };
+
+    replies: TutorialCommentWithAuthor[];
+};
+
+export type TutorialCommentWithAuthor = TutorialComment & {
+    author: {
+        id: string;
+        name: string | null;
+        image: string | null;
+    };
+};
