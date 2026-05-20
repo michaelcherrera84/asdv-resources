@@ -1,5 +1,7 @@
 import { createLink } from "@/lib/services/link-service";
 import { z, ZodError } from "zod";
+import { auth } from "@/lib/auth/server";
+import { redirect } from "next/navigation";
 
 /**
  * Handles `POST` requests for creating a new link record.
@@ -16,6 +18,12 @@ import { z, ZodError } from "zod";
  * @param req - The incoming HTTP request.
  */
 export async function POST(req: Request) {
+    const { data: session } = await auth.getSession();
+
+    if (!session || !session.user || session.user.role !== "admin") {
+        redirect("/auth/sign-in");
+    }
+
     try {
         // Parse JSON data from the incoming request body.
         // Expected shape is validated later in the service layer using a Zod schema.
