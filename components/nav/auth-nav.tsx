@@ -3,6 +3,7 @@
 import AccountDropdown from "@/components/nav/account-dropdown";
 import { authClient } from "@/lib/auth/client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 /**
  * Authentication-aware navigation component.
@@ -17,6 +18,9 @@ import Link from "next/link";
  */
 function AuthNav() {
     const { data: session } = authClient.useSession();
+    const pathname = usePathname();
+
+    const redirectTo = pathname.startsWith("/resources/tutorials/") ? pathname : "/resources";
 
     if (session?.user) {
         return <AccountDropdown />;
@@ -25,13 +29,16 @@ function AuthNav() {
     return (
         <div className="hidden items-center gap-1 sm:flex">
             <Link
-                href="/auth/sign-up"
+                href={`/auth/sign-up?redirect=${encodeURIComponent(redirectTo)}`}
                 className="text-primary hidden rounded-md bg-white px-4 py-2 font-bold hover:bg-white/90 md:block"
             >
                 Sign Up
             </Link>
 
-            <Link href="/auth/sign-in" className="rounded-md border px-4 py-2 font-bold hover:bg-white/10">
+            <Link
+                href={`/auth/sign-in?redirect=${encodeURIComponent(pathname)}`}
+                className="rounded-md border px-4 py-2 font-bold hover:bg-white/10"
+            >
                 Sign In
             </Link>
         </div>
