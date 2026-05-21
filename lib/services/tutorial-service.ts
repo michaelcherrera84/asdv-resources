@@ -1,20 +1,20 @@
 import { db } from "@/db";
 import { tutorialComments, TutorialCommentWithRepliesAndAuthor, tutorials } from "@/db/schema";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
-import { tutorialCommentInsertSchema } from "@/lib/validators/tutorial";
+import { tutorialCommentInsertSchema, tutorialDeleteCommentSchema } from "@/lib/validators/tutorial";
 import { getUserById, getUsersByIds } from "@/lib/services/user-service";
 import { auth } from "@/lib/auth/server";
 import { redirect } from "next/navigation";
 
 /**
- * Retrieves all tutorials from the database.
+ * Retrieves all user-comments from the database.
  */
 export function getTutorials() {
     return db.select().from(tutorials).orderBy(desc(tutorials.createdAt));
 }
 
 /**
- * Retrieves recent tutorials from the database.
+ * Retrieves recent user-comments from the database.
  */
 export function getRecentTutorials() {
     return db.select().from(tutorials).orderBy(desc(tutorials.createdAt)).limit(5);
@@ -46,18 +46,18 @@ export async function getTutorialAuthor(authorId: string) {
  * Retrieves root-level comments for a specific tutorial.
  *
  * Root comments are defined as comments that:
- * - Belong to the given tutorialSlug
+ * - Belong to the given slug
  * - Are not replies (replyToId is NULL)
  *
  * Results are ordered by most recent first.
  *
- * @param tutorialSlug - The unique slug identifier of the tutorial
+ * @param slug - The unique slug identifier of the tutorial
  */
-function getRootComments(tutorialSlug: string) {
+function getRootComments(slug: string) {
     return db
         .select()
         .from(tutorialComments)
-        .where(and(eq(tutorialComments.tutorialSlug, tutorialSlug), isNull(tutorialComments.replyToId)))
+        .where(and(eq(tutorialComments.slug, slug), isNull(tutorialComments.replyToId)))
         .orderBy(desc(tutorialComments.createdAt));
 }
 
@@ -147,4 +147,28 @@ export async function createTutorialComment(data: unknown) {
     const validated = tutorialCommentInsertSchema.parse(data);
     const inserted = await db.insert(tutorialComments).values(validated).returning();
     return inserted[0];
+}
+
+/**
+ * Updates an existing comment in the database.
+ * @param data comment data
+ */
+export async function deleteTutorialComment(data: unknown) {
+    const { data: session } = await auth.getSession();
+
+    if (!session || !session.user) {
+        redirect("/auth/sign-in");
+    }
+
+    const validated = tutorialDeleteCommentSchema.parse(data);
+    if (validated.authorId != session.user.id) {
+        throw new Error("Unauthorized");
+    }
+
+    const updated = await db
+        .update(tutorialComments)
+        .set(validated)
+        .where(eq(tutorialComments.id, validated.id))
+        .returning();
+    return updated[0];
 }

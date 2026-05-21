@@ -20,7 +20,7 @@ function AuthNav() {
     const { data: session } = authClient.useSession();
     const pathname = usePathname();
 
-    const redirectTo = pathname.startsWith("/resources/tutorials/") ? pathname : "/resources";
+    const redirectTo = pathname.startsWith("/resources/user-comments/") ? pathname : "/resources";
 
     if (session?.user) {
         return <AccountDropdown />;

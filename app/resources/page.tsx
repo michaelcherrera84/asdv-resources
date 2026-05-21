@@ -10,7 +10,7 @@ import ApplicationsCard from "@/components/resources/resourse-cards/applications
  * Responsibilities:
  * - Display categorized resource sections for students
  * - Fetch and display featured resource links from the database
- * - Provide navigation to books, links, tutorials, blogs,
+ * - Provide navigation to books, links, user-comments, blogs,
  *   applications, and future resource categories
  *
  * Current sections:

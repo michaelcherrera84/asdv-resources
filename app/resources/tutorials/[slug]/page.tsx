@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
-import Comments from "@/components/tutorials/comments";
+import Comments from "@/components/user-comments/comments";
 
 /**
  * Tutorial page component.
@@ -71,7 +71,7 @@ async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
                 </ReactMarkdown>
             </article>
             <hr className="my-10" />
-            {/*<Comments slug={slug} />*/}
+            <Comments slug={slug} />
         </main>
     );
 }
