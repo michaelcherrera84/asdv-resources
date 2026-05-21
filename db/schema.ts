@@ -58,7 +58,7 @@ export type Tutorial = InferSelectModel<typeof tutorials>;
  */
 export const tutorialComments = pgTable("tutorial_comments", {
     id: uuid("id").primaryKey().defaultRandom(),
-    tutorialSlug: text("tutorial_slug")
+    slug: text("slug")
         .references(() => tutorials.slug, { onDelete: "cascade" })
         .notNull(),
     authorId: uuid("author_id").notNull(),

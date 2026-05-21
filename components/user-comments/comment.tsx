@@ -1,0 +1,72 @@
+import { TutorialCommentWithAuthor, TutorialCommentWithRepliesAndAuthor } from "@/db/schema";
+import CommentBlock from "@/components/user-comments/comment-block";
+import { TutorialCommentInsert, TutorialDeleteComment } from "@/lib/validators/tutorial";
+import { deleteComment } from "@/actions/tutorial-actions";
+
+/**
+ * Props for the Comment component.
+ */
+interface CommentProps {
+    comment: TutorialCommentWithRepliesAndAuthor;
+    // Callback method to handle postComment action
+    postComment: (data: TutorialCommentInsert) => void;
+    // Callback method to handle deleteComment action
+    deleteComment: (data: TutorialDeleteComment) => void;
+}
+
+/**
+ * Comment component.
+ * Displays a comment with replies and author information.
+ * @param comment - The comment to display.
+ * @param postComment - Callback function to post a new comment.
+ */
+async function Comment({ comment, postComment }: CommentProps) {
+    return (
+        <div>
+            <div className="py-4">
+                {comment.deletedAt ? (
+                    <p className="my-2 w-fit rounded bg-gray-300 px-2 italic">[deleted comment]</p>
+                ) : (
+                    <div>
+                        <CommentBlock
+                            commentId={comment.id}
+                            authorId={comment.authorId}
+                            slug={comment.slug}
+                            username={comment.author.name ?? "[deleted user]"}
+                            content={comment.content}
+                            createdAt={comment.createdAt}
+                            imageUrl={comment.author.image ?? undefined}
+                            postComment={postComment}
+                            deleteComment={deleteComment}
+                        />
+                    </div>
+                )}
+            </div>
+
+            {comment.replies.map((reply: TutorialCommentWithAuthor) => (
+                <div key={reply.id}>
+                    {reply.deletedAt ? (
+                        <p className="my-2 ml-8 w-fit rounded bg-gray-300 px-2 italic">[deleted reply]</p>
+                    ) : (
+                        <div className="ml-12">
+                            <CommentBlock
+                                commentId={reply.id}
+                                authorId={reply.authorId}
+                                slug={reply.slug}
+                                username={reply.author.name ?? "[deleted user]"}
+                                content={reply.content}
+                                createdAt={reply.createdAt}
+                                imageUrl={reply.author.image ?? undefined}
+                                isReply
+                                postComment={postComment}
+                                deleteComment={deleteComment}
+                            />
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default Comment;

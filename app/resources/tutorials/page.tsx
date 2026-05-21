@@ -4,7 +4,7 @@ import Link from "next/link";
 
 /**
  * Tutorials page component.
- * Displays a list of tutorials.
+ * Displays a list of user-comments.
  * Each tutorial is a link to its detailed page.
  */
 async function TutorialsPage() {

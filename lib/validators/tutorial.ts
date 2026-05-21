@@ -20,7 +20,7 @@ export type Tutorial = z.infer<typeof tutorialSchema>;
  */
 export const tutorialCommentSchema = z.object({
     id: z.uuid(),
-    tutorialSlug: z.string().min(1),
+    slug: z.string().min(1),
     authorId: z.uuid(),
     replyToId: z.uuid().optional(),
     content: z.string().min(1),
@@ -35,3 +35,14 @@ export type TutorialComment = z.infer<typeof tutorialCommentSchema>;
  */
 export const tutorialCommentInsertSchema = tutorialCommentSchema.omit({ id: true, createdAt: true });
 export type TutorialCommentInsert = z.infer<typeof tutorialCommentInsertSchema>;
+
+/**
+ * Zod schema for hiding tutorial comment.
+ */
+export const tutorialDeleteCommentSchema = tutorialCommentSchema.pick({
+    id: true,
+    slug: true,
+    authorId: true,
+    deletedAt: true,
+});
+export type TutorialDeleteComment = z.infer<typeof tutorialDeleteCommentSchema>;

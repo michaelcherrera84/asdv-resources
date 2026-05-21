@@ -6,14 +6,14 @@ import { getRecentTutorials } from "@/lib/services/tutorial-service";
 /**
  * Tutorials card component.
  *
- * Displays a list of recent tutorials.
+ * Displays a list of recent user-comments.
  */
 async function TutorialsCard() {
     let recentTutorials: Tutorial[] = [];
     try {
         recentTutorials = await getRecentTutorials();
     } catch (error) {
-        console.error("Error fetching tutorials:", error);
+        console.error("Error fetching user-comments:", error);
         return (
             <ResourceCard title="Tutorials" link="/resources/tutorials">
                 <p>Error loading tutorials. Please try again later.</p>

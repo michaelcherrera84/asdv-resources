@@ -1,6 +1,7 @@
 import { getTutorialComments } from "@/lib/services/tutorial-service";
-import TutorialCommentForm from "@/components/tutorials/tutorial-comment-form";
-import Comment from "@/components/tutorials/comment";
+import Comment from "@/components/user-comments/comment";
+import CommentForm from "@/components/user-comments/comment-form";
+import { postComment, deleteComment } from "@/actions/tutorial-actions";
 
 /**
  * Comments component.
@@ -9,6 +10,7 @@ import Comment from "@/components/tutorials/comment";
  */
 async function Comments({ slug }: { slug: string }) {
     let comments;
+
     try {
         comments = await getTutorialComments(slug);
     } catch (error) {
@@ -22,13 +24,22 @@ async function Comments({ slug }: { slug: string }) {
     }
 
     return (
-        <section>
+        <section className="lg:max-w-2/3">
             <h2 className="py-4 text-lg font-bold">Comments</h2>
-            <TutorialCommentForm tutorialSlug={slug} />
-            {comments ? (
-                comments?.map((comment) => <Comment key={comment.id} comment={comment} />)
+            <div className="mb-4">
+                <CommentForm slug={slug} postComment={postComment} />
+            </div>
+            {comments.length > 0 ? (
+                comments?.map((comment) => (
+                    <Comment
+                        key={comment.id}
+                        comment={comment}
+                        postComment={postComment}
+                        deleteComment={deleteComment}
+                    />
+                ))
             ) : (
-                <p>Be the first comment on this tutorial!</p>
+                <p className="italic">Be the first to comment on this tutorial!</p>
             )}
         </section>
     );
