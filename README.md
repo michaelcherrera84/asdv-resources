@@ -69,3 +69,48 @@ We hope ASDV Resources becomes a place where people can learn, collaborate, buil
 
 ## Contact
 If you have any questions, feedback, or suggestions, please reach out to us on our Discord server https://discord.com/invite/E6dn2kt2cg.
+
+## Tech Stack
+- Next.js
+- Tailwind CSS
+- TypeScript
+- Drizzle ORM
+- Zod
+- PostgreSQL
+
+## Getting Started
+
+### Prerequisites
+- Node.js
+- npm
+- Neon (for PostgreSQL and Neon Auth)
+
+### Installation
+1. Clone the repository:
+```bash 
+git clone https://github.com/michaelcherrera84/asdv-resources.git 
+```
+2. Navigate to the project directory:
+```bash 
+cd asdv-resources
+```
+3. Add your environment variables:
+```bash
+cat << EOF > .env.local
+DATABASE_URL=<Your PostgreSQL Database URL>
+NEON_AUTH_COOKIE_SECRET=<Your Neon Auth Cookie Secret>
+NEON_AUTH_BASE_URL=<Your Neon Auth Base URL>
+EOF
+```
+4. Generate and run migrations:
+```bash
+npm run db:generate && npm run db:migrate
+```
+5. Install:
+```bash
+npm install
+```
+6. Run the application:
+```bash
+npm run dev -- --experimental-https
+```
