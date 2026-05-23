@@ -7,8 +7,8 @@ import { db } from "@/db";
  * @param id user id
  */
 export async function getUserById(id: string) {
-    const [userdata] = await db.select().from(user).where(eq(user.id, id)).limit(1);
-    return userdata;
+    const [userData] = await db.select().from(user).where(eq(user.id, id)).limit(1);
+    return userData;
 }
 
 /**
@@ -17,4 +17,13 @@ export async function getUserById(id: string) {
  */
 export function getUsersByIds(ids: string[]) {
     return db.select().from(user).where(inArray(user.id, ids));
+}
+
+/**
+ * Get user by email
+ * @param email user email
+ */
+export async function getUserByEmail(email: string) {
+    const [userData] = await db.select().from(user).where(eq(user.email, email)).limit(1);
+    return userData;
 }

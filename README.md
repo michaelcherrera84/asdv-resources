@@ -77,13 +77,15 @@ If you have any questions, feedback, or suggestions, please reach out to us on o
 - Drizzle ORM
 - Zod
 - PostgreSQL
+- Better Auth
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js
 - npm
-- Neon (for PostgreSQL and Neon Auth)
+- PostgreSQL
+
 
 ### Installation
 1. Clone the repository:
@@ -96,10 +98,11 @@ cd asdv-resources
 ```
 3. Add your environment variables:
 ```bash
-cat << EOF > .env.production.local
+cat << EOF > .env.local
 DATABASE_URL=<Your PostgreSQL Database URL>
-NEON_AUTH_COOKIE_SECRET=<Your Neon Auth Cookie Secret>
-NEON_AUTH_BASE_URL=<Your Neon Auth Base URL>
+BETTER_AUTH_SECRET=<Your Better Auth Secret> # This is free.
+BETTER_AUTH_URL=http://localhost:3000
+RESEND_API_KEY=<Your Resend API Key> # Optional (for email verification and password reset)
 EOF
 ```
 4. Generate and run migrations:
