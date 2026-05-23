@@ -19,7 +19,7 @@ export default async function SignInPage({ searchParams }: Props) {
     return (
         <div className="-mt-16 flex flex-1 flex-col items-center justify-center px-2 py-24">
             <Card className="py-2 sm:w-150 sm:py-10 md:w-175 lg:w-200">
-                <CardHeader className="p-4 sm:px-20">
+                <CardHeader className="gap-2 p-4 sm:px-20">
                     <h1 className="text-primary text-2xl sm:text-left">Sign In</h1>
                     <h2 className="text-sm text-gray-500">Sign into your account to join in the discussion</h2>
                 </CardHeader>

@@ -4,6 +4,8 @@ import { db } from "@/db";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation"; // your drizzle instance
 import * as schema from "@/db/auth-schema";
+import { sendResetPasswordEmail } from "@/lib/email/send-reset-password-email";
+import { waitUntil } from "@vercel/functions";
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -18,6 +20,17 @@ export const auth = betterAuth({
     },
     emailAndPassword: {
         enabled: true,
+        sendResetPassword: async ({ user, url, token }, request) => {
+            waitUntil(
+                sendResetPasswordEmail({
+                    to: user.email,
+                    resetURL: url,
+                }),
+            );
+        },
+        onPasswordReset: async ({ user }, request) => {
+            console.log("Password reset for user:", user.email);
+        },
     },
     user: {
         additionalFields: {
