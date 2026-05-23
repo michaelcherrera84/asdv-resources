@@ -96,7 +96,7 @@ cd asdv-resources
 ```
 3. Add your environment variables:
 ```bash
-cat << EOF > .env.local
+cat << EOF > .env.production.local
 DATABASE_URL=<Your PostgreSQL Database URL>
 NEON_AUTH_COOKIE_SECRET=<Your Neon Auth Cookie Secret>
 NEON_AUTH_BASE_URL=<Your Neon Auth Base URL>

@@ -1,7 +1,7 @@
 import { bookSchema } from "@/lib/validators/book";
 import { db } from "@/db";
 import { books } from "@/db/schema";
-import { auth } from "@/lib/auth/server";
+import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 
 /**
@@ -35,10 +35,10 @@ export async function getBookSemesters() {
  * - Returns the first inserted record
  */
 export async function createBook(data: unknown) {
-    const { data: session } = await auth.getSession();
+    const session = await getSession();
 
     if (!session || !session.user || session.user.role !== "admin") {
-        redirect("/auth/sign-in");
+        redirect("/sign-in");
     }
     // Validate and sanitize incoming data. parse() throws if validation fails.
     const validated = bookSchema.parse(data);

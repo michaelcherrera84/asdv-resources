@@ -5,7 +5,7 @@ import FloatingLabelInput from "@/components/ui/floating-label-input";
 import Button from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 
 /**
  * Sign up form component.
@@ -49,6 +49,16 @@ function SignUpForm() {
         // Validate name field.
         if (!name) {
             setError("You must enter your name.");
+            // Disable loading state if validation fails.
+            setIsPending(false);
+            return;
+        }
+
+        // Retrieve username from submitted form data.
+        const username = formData.get("username") as string;
+
+        if (!username) {
+            setError("You must enter a unique username.");
             // Disable loading state if validation fails.
             setIsPending(false);
             return;
@@ -113,11 +123,15 @@ function SignUpForm() {
              * - name
              * - email
              * - password
+             * - username
+             * - role: "user"
              */
             const result = await authClient.signUp.email({
                 email,
                 password,
                 name,
+                username,
+                role: "user",
             });
 
             if (result.error) {
@@ -152,7 +166,13 @@ function SignUpForm() {
     }
 
     return (
-        <form action={handleSubmit} className="flex flex-col gap-4">
+        <form
+            onSubmit={(event) => {
+                event.preventDefault();
+                handleSubmit(new FormData(event.currentTarget));
+            }}
+            className="flex flex-col gap-4"
+        >
             {error /* Display authentication error message */ && (
                 <div className="relative rounded-lg bg-red-200 py-2 pr-2 pl-10 text-red-700 shadow-xs inset-shadow-xs shadow-red-600 inset-shadow-red-300">
                     <BsXCircle className="absolute top-[50%] left-2 -translate-y-1/2" />
@@ -162,9 +182,11 @@ function SignUpForm() {
 
             <FloatingLabelInput id="name" name="name" label="Name" type="text" required />
 
+            <FloatingLabelInput id="username" name="username" label="Username" type="text" required />
+
             <FloatingLabelInput id="email" name="email" label="Email" type="email" required />
 
-            <FloatingLabelInput id="password" name="password" label="password" type="password" required />
+            <FloatingLabelInput id="password" name="password" label="Password" type="password" required />
 
             <FloatingLabelInput
                 id="confirmPassword"

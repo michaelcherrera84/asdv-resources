@@ -2,8 +2,9 @@
 
 import { Menu, MenuButton, MenuHeading, MenuItem, MenuItems, MenuSection } from "@headlessui/react";
 import Link from "next/link";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 /**
  * Account dropdown menu component.
@@ -23,6 +24,7 @@ function AccountDropdown() {
     // Retrieve current authentication session data.
     // Session includes authenticated user data and session metadata
     const { data: session } = authClient.useSession();
+    const router = useRouter();
 
     /**
      * Signs the current user out.
@@ -33,7 +35,9 @@ function AccountDropdown() {
      */
     const handleSignOut = async () => {
         await authClient.signOut();
-        window.location.reload();
+
+        // Redirect user to the home page.
+        router.replace("/");
     };
 
     // Do not render dropdown when user is not authenticated.

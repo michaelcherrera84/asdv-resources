@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const { data: session } = await auth.getSession();
 
     if (!session || !session.user || session.user.role !== "admin") {
-        redirect("/auth/sign-in");
+        redirect("/sign-in");
     }
 
     try {

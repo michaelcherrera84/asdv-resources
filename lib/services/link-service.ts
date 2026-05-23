@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { links } from "@/db/schema";
 import { linkSchema } from "@/lib/validators/link";
 import { eq } from "drizzle-orm";
-import { auth } from "@/lib/auth/server";
+import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 
 /**
@@ -35,10 +35,10 @@ export function getFeaturedLinks() {
  * - Returns the first inserted record
  */
 export async function createLink(data: unknown) {
-    const { data: session } = await auth.getSession();
+    const session = await getSession();
 
     if (!session || !session.user || session.user.role !== "admin") {
-        redirect("/auth/sign-in");
+        redirect("/sign-in");
     }
 
     // Validate and sanitize incoming data. parse() throws if validation fails.
