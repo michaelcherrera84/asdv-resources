@@ -1,9 +1,11 @@
 "use client";
 
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+export const dynamic = "force-dynamic";
+
+import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import FloatingLabelInput from "@/components/ui/floating-label-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/button";
 import { BsXCircle } from "react-icons/bs";
 import { authClient } from "@/lib/auth/auth-client";
@@ -17,9 +19,13 @@ function ResetPasswordPage() {
     const [formError, setFormError] = useState<string | null>(null);
     const router = useRouter();
 
-    if (!token) {
-        redirect("/");
-    }
+    useEffect(() => {
+        if (!token) {
+            router.push("/");
+        }
+    }, [token, router]);
+
+    if (!token) return null;
 
     const handleResetPassword = async () => {
         setIsPending(true);
