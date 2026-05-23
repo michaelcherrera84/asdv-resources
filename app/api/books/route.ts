@@ -1,6 +1,6 @@
 import { z, ZodError } from "zod";
 import { createBook } from "@/lib/services/book-service";
-import { auth } from "@/lib/auth/server";
+import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 
 /**
@@ -18,7 +18,7 @@ import { redirect } from "next/navigation";
  * @param req - The incoming HTTP request.
  */
 export async function POST(req: Request) {
-    const { data: session } = await auth.getSession();
+    const session = await getSession();
 
     if (!session || !session.user || session.user.role !== "admin") {
         redirect("/sign-in");
