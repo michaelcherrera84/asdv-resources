@@ -3,7 +3,7 @@ import { tutorialComments, TutorialCommentWithRepliesAndAuthor, tutorials } from
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { tutorialCommentInsertSchema, tutorialDeleteCommentSchema } from "@/lib/validators/tutorial";
 import { getUserById, getUsersByIds } from "@/lib/services/user-service";
-import { auth } from "@/lib/auth/server";
+import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 
 /**
@@ -138,10 +138,10 @@ export async function getTutorialComments(tutorialSlug: string): Promise<Tutoria
  * @param data comment data
  */
 export async function createTutorialComment(data: unknown) {
-    const { data: session } = await auth.getSession();
+    const session = await getSession();
 
     if (!session || !session.user) {
-        redirect("/auth/sign-in");
+        redirect("/sign-in");
     }
 
     const validated = tutorialCommentInsertSchema.parse(data);
@@ -154,10 +154,10 @@ export async function createTutorialComment(data: unknown) {
  * @param data comment data
  */
 export async function deleteTutorialComment(data: unknown) {
-    const { data: session } = await auth.getSession();
+    const session = await getSession();
 
     if (!session || !session.user) {
-        redirect("/auth/sign-in");
+        redirect("/sign-in");
     }
 
     const validated = tutorialDeleteCommentSchema.parse(data);

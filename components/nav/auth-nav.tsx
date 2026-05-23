@@ -1,7 +1,7 @@
 "use client";
 
 import AccountDropdown from "@/components/nav/account-dropdown";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -29,14 +29,14 @@ function AuthNav() {
     return (
         <div className="hidden items-center gap-1 sm:flex">
             <Link
-                href={`/auth/sign-up?redirect=${encodeURIComponent(redirectTo)}`}
+                href={`/sign-up?redirect=${encodeURIComponent(redirectTo)}`}
                 className="text-primary hidden rounded-md bg-white px-4 py-2 font-bold hover:bg-white/90 md:block"
             >
                 Sign Up
             </Link>
 
             <Link
-                href={`/auth/sign-in?redirect=${encodeURIComponent(pathname)}`}
+                href={`/sign-in?redirect=${encodeURIComponent(pathname)}`}
                 className="rounded-md border px-4 py-2 font-bold hover:bg-white/10"
             >
                 Sign In

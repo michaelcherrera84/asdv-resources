@@ -7,7 +7,7 @@ export const tutorialSchema = z.object({
     id: z.uuid(),
     slug: z.string().min(1),
     title: z.string().min(1),
-    author: z.uuid().optional(),
+    author: z.string().optional(),
     description: z.string().optional(),
     content: z.string().min(1),
     createdAt: z.date(),
@@ -21,7 +21,7 @@ export type Tutorial = z.infer<typeof tutorialSchema>;
 export const tutorialCommentSchema = z.object({
     id: z.uuid(),
     slug: z.string().min(1),
-    authorId: z.uuid(),
+    authorId: z.string().min(1),
     replyToId: z.uuid().optional(),
     content: z.string().min(1),
     createdAt: z.date(),

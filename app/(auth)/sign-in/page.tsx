@@ -28,7 +28,7 @@ export default async function SignInPage({ searchParams }: Props) {
                 </CardBody>
                 <CardFooter className="flex-row justify-center gap-2 pb-4">
                     <p className="text-gray-500">Don&#39;t have an account?</p>
-                    <a href="/auth/sign-up" className="font-bold text-blue-600 hover:underline">
+                    <a href="/sign-up" className="font-bold text-blue-600 hover:underline">
                         Sign Up
                     </a>
                 </CardFooter>

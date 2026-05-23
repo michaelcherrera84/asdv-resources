@@ -1,5 +1,5 @@
 import { eq, inArray } from "drizzle-orm";
-import { users } from "@/db/external";
+import { user } from "@/db/auth-schema";
 import { db } from "@/db";
 
 /**
@@ -7,8 +7,8 @@ import { db } from "@/db";
  * @param id user id
  */
 export async function getUserById(id: string) {
-    const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1);
-    return user;
+    const [userdata] = await db.select().from(user).where(eq(user.id, id)).limit(1);
+    return userdata;
 }
 
 /**
@@ -16,5 +16,5 @@ export async function getUserById(id: string) {
  * @param ids user ids
  */
 export function getUsersByIds(ids: string[]) {
-    return db.select().from(users).where(inArray(users.id, ids));
+    return db.select().from(user).where(inArray(user.id, ids));
 }

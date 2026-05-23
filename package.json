@@ -8,16 +8,20 @@
         "start": "next start",
         "lint": "eslint",
         "db:generate": "drizzle-kit generate",
-        "db:migrate": "drizzle-kit migrate"
+        "db:migrate:local": "dotenv -e .env.local -- drizzle-kit migrate",
+        "db:migrate:prod": "dotenv -e .env.production -- drizzle-kit migrate"
     },
     "dependencies": {
+        "@better-auth/cli": "^1.4.21",
         "@headlessui/react": "^2.2.10",
         "@neondatabase/auth": "^0.3.0-beta",
         "@neondatabase/serverless": "^1.1.0",
         "@vercel/analytics": "^2.0.1",
+        "better-auth": "^1.6.11",
         "dotenv": "^17.4.2",
         "drizzle-orm": "^0.45.2",
         "next": "16.2.5",
+        "pg": "^8.21.0",
         "react": "19.2.4",
         "react-dom": "19.2.4",
         "react-icons": "^5.6.0",
@@ -31,6 +35,7 @@
         "@tailwindcss/postcss": "^4",
         "@tailwindcss/typography": "^0.5.19",
         "@types/node": "^20",
+        "@types/pg": "^8.20.0",
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "dotenv-cli": "^11.0.0",
@@ -40,7 +45,7 @@
         "prettier": "^3.8.3",
         "prettier-plugin-tailwindcss": "^0.8.0",
         "tailwindcss": "^4",
-        "tsx": "^4.22.2",
+        "tsx": "^4.22.3",
         "typescript": "^5"
     }
 }

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Button from "@/components/ui/button";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 import CommentForm from "@/components/user-comments/comment-form";
 import { useState } from "react";
 import { TutorialCommentInsert, TutorialDeleteComment } from "@/lib/validators/tutorial";

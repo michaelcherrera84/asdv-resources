@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import AccountDropdown from "@/components/nav/account-dropdown";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 
 /**
  * Mobile navigation component.
@@ -97,7 +97,7 @@ function MobileNav() {
                 {/* Show sign-in link only for unauthenticated users. */}
                 {!session?.user && (
                     <Link
-                        href="/auth/sign-in"
+                        href="/sign-in"
                         onClick={() => setIsOpen(false)}
                         className="flex h-full items-center justify-center hover:bg-white/20"
                     >

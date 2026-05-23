@@ -45,7 +45,7 @@ export const tutorials = pgTable("tutorials", {
     id: uuid("id").primaryKey().defaultRandom(),
     slug: text("slug").notNull().unique(),
     title: text("title").notNull(),
-    author: uuid("author"),
+    author: text("author"),
     description: text("description"),
     content: text("content").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -61,7 +61,7 @@ export const tutorialComments = pgTable("tutorial_comments", {
     slug: text("slug")
         .references(() => tutorials.slug, { onDelete: "cascade" })
         .notNull(),
-    authorId: uuid("author_id").notNull(),
+    authorId: text("author_id").notNull(),
     replyToId: uuid("reply_to_id").references((): AnyPgColumn => tutorialComments.id, { onDelete: "no action" }),
     content: text("content").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),

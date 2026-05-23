@@ -3,9 +3,10 @@
 import { BsXCircle } from "react-icons/bs";
 import FloatingLabelInput from "@/components/ui/floating-label-input";
 import Button from "@/components/ui/button";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 
 /**
  * Sign in form component.
@@ -31,7 +32,7 @@ function SignInForm({ redirect }: { redirect: string }) {
      * Flow:
      * 1. Clear previous errors
      * 2. Set loading state
-     * 3. Submit credentials to an auth provider
+     * 3. Submit credentials to an (auth) provider
      * 4. Handle authentication errors
      * 5. Refresh session data
      * 6. Redirect authenticated user
@@ -57,6 +58,7 @@ function SignInForm({ redirect }: { redirect: string }) {
             // Handle authentication failure and display the returned error message when available.
             if (result.error) {
                 setError(result.error.message ?? "Sign in failed. Please check your credentials and try again.");
+                setIsPending(false);
                 return;
             }
         } catch (error) {
@@ -80,7 +82,7 @@ function SignInForm({ redirect }: { redirect: string }) {
 
         // Redirect authenticated user to the resources page.
         // replace() prevents returning to the sign-in page when using the browser back button.
-        router.replace(redirect || "/resources");
+        router.replace(redirect.startsWith("/resources") ? redirect : "/resources");
     }
 
     return (
@@ -96,6 +98,13 @@ function SignInForm({ redirect }: { redirect: string }) {
             <FloatingLabelInput id="email" name="email" label="Email" type="email" required />
 
             <FloatingLabelInput id="password" name="password" label="password" type="password" required />
+
+            <Link
+                href="/forgot-password"
+                className="-mt-2 place-self-end text-sm font-bold text-blue-600 hover:underline"
+            >
+                Forgot Password?
+            </Link>
 
             <Button type="submit" disabled={isPending} className="bg-secondary text-primary">
                 {isPending ? "Signing In..." : "Sign In"}

@@ -1,7 +1,7 @@
 "use client";
 
 import { Textarea } from "@headlessui/react";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth/auth-client";
 import Button from "@/components/ui/button";
 import { useState } from "react";
 import { TutorialCommentInsert } from "@/lib/validators/tutorial";
