@@ -5,6 +5,7 @@ import { tutorialCommentInsertSchema, tutorialDeleteCommentSchema } from "@/lib/
 import { getUserById, getUsersByIds } from "@/lib/services/user-service";
 import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
+import { User } from "@/db/auth-schema";
 
 /**
  * Retrieves all user-comments from the database.
@@ -31,15 +32,15 @@ export function getTutorialBySlug(slug: string) {
 /**
  * Retrieves the author of a tutorial from the database.
  */
-export async function getTutorialAuthor(authorId: string) {
+export async function getTutorialAuthor(authorId: string): Promise<User | undefined> {
     let author;
     try {
         author = await getUserById(authorId);
     } catch (error) {
         console.error("Error fetching tutorial author:", error);
-        return "Unknown Author";
+        return undefined;
     }
-    return author.name;
+    return author;
 }
 
 /**

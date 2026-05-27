@@ -27,3 +27,12 @@ export async function getUserByEmail(email: string) {
     const [userData] = await db.select().from(user).where(eq(user.email, email)).limit(1);
     return userData;
 }
+
+/**
+ * Get user by username
+ * @param username user username
+ */
+export async function getUserByUsername(username: string) {
+    const [userData] = await db.select().from(user).where(eq(user.username, username)).limit(1);
+    return userData;
+}

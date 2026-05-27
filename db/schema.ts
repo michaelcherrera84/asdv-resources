@@ -73,6 +73,7 @@ export type TutorialCommentWithReplies = TutorialComment & { replies: TutorialCo
 export type TutorialCommentWithRepliesAndAuthor = TutorialCommentWithReplies & {
     author: {
         id: string;
+        username: string;
         name: string | null;
         image: string | null;
     };
@@ -83,6 +84,7 @@ export type TutorialCommentWithRepliesAndAuthor = TutorialCommentWithReplies & {
 export type TutorialCommentWithAuthor = TutorialComment & {
     author: {
         id: string;
+        username: string;
         name: string | null;
         image: string | null;
     };

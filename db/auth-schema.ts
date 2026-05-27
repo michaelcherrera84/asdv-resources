@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -19,6 +19,8 @@ export const user = pgTable("user", {
     college: text("college"),
     expectedGraduation: text("expected_graduation"),
 });
+
+export type User = InferSelectModel<typeof user>;
 
 export const session = pgTable(
     "session",

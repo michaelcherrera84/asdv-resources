@@ -75,7 +75,7 @@ function AccountDropdown() {
                 <MenuSection className="flex flex-col">
                     <MenuHeading className="px-2 text-sm font-semibold">Account</MenuHeading>
                     <MenuItem>
-                        <Link href="#" className="px-3 hover:bg-gray-100">
+                        <Link href={`/profile/${session.user.username}`} className="px-3 hover:bg-gray-100">
                             Profile
                         </Link>
                     </MenuItem>

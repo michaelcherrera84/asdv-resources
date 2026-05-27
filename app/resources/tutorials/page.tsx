@@ -1,6 +1,7 @@
 import { getTutorialAuthor, getTutorials } from "@/lib/services/tutorial-service";
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
+import { User } from "@/db/auth-schema";
 
 /**
  * Tutorials page component.
@@ -18,32 +19,40 @@ async function TutorialsPage() {
                     Tutorials focused on course-specific topics and general software development concepts
                 </p>
             </div>
-            {tutorials.map((tutorial) => (
-                <Card key={tutorial.slug} className="min-h-56">
-                    <CardHeader className="items-start px-4 py-3">
-                        <Link
-                            href={`/resources/tutorials/${tutorial.slug}`}
-                            key={tutorial.id}
-                            className="text-primary text-2xl"
-                        >
-                            <h1>{tutorial.title}</h1>
-                        </Link>
-                    </CardHeader>
-                    <CardBody className="px-4 py-3">
-                        <p>{tutorial.description}</p>
-                    </CardBody>
-                    <CardFooter className="flex-row justify-between px-4 py-3">
-                        {tutorial.author && <p className="text-gray-500">by {getTutorialAuthor(tutorial.author)}</p>}
-                        <p className="text-gray-500">
-                            {tutorial.createdAt.toLocaleDateString("en-US", {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                            })}
-                        </p>
-                    </CardFooter>
-                </Card>
-            ))}
+            {tutorials.map(async (tutorial) => {
+                let tutorialAuthor: User | undefined;
+                if (tutorial.author) {
+                    tutorialAuthor = await getTutorialAuthor(tutorial.author);
+                }
+                return (
+                    <Card key={tutorial.slug} className="min-h-56">
+                        <CardHeader className="items-start px-4 py-3">
+                            <Link
+                                href={`/resources/tutorials/${tutorial.slug}`}
+                                key={tutorial.id}
+                                className="text-primary text-2xl"
+                            >
+                                <h1>{tutorial.title}</h1>
+                            </Link>
+                        </CardHeader>
+                        <CardBody className="px-4 py-3">
+                            <p>{tutorial.description}</p>
+                        </CardBody>
+                        <CardFooter className="flex-row justify-between px-4 py-3">
+                            {tutorial.author && (
+                                <p className="text-gray-500">by {tutorialAuthor?.name ?? "Unknown Author"}</p>
+                            )}
+                            <p className="text-gray-500">
+                                {tutorial.createdAt.toLocaleDateString("en-US", {
+                                    month: "long",
+                                    day: "numeric",
+                                    year: "numeric",
+                                })}
+                            </p>
+                        </CardFooter>
+                    </Card>
+                );
+            })}
         </main>
     );
 }

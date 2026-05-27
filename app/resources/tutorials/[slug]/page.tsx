@@ -4,6 +4,9 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import Comments from "@/components/user-comments/comments";
+import Breadcrumbs from "@/components/breadcrumbs";
+import Link from "next/link";
+import { User } from "@/db/auth-schema";
 
 /**
  * Tutorial page component.
@@ -26,7 +29,7 @@ async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
         throw new Error("Tutorial not found");
     }
 
-    let author = "Unknown Author";
+    let author: User | undefined;
     if (tutorial.author) {
         author = await getTutorialAuthor(tutorial.author);
     }
@@ -39,10 +42,18 @@ async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
 
     return (
         <main className="px-4 py-12 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+            <Breadcrumbs className="flex-wrap pb-8" />
             <article className="prose prose-neutral max-w-none">
                 <h1 className="mb-0">{tutorial.title}</h1>
                 <p className="text-gray-500 italic">
-                    {formattedDate} &nbsp;by&nbsp; <b>{author}</b>
+                    {formattedDate} &nbsp;by&nbsp;&nbsp;
+                    {author ? (
+                        <Link href={`/profile/${author.username}`} className="text-bold">
+                            {author.name}
+                        </Link>
+                    ) : (
+                        <p className="text-bold">Unknown Author</p>
+                    )}
                 </p>
                 <p>{tutorial.description}</p>
                 <hr className="my-10!" />
