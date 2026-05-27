@@ -1,6 +1,10 @@
+"use client";
+
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { User } from "@/lib/validators/user";
 import Image from "next/image";
+import { FaEdit } from "react-icons/fa";
+import { useState } from "react";
 
 interface ProfileCardProps {
     profile: User;
@@ -8,9 +12,18 @@ interface ProfileCardProps {
 }
 
 function ProfileCard({ profile, editable }: ProfileCardProps) {
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
     return (
         <Card className="max-w-325 p-2 sm:p-6 lg:p-10">
-            <CardHeader className="">
+            <CardHeader className="relative">
+                {!isEditing && editable && (
+                    <FaEdit
+                        className="absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700"
+                        onClick={() => setIsEditing(true)}
+                        title="Edit Profile"
+                    />
+                )}
                 {profile.image ? (
                     <Image src={profile.image} alt="profile picture" width={200} height={200} loading="eager" />
                 ) : (
