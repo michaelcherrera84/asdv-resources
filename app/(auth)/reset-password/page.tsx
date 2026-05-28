@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import ResetPasswordClient from "@/components/auth/reset-password-client";
+import ResetPasswordForm from "@/components/auth/reset-password-form";
 
 function ResetPasswordPage() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ResetPasswordClient />
+            <ResetPasswordForm />
         </Suspense>
     );
 }

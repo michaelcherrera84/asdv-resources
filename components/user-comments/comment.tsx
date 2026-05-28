@@ -32,7 +32,8 @@ async function Comment({ comment, postComment }: CommentProps) {
                             commentId={comment.id}
                             authorId={comment.authorId}
                             slug={comment.slug}
-                            username={comment.author.name ?? "[deleted user]"}
+                            userName={comment.author.name ?? "[deleted user]"}
+                            username={comment.author.username ?? "#"}
                             content={comment.content}
                             createdAt={comment.createdAt}
                             imageUrl={comment.author.image ?? undefined}
@@ -53,7 +54,8 @@ async function Comment({ comment, postComment }: CommentProps) {
                                 commentId={reply.id}
                                 authorId={reply.authorId}
                                 slug={reply.slug}
-                                username={reply.author.name ?? "[deleted user]"}
+                                userName={reply.author.name ?? "[deleted user]"}
+                                username={reply.author.username ?? "#"}
                                 content={reply.content}
                                 createdAt={reply.createdAt}
                                 imageUrl={reply.author.image ?? undefined}

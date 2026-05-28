@@ -8,7 +8,7 @@ import Button from "@/components/ui/button";
 import { BsXCircle } from "react-icons/bs";
 import { authClient } from "@/lib/auth/auth-client";
 
-function ResetPasswordClient() {
+function ResetPasswordForm() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
     const [password, setPassword] = useState<string>("");
@@ -106,4 +106,4 @@ function ResetPasswordClient() {
     );
 }
 
-export default ResetPasswordClient;
+export default ResetPasswordForm;

@@ -13,8 +13,7 @@ type Props = {
  */
 export default async function SignInPage({ searchParams }: Props) {
     const params = await searchParams;
-    const redirectTo =
-        params.redirect?.startsWith("/") && !params.redirect.startsWith("//") ? params.redirect : "/resources";
+    const redirectTo = params.redirect && params.redirect !== "/" ? params.redirect : "/resources";
 
     return (
         <div className="-mt-16 flex flex-1 flex-col items-center justify-center px-2 py-24">

@@ -6,6 +6,7 @@ import { authClient } from "@/lib/auth/auth-client";
 import CommentForm from "@/components/user-comments/comment-form";
 import { useState } from "react";
 import { TutorialCommentInsert, TutorialDeleteComment } from "@/lib/validators/tutorial";
+import Link from "next/link";
 
 /**
  * Props for the CommentBlock component.
@@ -16,7 +17,8 @@ interface CommentHeaderProps {
     commentId: string;
     authorId: string;
     imageUrl?: string;
-    username: string;
+    userName: string;
+    username?: string;
     content: string;
     createdAt: Date;
     // Optional prop to indicate if this is a reply
@@ -36,6 +38,7 @@ function CommentBlock({
     commentId,
     authorId,
     imageUrl,
+    userName,
     username,
     content,
     createdAt,
@@ -69,14 +72,14 @@ function CommentBlock({
             <div className="flex flex-col text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                     {imageUrl ? (
-                        <Image src={imageUrl} alt={username} width={25} height={25} className="rounded-full" />
+                        <Image src={imageUrl} alt={userName} width={25} height={25} className="rounded-full" />
                     ) : (
                         <div className="text-primary flex h-6.25 w-6.25 items-center justify-center rounded-full border bg-gray-200">
-                            {username.charAt(0).toUpperCase()}
+                            {userName.charAt(0).toUpperCase()}
                         </div>
                     )}
                     <div className="flex flex-wrap gap-x-2">
-                        <p>{username}</p> <p>&mdash;</p>
+                        <Link href={`/profile/${username}`}>{userName}</Link> <p>&mdash;</p>
                         <p>
                             {createdAt.toLocaleString("en-US", {
                                 year: "numeric",
