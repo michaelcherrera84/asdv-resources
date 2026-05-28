@@ -82,7 +82,7 @@ function SignInForm({ redirect }: { redirect: string }) {
 
         // Redirect authenticated user to the resources page.
         // replace() prevents returning to the sign-in page when using the browser back button.
-        router.replace(redirect.startsWith("/resources") ? redirect : "/resources");
+        router.replace(redirect);
     }
 
     return (
