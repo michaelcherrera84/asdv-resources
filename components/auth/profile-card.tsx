@@ -175,83 +175,87 @@ function ProfileCard({ profile, editable }: ProfileCardProps) {
                         )}
                     </>
                 )}
-                {profile.bio && (
+                {!isEditing ? (
                     <>
-                        {!isEditing ? (
+                        {profile.bio && (
                             <div>
                                 <h3 className="text-primary font-bold">Bio</h3>
                                 <p className="text-sm font-light whitespace-pre-wrap">{profile.bio}</p>
                             </div>
-                        ) : (
-                            <div>
-                                <label htmlFor="bio" className="pl-3 text-xs text-gray-400">
-                                    Bio
-                                </label>
-                                <Textarea
-                                    name="bio"
-                                    id="bio"
-                                    value={bio}
-                                    placeholder="Bio"
-                                    rows={4}
-                                    onChange={(e) => setBio(e.target.value)}
-                                    className="w-full rounded-lg border border-gray-300 p-2"
-                                />
-                            </div>
                         )}
                     </>
-                )}
-                {profile.college && (
+                ) : (
                     <div>
-                        {!isEditing ? (
-                            <div>
-                                <h3 className="text-primary font-bold">College</h3>
-                                <p className="text-sm font-light">{profile.college}</p>
-                                {profile.expectedGraduation && (
-                                    <p className="text-xs text-gray-500 italic">
-                                        Graduating or Graduated: {profile.expectedGraduation}
-                                    </p>
-                                )}
-                            </div>
-                        ) : (
-                            <div className="flex flex-col gap-4">
-                                <FloatingLabelInput
-                                    label="College"
-                                    id="college"
-                                    name="college"
-                                    value={college}
-                                    onChange={(e) => setCollege(e.target.value)}
-                                    className="max-w-lg"
-                                />
-                                <FloatingLabelInput
-                                    label="Graduation or Expected Graduation"
-                                    id="expectedGraduation"
-                                    name="expectedGraduation"
-                                    value={expectedGraduation}
-                                    onChange={(e) => setExpectedGraduation(e.target.value)}
-                                    className="max-w-lg"
-                                />
-                            </div>
-                        )}
+                        <label htmlFor="bio" className="pl-3 text-xs text-gray-400">
+                            Bio
+                        </label>
+                        <Textarea
+                            name="bio"
+                            id="bio"
+                            value={bio}
+                            placeholder="Bio"
+                            rows={4}
+                            onChange={(e) => setBio(e.target.value)}
+                            className="w-full rounded-lg border border-gray-300 p-2"
+                        />
                     </div>
                 )}
-                {profile.highSchool && (
+
+                <div>
+                    {!isEditing ? (
+                        <>
+                            {profile.college && (
+                                <div>
+                                    <h3 className="text-primary font-bold">College</h3>
+                                    <p className="text-sm font-light">{profile.college}</p>
+                                    {profile.expectedGraduation && (
+                                        <p className="text-xs text-gray-500 italic">
+                                            Graduating or Graduated: {profile.expectedGraduation}
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="flex flex-col gap-4">
+                            <FloatingLabelInput
+                                label="College"
+                                id="college"
+                                name="college"
+                                value={college}
+                                onChange={(e) => setCollege(e.target.value)}
+                                className="max-w-lg"
+                            />
+                            <FloatingLabelInput
+                                label="Graduation or Expected Graduation"
+                                id="expectedGraduation"
+                                name="expectedGraduation"
+                                value={expectedGraduation}
+                                onChange={(e) => setExpectedGraduation(e.target.value)}
+                                className="max-w-lg"
+                            />
+                        </div>
+                    )}
+                </div>
+
+                {!isEditing ? (
                     <>
-                        {!isEditing ? (
+                        {profile.highSchool && (
                             <div>
                                 <h3 className="text-primary font-bold">High School</h3>
                                 <p className="text-sm font-light">{profile.highSchool}</p>
                             </div>
-                        ) : (
-                            <FloatingLabelInput
-                                label="High School"
-                                id="highSchool"
-                                name="highSchool"
-                                value={highSchool}
-                                onChange={(e) => setHighSchool(e.target.value)}
-                                className="max-w-lg"
-                            />
                         )}
                     </>
+                ) : (
+                    <FloatingLabelInput
+                        label="High School"
+                        id="highSchool"
+                        name="highSchool"
+                        value={highSchool}
+                        onChange={(e) => setHighSchool(e.target.value)}
+                        className="max-w-lg"
+                    />
                 )}
             </CardBody>
             <CardBody>
