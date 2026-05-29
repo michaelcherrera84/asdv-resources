@@ -2,6 +2,15 @@ import { getTutorialAuthor, getTutorials } from "@/lib/services/tutorial-service
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import { User } from "@/db/auth-schema";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the tutorials page.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Tutorials",
+    description: "Tutorials focused on course-specific topics and general software development concepts",
+};
 
 /**
  * Tutorials page component.

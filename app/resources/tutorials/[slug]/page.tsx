@@ -7,12 +7,39 @@ import Comments from "@/components/user-comments/comments";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Link from "next/link";
 import { User } from "@/db/auth-schema";
+import { Metadata } from "next";
+
+type TutorialProps = {
+    params: Promise<{ slug: string }>;
+};
+
+/**
+ * Generates metadata for the tutorial page.
+ */
+export async function generateMetadata({ params }: TutorialProps): Promise<Metadata> {
+    const { slug } = await params;
+
+    try {
+        const tutorialData = await getTutorialBySlug(slug);
+        const tutorial = tutorialData[0];
+
+        if (!tutorial) return { title: "Tutorial Not Found" };
+
+        return {
+            title: tutorial.title,
+            description: tutorial.description,
+        };
+    } catch (error) {
+        console.error("Error generating metadata:", error);
+        return { title: "Error Loading Metadata" };
+    }
+}
 
 /**
  * Tutorial page component.
  * Displays a single tutorial with its content and comments.
  */
-async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
+async function TutorialPage({ params }: TutorialProps) {
     const { slug } = await params;
 
     let tutorialData;

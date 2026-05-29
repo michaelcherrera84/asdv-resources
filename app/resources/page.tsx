@@ -3,6 +3,12 @@ import TutorialsCard from "@/components/resources/resourse-cards/tutorials-card"
 import BooksCard from "@/components/resources/resourse-cards/books-card";
 import BlogCard from "@/components/resources/resourse-cards/blog-card";
 import ApplicationsCard from "@/components/resources/resourse-cards/applications-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "ASDV Resources - Resources Dashboard",
+    description: "Explore a curated collection of resources for students in Application Software Development.",
+};
 
 /**
  * Resources landing page.

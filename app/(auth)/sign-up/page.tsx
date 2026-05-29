@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import SignUpForm from "@/components/auth/sign-up-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "ASDV Resources - Sign Up",
+    description: "Create an account to join the discussion.",
+};
 
 /**
  * Sign up page component.

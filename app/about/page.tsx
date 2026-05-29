@@ -1,4 +1,13 @@
 import Link from "next/link";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the about page.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - About",
+    description: "Learn about ASDV Resources, a community-driven platform for software development education.",
+};
 
 /**
  * About page component.
@@ -18,33 +27,33 @@ function AboutPage() {
                     anyone interested in software development.
                 </p>
                 <p>
-                    ASDV Resources was originally created as a companion site for the{" "}
+                    ASDV Resources was originally created as a companion site for the&nbsp;
                     <Link
                         href="https://www.solacc.edu/academics/programs-offered/application-software-development/index"
                         target="_blank"
                         className="text-primary underline"
                     >
                         Application Software Development (ASDV)
-                    </Link>{" "}
-                    program at{" "}
+                    </Link>
+                    &nbsp; program at&nbsp;
                     <Link href="https://www.solacc.edu" target="_blank" className="text-primary underline">
                         South Louisiana Community College
                     </Link>
                     . The ASDV program offers an Associate of Applied Science degree designed to prepare students for
                     careers in software development and related technology fields. Students who wish to continue their
-                    education can also benefit from the 2+2 transfer agreement with{" "}
+                    education can also benefit from the 2+2 transfer agreement with&nbsp;
                     <Link href="https://louisiana.edu" target="_blank" className="text-primary underline">
                         University of Louisiana at Lafayette
                     </Link>
-                    , allowing them to continue into the{" "}
+                    , allowing them to continue into the&nbsp;
                     <Link
                         href="https://louisiana.edu/majors-minors/informatics"
                         target="_blank"
                         className="text-primary underline"
                     >
                         Informatics
-                    </Link>{" "}
-                    program after completing the ASDV degree.
+                    </Link>
+                    &nbsp; program after completing the ASDV degree.
                 </p>
                 <p>
                     The goal of this site is simple: make it easier for students to succeed while building a strong

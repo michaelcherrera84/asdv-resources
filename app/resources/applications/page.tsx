@@ -4,6 +4,15 @@ import Button from "@/components/ui/button";
 import Link from "next/link";
 import { FaWindows } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the Applications page.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Applications",
+    description: "Applications for students to download and use for their projects",
+};
 
 /**
  * Applications page component.

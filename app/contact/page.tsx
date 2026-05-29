@@ -1,4 +1,13 @@
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the Contact page.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Contact",
+    description: "Contact the ASDV Resources team for support or questions.",
+};
 
 /**
  * Contact page component.

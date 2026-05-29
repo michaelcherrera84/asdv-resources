@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { db } from "@/db";
 import { links } from "@/db/schema";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the LinksPage component.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Helpful Links",
+    description: "A collection of helpful links for software development and ASDV education.",
+};
 
 /**
  * Server component that displays all resource links.

@@ -5,6 +5,9 @@ interface EmailTemplateProps {
     link: string;
 }
 
+/**
+ * Email template component.
+ */
 export function EmailTemplate({ username, link }: EmailTemplateProps) {
     return (
         <Html>

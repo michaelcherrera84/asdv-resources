@@ -24,6 +24,15 @@ import BookCard from "@/components/books/book-card";
 import Link from "next/link";
 import { SemesterSelector, CourseSelector } from "@/components/books/semester-selector";
 import { getBooks } from "@/lib/services/book-service";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the books page.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Course Materials",
+    description: "List of books used in the Application Software Development (ASDV) program",
+};
 
 /**
  * Props passed to the BooksPage component by Next.js.

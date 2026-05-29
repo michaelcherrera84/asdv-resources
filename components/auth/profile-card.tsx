@@ -12,11 +12,20 @@ import { CldUploadButton } from "next-cloudinary";
 import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 
+/**
+ * Represents the properties used by a ProfileCard component.
+ */
 interface ProfileCardProps {
     profile: User;
     editable: boolean;
 }
 
+/**
+ * ProfileCard component displays a user's profile information.
+ * @param {ProfileCardProps} props - The properties for the ProfileCard component.
+ * @param {User} props.profile - The user's profile information.
+ * @param {boolean} props.editable - Indicates whether the profile is editable.
+ */
 function ProfileCard({ profile, editable }: ProfileCardProps) {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [image, setImage] = useState<string | undefined>(profile.image || undefined);
@@ -29,11 +38,35 @@ function ProfileCard({ profile, editable }: ProfileCardProps) {
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const router = useRouter();
 
+    /**
+     * Handles the click event for the edit button.
+     *
+     * This function is triggered when the edit button is clicked. It first checks
+     * if the current state allows editing by evaluating the `editable` flag. If
+     * editing is allowed (`editable` is true), it updates the state to set
+     * `isEditing` to true, initiating the editing process.
+     *
+     * @function
+     */
     const handleEditButtonClick = () => {
         if (!editable) return;
         setIsEditing(true);
     };
 
+    /**
+     * Handles the save operation for updating user profile information.
+     * This function performs the following steps:
+     * - Sets the saving state to true.
+     * - Validates that the name and email fields are populated.
+     * - Updates the user's profile information through the `authClient.updateUser` method.
+     * - If provided, updates the user's email address using the `authClient.changeEmail` method.
+     * - Handles errors during these operations by logging them and displaying an alert to the user.
+     * - Resets the editing and saving states upon completion, and refreshes the page data.
+     *
+     * @async
+     * @function
+     * @throws Will display error alerts if the update or email change operations fail.
+     */
     const handleSave = async () => {
         setIsSaving(true);
         if (!name || !email) {
@@ -74,7 +107,7 @@ function ProfileCard({ profile, editable }: ProfileCardProps) {
 
     return (
         <Card className="w-full max-w-325 p-2 sm:p-6 lg:p-10">
-            <CardHeader className="relative">
+            <CardHeader className="relative gap-2">
                 {!isEditing && editable && (
                     <FaEdit
                         className="absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700"
@@ -85,7 +118,14 @@ function ProfileCard({ profile, editable }: ProfileCardProps) {
                 {!isEditing ? (
                     <>
                         {profile.image ? (
-                            <Image src={profile.image} alt="profile picture" width={200} height={200} loading="eager" />
+                            <Image
+                                src={profile.image}
+                                alt="profile picture"
+                                width={216}
+                                height={216}
+                                loading="eager"
+                                className="rounded p-4 shadow-md shadow-gray-400"
+                            />
                         ) : (
                             <Image
                                 src="/images/blank-profile-image.jpg"

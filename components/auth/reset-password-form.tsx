@@ -8,6 +8,11 @@ import Button from "@/components/ui/button";
 import { BsXCircle } from "react-icons/bs";
 import { authClient } from "@/lib/auth/auth-client";
 
+/**
+ * A React component that renders a form for resetting the user's password.
+ * The component validates the input fields (password strength, matching passwords, etc.)
+ * and sends a reset password request based on the provided token.
+ */
 function ResetPasswordForm() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
@@ -17,6 +22,9 @@ function ResetPasswordForm() {
     const [formError, setFormError] = useState<string | null>(null);
     const router = useRouter();
 
+    /**
+     * Redirects the user to the home page if the token is not provided.
+     */
     useEffect(() => {
         if (!token) {
             router.push("/");
@@ -25,6 +33,23 @@ function ResetPasswordForm() {
 
     if (!token) return null;
 
+    /**
+     * Handles the password reset process by performing the following steps:
+     * - Validates the new password against a set of rules:
+     *    - Contains at least one uppercase letter, one number, and one special character.
+     *    - Minimum length of 8 characters.
+     *    - Matches the confirmation password.
+     * - If validations fail, appropriate error messages are displayed to the user.
+     * - Initiates a password reset request through the authentication client with the provided new password and token.
+     * - Handles any errors that may occur during the password reset process and logs them to the console.
+     * - Upon successful password reset, redirects the user to the sign-in page.
+     *
+     * This function is asynchronous and manages UI state changes (e.g., pending state and error messages) during the process.
+     *
+     * @async
+     * @function handleResetPassword
+     * @throws {Error} Throws an error if the password reset operation fails.
+     */
     const handleResetPassword = async () => {
         setIsPending(true);
         setFormError(null);

@@ -1,5 +1,14 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import SignInForm from "@/components/auth/sign-in-form";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the SignInPage component.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Sign In",
+    description: "Sign in to your account.",
+};
 
 /**
  * Props for the SignInPage component.

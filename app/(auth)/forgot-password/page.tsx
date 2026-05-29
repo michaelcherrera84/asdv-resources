@@ -7,11 +7,27 @@ import FloatingLabelInput from "@/components/ui/floating-label-input";
 import Button from "@/components/ui/button";
 import Link from "next/link";
 
+/**
+ * Represents the Forgot Password page of the application.
+ * Allows users to request a password reset email by entering their email address.
+ * Displays success message upon email submission or provides inputs for resubmission.
+ */
 function ForgotPasswordPage() {
     const [email, setEmail] = useState<string>("");
     const [isPending, setIsPending] = useState<boolean>(false);
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
+    /**
+     * Handles the process of initiating a password reset request.
+     *
+     * This asynchronous function sets the pending status to true and sends a password
+     * reset request using the provided email. If the request fails, it throws an error.
+     * On a successful request, it updates the success status.
+     *
+     * @async
+     * @function
+     * @throws {Error} If the password reset email fails to send.
+     */
     const handleForgotPassword = async () => {
         setIsPending(true);
         const { error } = await authClient.requestPasswordReset({

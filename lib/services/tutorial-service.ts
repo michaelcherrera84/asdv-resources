@@ -6,6 +6,7 @@ import { getUserById, getUsersByIds } from "@/lib/services/user-service";
 import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 import { User } from "@/db/auth-schema";
+import { cache } from "react";
 
 /**
  * Retrieves all user-comments from the database.
@@ -25,9 +26,9 @@ export function getRecentTutorials() {
  * Retrieves a tutorial by slug from the database.
  * @param slug tutorial slug
  */
-export function getTutorialBySlug(slug: string) {
+export const getTutorialBySlug = cache(async (slug: string) => {
     return db.select().from(tutorials).where(eq(tutorials.slug, slug));
-}
+});
 
 /**
  * Retrieves the author of a tutorial from the database.
