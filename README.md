@@ -78,6 +78,8 @@ If you have any questions, feedback, or suggestions, please reach out to us on o
 - Zod
 - PostgreSQL
 - Better Auth
+- Resend
+- Cloudinary
 
 ## Getting Started
 
@@ -100,9 +102,15 @@ cd asdv-resources
 ```bash
 cat << EOF > .env.local
 DATABASE_URL=<Your PostgreSQL Database URL>
+
 BETTER_AUTH_SECRET=<Your Better Auth Secret> # This is free.
 BETTER_AUTH_URL=http://localhost:3000
+
 RESEND_API_KEY=<Your Resend API Key> # Optional (for email verification and password reset)
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<Your Cloudinary Cloud Name>
+NEXT_PUBLIC_CLOUDINARY_API_KEY=<Your Cloudinary API Key>
+CLOUDINARY_API_SECRET=<Your Cloudinary API Secret>
 EOF
 ```
 4. Generate and run migrations:
@@ -115,5 +123,5 @@ npm install
 ```
 6. Run the application:
 ```bash
-npm run dev -- --experimental-https
+npm run dev
 ```
