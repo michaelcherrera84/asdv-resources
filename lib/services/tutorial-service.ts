@@ -18,11 +18,8 @@ export function getTutorials() {
 /**
  * Retrieves recent user-comments from the database.
  */
-export async function getRecentTutorials() {
-    const results = db.select().from(tutorials).orderBy(desc(tutorials.createdAt)).limit(5);
-    console.log("Recent tutorials:", await results);
-
-    return results;
+export function getRecentTutorials() {
+    return db.select().from(tutorials).orderBy(desc(tutorials.createdAt)).limit(5);
 }
 
 /**

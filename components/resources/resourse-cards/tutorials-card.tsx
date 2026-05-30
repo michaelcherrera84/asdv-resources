@@ -13,6 +13,7 @@ async function TutorialsCard() {
     try {
         recentTutorials = await getRecentTutorials();
     } catch (error) {
+        console.error("Error fetching tutorials:", error);
         return (
             <ResourceCard title="Tutorials" link="/resources/tutorials">
                 <p>Error loading tutorials. Please try again later.</p>
