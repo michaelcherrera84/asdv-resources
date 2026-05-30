@@ -108,7 +108,20 @@ async function TutorialPage({ params }: TutorialProps) {
                     {tutorial.content}
                 </ReactMarkdown>
             </article>
-            <hr className="my-10" />
+            {tutorial.tags && (
+                <div className="flex flex-wrap gap-1 pt-8">
+                    {tutorial.tags.map((tag) => (
+                        <Link
+                            href={`/resources/tutorials?tags=${tag}`}
+                            key={tag}
+                            className="bg-primary rounded-full px-2 py-1 text-xs font-semibold text-white"
+                        >
+                            {tag}
+                        </Link>
+                    ))}
+                </div>
+            )}
+            <hr className="mt-4 mb-10" />
             <Comments slug={slug} />
         </main>
     );

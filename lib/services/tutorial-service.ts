@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { tutorialComments, TutorialCommentWithRepliesAndAuthor, tutorials } from "@/db/schema";
-import { and, desc, eq, inArray, isNull } from "drizzle-orm";
+import { and, arrayOverlaps, desc, eq, inArray, isNull } from "drizzle-orm";
 import { tutorialCommentInsertSchema, tutorialDeleteCommentSchema } from "@/lib/validators/tutorial";
 import { getUserById, getUsersByIds } from "@/lib/services/user-service";
 import { getSession } from "@/lib/auth/auth";
@@ -20,6 +20,23 @@ export function getTutorials() {
  */
 export function getRecentTutorials() {
     return db.select().from(tutorials).orderBy(desc(tutorials.createdAt)).limit(5);
+}
+
+/**
+ * Retrieves tutorials by tags from the database.
+ * @param tags tutorial tags
+ */
+export async function getTutorialsByTags(tags: string[]) {
+    return db
+        .select()
+        .from(tutorials)
+        .where(
+            arrayOverlaps(
+                tutorials.tags,
+                tags.map((tag) => tag.toLowerCase()),
+            ),
+        )
+        .orderBy(desc(tutorials.createdAt));
 }
 
 /**
