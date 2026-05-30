@@ -115,7 +115,7 @@ EOF
 ```
 4. Generate and run migrations:
 ```bash
-npm run db:generate && npm run db:migrate
+npm run db:generate && npm run db:migrate:local
 ```
 5. Install:
 ```bash
