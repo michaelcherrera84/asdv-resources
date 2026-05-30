@@ -10,6 +10,7 @@ export const tutorialSchema = z.object({
     author: z.string().optional(),
     description: z.string().optional(),
     content: z.string().min(1),
+    tags: z.array(z.string()).optional(),
     createdAt: z.date(),
 });
 

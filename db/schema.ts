@@ -48,6 +48,7 @@ export const tutorials = pgTable("tutorials", {
     author: text("author"),
     description: text("description"),
     content: text("content").notNull(),
+    tags: text("tags").array(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
