@@ -7,6 +7,7 @@ import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 import { User } from "@/db/auth-schema";
 import { cache } from "react";
+import { unstable_noStore as noStore } from "next/cache";
 
 /**
  * Retrieves all user-comments from the database.
@@ -19,6 +20,7 @@ export function getTutorials() {
  * Retrieves recent user-comments from the database.
  */
 export function getRecentTutorials() {
+    noStore();
     return db.select().from(tutorials).orderBy(desc(tutorials.createdAt)).limit(5);
 }
 
