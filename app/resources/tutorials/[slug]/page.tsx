@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import Link from "next/link";
 import { User } from "@/db/auth-schema";
 import { Metadata } from "next";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 
 type TutorialProps = {
     params: Promise<{ slug: string }>;
@@ -67,6 +68,19 @@ async function TutorialPage({ params }: TutorialProps) {
         year: "numeric",
     }).format(new Date(tutorial.createdAt));
 
+    const sanitizedSchema = {
+        ...defaultSchema,
+        tagNames: [...(defaultSchema.tagNames || []), "iframe"],
+        attributes: {
+            ...defaultSchema.attributes,
+            iframe: ["src", "width", "height", "frameborder", "allow", "allowfullscreen", "title"],
+        },
+        protocols: {
+            ...defaultSchema.protocols,
+            src: ["https"],
+        },
+    };
+
     return (
         <main className="px-4 py-12 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
             <Breadcrumbs className="flex-wrap pb-8" />
@@ -75,18 +89,18 @@ async function TutorialPage({ params }: TutorialProps) {
                 <p className="text-gray-500 italic">
                     {formattedDate} &nbsp;by&nbsp;&nbsp;
                     {author ? (
-                        <Link href={`/profile/${author.username}`} className="text-bold">
+                        <Link href={`/profile/${author.username}`} className="font-bold">
                             {author.name}
                         </Link>
                     ) : (
-                        <p className="text-bold">Unknown Author</p>
+                        <span className="font-bold">Unknown Author</span>
                     )}
                 </p>
                 <p>{tutorial.description}</p>
                 <hr className="my-10!" />
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeHighlight, rehypeRaw]}
+                    rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizedSchema], rehypeHighlight]}
                     components={{
                         code({ className, children, ...props }) {
                             const isInline = !className;
@@ -102,6 +116,39 @@ async function TutorialPage({ params }: TutorialProps) {
                                     {children}
                                 </code>
                             );
+                        },
+                        iframe: ({ src, ...props }) => {
+                            if (!src) return null;
+
+                            try {
+                                const url = new URL(src);
+                                const allowedHosts = [
+                                    "www.youtube.com",
+                                    "youtube.com",
+                                    "youtu.be",
+                                    "www.youtube-nocookie.com",
+                                    "youtube-nocookie.com",
+                                ];
+
+                                if (!allowedHosts.includes(url.hostname)) return null;
+
+                                return (
+                                    <div className="w-fit rounded border p-2">
+                                        <iframe
+                                            src={src}
+                                            width={props.width}
+                                            height={props.height}
+                                            title={props.title}
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                                            allowFullScreen
+                                            className="rounded"
+                                        />
+                                    </div>
+                                );
+                            } catch (error) {
+                                console.error(error);
+                                return null;
+                            }
                         },
                     }}
                 >

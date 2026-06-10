@@ -1,19 +1,31 @@
 "use client";
 
 import { CiSearch } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 function TutorialSearch() {
-    const [search, setSearch] = useState<string>("");
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
     const router = useRouter();
 
-    useEffect(() => {
-        const tagsArray = search.split(",").map((tag) => tag.trim());
-        const params = new URLSearchParams();
-        tagsArray.forEach((tag) => params.append("tags", tag));
-        router.push(`/resources/tutorials?${params.toString()}`);
-    }, [search, router]);
+    const handleSearch = useDebouncedCallback((search: string) => {
+        const params = new URLSearchParams(searchParams);
+
+        const cleanTags = search
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter((tag) => tag !== "")
+            .join(",");
+
+        if (cleanTags) {
+            params.set("tags", cleanTags);
+        } else {
+            params.delete("tags");
+        }
+
+        router.replace(`${pathname}?${params.toString()}`);
+    }, 300);
 
     return (
         <div className="my-2 flex justify-end">
@@ -25,7 +37,7 @@ function TutorialSearch() {
                     name="search"
                     className="rounded-md outline-none"
                     size={35}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => handleSearch(e.target.value)}
                 />
             </div>
         </div>

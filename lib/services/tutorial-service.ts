@@ -13,7 +13,7 @@ import { unstable_noStore as noStore } from "next/cache";
  * Retrieves all user-comments from the database.
  */
 export function getTutorials() {
-    return db.select().from(tutorials).orderBy(desc(tutorials.createdAt));
+    return db.select().from(tutorials).where(eq(tutorials.approved, true)).orderBy(desc(tutorials.createdAt));
 }
 
 /**
@@ -21,7 +21,7 @@ export function getTutorials() {
  */
 export function getRecentTutorials() {
     noStore();
-    return db.select().from(tutorials).orderBy(desc(tutorials.createdAt)).limit(5);
+    return db.select().from(tutorials).where(eq(tutorials.approved, true)).orderBy(desc(tutorials.createdAt)).limit(5);
 }
 
 /**
@@ -33,9 +33,12 @@ export async function getTutorialsByTags(tags: string[]) {
         .select()
         .from(tutorials)
         .where(
-            arrayOverlaps(
-                tutorials.tags,
-                tags.map((tag) => tag.toLowerCase()),
+            and(
+                arrayOverlaps(
+                    tutorials.tags,
+                    tags.map((tag) => tag.toLowerCase()),
+                ),
+                eq(tutorials.approved, true),
             ),
         )
         .orderBy(desc(tutorials.createdAt));

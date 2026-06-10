@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/next";
 const lato = Lato({
     variable: "--font-lato",
     weight: ["100", "300", "400", "700", "900"],
+    subsets: ["latin"],
 });
 
 const jetBrainsMono = JetBrains_Mono({

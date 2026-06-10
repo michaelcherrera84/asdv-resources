@@ -50,6 +50,7 @@ export const tutorials = pgTable("tutorials", {
     content: text("content").notNull(),
     tags: text("tags").array(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
+    approved: boolean().default(false),
 });
 
 export type Tutorial = InferSelectModel<typeof tutorials>;

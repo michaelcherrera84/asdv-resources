@@ -27,7 +27,16 @@ interface TutorialProps {
 async function TutorialsPage({ searchParams }: TutorialProps) {
     const params = await searchParams;
     const tags = params.tags;
-    const tagsArray = Array.isArray(tags) ? tags : tags ? [tags] : [];
+
+    let tagsArray: string[] = [];
+    if (Array.isArray(tags)) {
+        tagsArray = tags;
+    } else if (typeof tags === "string") {
+        tagsArray = tags
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter(Boolean);
+    }
 
     let tutorials: Tutorial[];
 
@@ -55,7 +64,7 @@ async function TutorialsPage({ searchParams }: TutorialProps) {
                         </Link>
                     </div>
                 )}
-                {tutorials.map(async (tutorial) => {
+                {tutorials.map((tutorial) => {
                     return <TutorialCard key={tutorial.id} tutorial={tutorial} />;
                 })}
             </div>

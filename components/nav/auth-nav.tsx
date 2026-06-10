@@ -26,8 +26,6 @@ function AuthNav() {
           ? pathname
           : "/resources";
 
-    console.log("Redirecting to:", redirectTo);
-
     if (session?.user) {
         return <AccountDropdown />;
     }

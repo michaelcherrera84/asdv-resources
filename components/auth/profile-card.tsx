@@ -147,7 +147,7 @@ function ProfileCard({ profile, editable }: ProfileCardProps) {
                                 setImage(result.info?.secure_url);
                         }}
                         onError={(error) => {
-                            console.log("User image upload failed:", error);
+                            console.error("User image upload failed:", error);
                             alert(`Upload failed: ${error}`);
                         }}
                     >
