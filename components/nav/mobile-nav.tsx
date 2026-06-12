@@ -69,7 +69,7 @@ function MobileNav() {
                 Navigation links are hidden by default and displayed when the mobile menu is open.
             */}
             <nav
-                className={`${!isOpen ? "hidden" : "grid"} bg-secondary text-primary absolute top-16 h-8 w-full grid-cols-4 font-bold`}
+                className={`${!isOpen ? "hidden" : "grid"} ${session?.user ? "grid-cols-3" : "grid-cols-4"} bg-secondary text-primary absolute top-16 h-8 w-full font-bold`}
             >
                 {/* Close menu after navigation selection */}
                 <Link

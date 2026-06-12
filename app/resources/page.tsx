@@ -4,6 +4,8 @@ import BooksCard from "@/components/resources/resourse-cards/books-card";
 import BlogCard from "@/components/resources/resourse-cards/blog-card";
 import ApplicationsCard from "@/components/resources/resourse-cards/applications-card";
 import { Metadata } from "next";
+import { getSession } from "@/lib/auth/auth";
+import ContributeCard from "@/components/resources/resourse-cards/contribute-card";
 
 export const metadata: Metadata = {
     title: "ASDV Resources - Resources Dashboard",
@@ -31,6 +33,8 @@ export const metadata: Metadata = {
  * - Some sections are currently placeholders and will expand later
  */
 async function Resources() {
+    const session = await getSession();
+
     return (
         <main className="flex justify-center px-4 py-12 lg:px-6 xl:px-8">
             <div className="flex max-w-84 flex-wrap gap-4 min-[592px]:max-w-148 min-[896px]:max-w-4xl min-[1200px]:max-w-300 min-[1600px]:max-w-400">
@@ -39,6 +43,7 @@ async function Resources() {
                 <TutorialsCard />
                 <BlogCard />
                 <ApplicationsCard />
+                {session?.user && <ContributeCard />}
             </div>
         </main>
     );

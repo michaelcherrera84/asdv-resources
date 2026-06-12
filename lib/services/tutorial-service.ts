@@ -1,7 +1,11 @@
 import { db } from "@/db";
 import { tutorialComments, TutorialCommentWithRepliesAndAuthor, tutorials } from "@/db/schema";
-import { and, arrayOverlaps, desc, eq, inArray, isNull } from "drizzle-orm";
-import { tutorialCommentInsertSchema, tutorialDeleteCommentSchema } from "@/lib/validators/tutorial";
+import { and, arrayOverlaps, asc, desc, eq, inArray, isNull } from "drizzle-orm";
+import {
+    tutorialCommentInsertSchema,
+    tutorialDeleteCommentSchema,
+    tutorialInsertSchema,
+} from "@/lib/validators/tutorial";
 import { getUserById, getUsersByIds } from "@/lib/services/user-service";
 import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
@@ -14,6 +18,15 @@ import { unstable_noStore as noStore } from "next/cache";
  */
 export function getTutorials() {
     return db.select().from(tutorials).where(eq(tutorials.approved, true)).orderBy(desc(tutorials.createdAt));
+}
+
+/**
+ * Retrieves a tutorial record based on the provided tutorial ID.
+ *
+ * @param {string} id - The unique identifier of the tutorial to retrieve.
+ */
+export function getTutorialById(id: string) {
+    return db.select().from(tutorials).where(eq(tutorials.id, id));
 }
 
 /**
@@ -53,6 +66,22 @@ export const getTutorialBySlug = cache(async (slug: string) => {
 });
 
 /**
+ * Retrieves all unapproved tutorials from the database.
+ */
+export async function getUnapprovedTutorials() {
+    const session = await getSession();
+    if (!session || !session.user || session.user.role !== "admin") {
+        throw new Error("Unauthorized");
+    }
+    return db.select().from(tutorials).where(eq(tutorials.approved, false)).orderBy(asc(tutorials.createdAt));
+}
+
+export async function approveTutorialUpdate(tutorialId: string) {
+    const updated = await db.update(tutorials).set({ approved: true }).where(eq(tutorials.id, tutorialId)).returning();
+    return updated[0];
+}
+
+/**
  * Retrieves the author of a tutorial from the database.
  */
 export async function getTutorialAuthor(authorId: string): Promise<User | undefined> {
@@ -64,6 +93,49 @@ export async function getTutorialAuthor(authorId: string): Promise<User | undefi
         return undefined;
     }
     return author;
+}
+
+/**
+ * Creates a new tutorial entry in the database.
+ *
+ * @param {unknown} data - The input data for creating the tutorial, expected to be validated against a predefined schema.
+ */
+export async function createTutorial(data: unknown) {
+    const session = await getSession();
+
+    if (!session || !session.user) {
+        redirect("/sign-in");
+    }
+
+    const validated = tutorialInsertSchema.parse(data);
+    const inserted = await db.insert(tutorials).values(validated).returning();
+    return inserted[0];
+}
+
+/**
+ * Deletes a tutorial by its ID if the user is authorized.
+ *
+ * @param {string} tutorialId - The ID of the tutorial to be deleted.
+ */
+export async function deleteTutorial(tutorialId: string) {
+    const session = await getSession();
+
+    if (!session || !session.user) {
+        redirect("/sign-in");
+    }
+
+    const tutorial = await getTutorialById(tutorialId);
+
+    if (!tutorial) {
+        throw new Error("Tutorial not found");
+    }
+
+    if (tutorial[0].author != session.user.id || session.user.role !== "admin") {
+        throw new Error("Unauthorized");
+    }
+
+    const deleted = await db.delete(tutorials).where(eq(tutorials.id, tutorialId)).returning();
+    return deleted[0];
 }
 
 /**
@@ -185,7 +257,7 @@ export async function deleteTutorialComment(data: unknown) {
     }
 
     const validated = tutorialDeleteCommentSchema.parse(data);
-    if (validated.authorId != session.user.id) {
+    if (validated.authorId != session.user.id || session.user.role !== "admin") {
         throw new Error("Unauthorized");
     }
 

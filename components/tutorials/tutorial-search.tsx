@@ -4,6 +4,13 @@ import { CiSearch } from "react-icons/ci";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
+/**
+ * A React component that provides a search input for filtering tutorials by tags.
+ * Users can enter a comma-separated list of tags to filter topics,
+ * which updates the URL's query parameters after a debounce period.
+ *
+ * @return {JSX.Element} A JSX element containing a search input field with a debounced search functionality.
+ */
 function TutorialSearch() {
     const searchParams = useSearchParams();
     const pathname = usePathname();

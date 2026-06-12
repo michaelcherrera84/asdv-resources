@@ -59,7 +59,7 @@ function CommentForm({ slug, replyToId, autoFocus = false, onSubmitSuccess, post
                 onChange={(e) => setCommentContent(e.target.value)}
                 autoFocus={autoFocus}
             />
-            <Button className="my-2 w-fit" onClick={handleCommentSubmit}>
+            <Button className="my-2 w-fit shadow shadow-gray-600" onClick={handleCommentSubmit}>
                 {replyToId ? "Reply" : "Post Comment"}
             </Button>
         </div>

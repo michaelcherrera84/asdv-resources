@@ -40,7 +40,7 @@ function AuthNav() {
             </Link>
 
             <Link
-                href={`/sign-in?redirect=${encodeURIComponent(pathname)}`}
+                href={`/sign-in?redirect=${encodeURIComponent(redirectTo)}`}
                 className="rounded-md border px-4 py-2 font-bold hover:bg-white/10"
             >
                 Sign In

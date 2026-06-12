@@ -1,8 +1,50 @@
 "use server";
 
-import { createTutorialComment, deleteTutorialComment } from "@/lib/services/tutorial-service";
-import { TutorialCommentInsert, TutorialDeleteComment } from "@/lib/validators/tutorial";
+import {
+    approveTutorialUpdate,
+    createTutorial,
+    createTutorialComment,
+    deleteTutorial,
+    deleteTutorialComment,
+    getTutorialAuthor,
+} from "@/lib/services/tutorial-service";
+import { TutorialCommentInsert, TutorialDeleteComment, TutorialInsert } from "@/lib/validators/tutorial";
 import { revalidatePath } from "next/cache";
+
+/**
+ * Get the author of a tutorial
+ * @param id tutorial id
+ */
+export async function getAuthor(id: string) {
+    return await getTutorialAuthor(id);
+}
+
+/**
+ * Submit a new tutorial
+ * @param data tutorial data
+ */
+export async function submitTutorial(data: TutorialInsert) {
+    await createTutorial(data);
+}
+
+/**
+ * Approve a tutorial
+ * @param id tutorial id
+ */
+export async function approveTutorial(id: string) {
+    return await approveTutorialUpdate(id);
+}
+
+/**
+ * Remove a tutorial
+ * @param id tutorial id
+ */
+export async function removeTutorial(id: string) {
+    const deleted = await deleteTutorial(id);
+    revalidatePath("/resources/tutorials");
+    revalidatePath("/admin/tutorials/approve");
+    return deleted;
+}
 
 /**
  * Post a comment on a tutorial
