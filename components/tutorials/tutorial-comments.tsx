@@ -4,11 +4,11 @@ import CommentForm from "@/components/user-comments/comment-form";
 import { postComment, deleteComment } from "@/actions/tutorial-actions";
 
 /**
- * Comments component.
+ * TutorialComments component.
  * Displays a list of comments and replies for a specific tutorial.
  * @param slug - The slug of the tutorial.
  */
-async function Comments({ slug }: { slug: string }) {
+async function TutorialComments({ slug }: { slug: string }) {
     let comments;
 
     try {
@@ -45,4 +45,4 @@ async function Comments({ slug }: { slug: string }) {
     );
 }
 
-export default Comments;
+export default TutorialComments;

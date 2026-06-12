@@ -4,6 +4,7 @@ import TutorialCard from "@/components/tutorials/tutorial-card";
 import { Tutorial } from "@/db/schema";
 import Link from "next/link";
 import TutorialSearch from "@/components/tutorials/tutorial-search";
+import BottomDrawer from "@/components/ui/bottom-drawer";
 
 /**
  * Metadata for the tutorials page.
@@ -65,9 +66,34 @@ async function TutorialsPage({ searchParams }: TutorialProps) {
                     </div>
                 )}
                 {tutorials.map((tutorial) => {
-                    return <TutorialCard key={tutorial.id} tutorial={tutorial} />;
+                    return (
+                        <TutorialCard
+                            key={tutorial.id}
+                            tutorial={tutorial}
+                            viewLink={`/resources/tutorials/${tutorial.slug}`}
+                        />
+                    );
                 })}
             </div>
+            <BottomDrawer>
+                <h4 className="text-primary font-bold">Content Disclaimer</h4>
+                <p>
+                    The content published on ASDV Resources is created and submitted by individual contributors. The
+                    views, opinions, recommendations, and conclusions expressed are those of the author and do not
+                    necessarily reflect the views or official position of ASDV Resources.
+                </p>
+                <p>
+                    While ASDV Resources reviews submissions and strives to publish high-quality, accurate, and useful
+                    content, we make no representations or warranties regarding the completeness, accuracy, reliability,
+                    or suitability of any information published on this site. Content may become outdated, contain
+                    errors, or reflect differing professional opinions.
+                </p>
+                <p>
+                    Readers are encouraged to independently verify information and use their own judgment before relying
+                    on any content. ASDV Resources shall not be held responsible for any loss, damage, or consequences
+                    resulting from the use of information provided by contributors.
+                </p>
+            </BottomDrawer>
         </main>
     );
 }

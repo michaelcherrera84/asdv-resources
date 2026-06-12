@@ -7,15 +7,32 @@ export const tutorialSchema = z.object({
     id: z.uuid(),
     slug: z.string().min(1),
     title: z.string().min(1),
-    author: z.string().optional(),
-    description: z.string().optional(),
+    author: z.string().optional().nullable(),
+    description: z.string().optional().nullable(),
     content: z.string().min(1),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional().nullable(),
     createdAt: z.date(),
     approved: z.boolean(),
 });
 
 export type Tutorial = z.infer<typeof tutorialSchema>;
+
+export const tutorialInsertSchema = tutorialSchema.omit({ id: true, createdAt: true, approved: true });
+export type TutorialInsert = z.infer<typeof tutorialInsertSchema>;
+
+/**
+ * Zod schema for validating tutorial preview data.
+ */
+export const tutorialPreviewSchema = tutorialSchema.pick({
+    title: true,
+    author: true,
+    description: true,
+    content: true,
+    tags: true,
+    createdAt: true,
+});
+
+export type TutorialPreview = z.infer<typeof tutorialPreviewSchema>;
 
 /**
  * Zod schema for validating tutorial comment data.

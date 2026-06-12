@@ -4,7 +4,19 @@ import { getTutorialAuthor } from "@/lib/services/tutorial-service";
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 
-async function TutorialCard({ tutorial }: { tutorial: Tutorial }) {
+interface TutorialCardProps {
+    tutorial: Tutorial;
+    viewLink: string;
+}
+
+/**
+ * Renders a tutorial card displaying the tutorial's title, description, tags, author, and creation date.
+ *
+ * @param {Object} props - The properties object.
+ * @param {Tutorial} props.tutorial - The tutorial object containing details such as title, description, tags, author, and creation date.
+ * @return {JSX.Element} A card component representing the tutorial with its details.
+ */
+async function TutorialCard({ tutorial, viewLink }: TutorialCardProps) {
     let tutorialAuthor: User | undefined;
     if (tutorial.author) {
         tutorialAuthor = await getTutorialAuthor(tutorial.author);
@@ -12,11 +24,7 @@ async function TutorialCard({ tutorial }: { tutorial: Tutorial }) {
     return (
         <Card key={tutorial.slug} className="mb-6 min-h-56">
             <CardHeader className="items-start px-4 py-3">
-                <Link
-                    href={`/resources/tutorials/${tutorial.slug}`}
-                    key={tutorial.id}
-                    className="text-primary text-2xl"
-                >
+                <Link href={viewLink} key={tutorial.id} className="text-primary text-2xl">
                     <h1>{tutorial.title}</h1>
                 </Link>
             </CardHeader>
