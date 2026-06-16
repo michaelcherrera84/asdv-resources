@@ -3,10 +3,12 @@
 import Image from "next/image";
 import { Notification } from "@/db/schema";
 import { User } from "@/db/auth-schema";
-import { markNotificationsAsRead } from "@/actions/notification-actions";
+import { deleteNotification, markNotificationsAsRead } from "@/actions/notification-actions";
 import { useRouter } from "next/navigation";
 import { MenuItem } from "@headlessui/react";
-import { JSX } from "react";
+import { JSX, MouseEvent } from "react";
+import Button from "@/components/ui/button";
+import { FaXmark } from "react-icons/fa6";
 
 interface NotificationLinkProps {
     notification: Notification;
@@ -97,37 +99,66 @@ function NotificationLink({ notification, author }: NotificationLinkProps): JSX.
         }
     };
 
+    /**
+     * Asynchronously handles the deletion of a notification when triggered by a user interaction.
+     *
+     * This function prevents the default action of the triggering event, attempts to delete
+     * a specific notification using its identifier, and refreshes the application state
+     * to reflect the changes. In case of an error during the deletion process, it logs the error
+     * to the console.
+     *
+     * @param {MouseEvent<HTMLButtonElement>} e - The event triggered by the user's interaction with the button.
+     */
+    const handleDeleteNotification = async (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        try {
+            await deleteNotification(notification.id);
+        } catch (error) {
+            console.error("Error deleting notification:", error);
+        }
+        router.refresh();
+    };
+
     return (
         <MenuItem key={notification.id}>
             {({ close }) => (
-                <div
-                    className="cursor-pointer px-4 leading-snug"
-                    onClick={() => {
-                        void markAsRead(close);
-                    }}
-                >
-                    <div className="flex items-center gap-2 text-sm">
-                        {author.image ? (
-                            <Image
-                                src={author.image}
-                                width={40}
-                                height={40}
-                                alt="profile picture"
-                                className="rounded-full"
-                            />
-                        ) : (
-                            <div className="bg-primary flex h-10 min-w-10 items-center justify-center rounded-full text-white">
-                                {author.name[0].toUpperCase()}
+                <div className="flex px-4">
+                    <div
+                        className="peer cursor-pointer leading-snug"
+                        onClick={() => {
+                            void markAsRead(close);
+                        }}
+                    >
+                        <div className="flex items-center gap-2 text-sm">
+                            {author.image ? (
+                                <Image
+                                    src={author.image}
+                                    width={40}
+                                    height={40}
+                                    alt="profile picture"
+                                    className="rounded-full"
+                                />
+                            ) : (
+                                <div className="bg-primary flex h-10 min-w-10 items-center justify-center rounded-full text-white">
+                                    {author.name[0].toUpperCase()}
+                                </div>
+                            )}
+                            <div>
+                                <p>
+                                    {author.name} {notification.message}
+                                </p>
+                                <span className="text-xs text-gray-500">{getRelativeTime(notification.createdAt)}</span>
                             </div>
-                        )}
-                        <div>
-                            <p>
-                                {author.name} {notification.message}
-                            </p>
-                            <span className="text-xs text-gray-500">{getRelativeTime(notification.createdAt)}</span>
+                            {!notification.read && <div className="min-h-2 min-w-2 rounded-full bg-blue-500" />}
                         </div>
-                        {!notification.read && <div className="min-h-2 min-w-2 rounded-full bg-blue-500" />}
                     </div>
+                    <Button
+                        className="text-primary cursor-pointer bg-transparent p-1! opacity-0 transition duration-300 peer-hover:opacity-100 hover:opacity-100"
+                        type="button"
+                        onClick={handleDeleteNotification}
+                    >
+                        <FaXmark />
+                    </Button>
                 </div>
             )}
         </MenuItem>

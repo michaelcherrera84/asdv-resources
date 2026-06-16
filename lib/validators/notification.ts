@@ -5,7 +5,7 @@ import { z } from "zod";
  */
 export const notificationSchema = z.object({
     id: z.number(),
-    senderId: z.string().min(1),
+    senderId: z.string().nullable(),
     receiverId: z.string().min(1),
     message: z.string().min(1),
     link: z.string(),
