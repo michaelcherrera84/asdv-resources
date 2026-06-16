@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * Sign up page component.
+ * Sign-up page component.
  */
 export default function SignUpPage() {
     return (

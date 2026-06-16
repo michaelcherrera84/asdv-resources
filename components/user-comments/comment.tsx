@@ -1,12 +1,14 @@
 import { TutorialCommentWithAuthor, TutorialCommentWithRepliesAndAuthor } from "@/db/schema";
 import CommentBlock from "@/components/user-comments/comment-block";
 import { TutorialCommentInsert, TutorialDeleteComment } from "@/lib/validators/tutorial";
-import { deleteComment } from "@/actions/tutorial-actions";
+import { deleteTutorialComment } from "@/actions/tutorial-actions";
+import { Session } from "@/lib/auth/auth";
 
 /**
  * Props for the Comment component.
  */
 interface CommentProps {
+    session?: Session;
     comment: TutorialCommentWithRepliesAndAuthor;
     // Callback method to handle postComment action
     postComment: (data: TutorialCommentInsert) => void;
@@ -17,10 +19,12 @@ interface CommentProps {
 /**
  * Comment component.
  * Displays a comment with replies and author information.
+ *
+ * @param session - The current user's session.'
  * @param comment - The comment to display.
  * @param postComment - Callback function to post a new comment.
  */
-async function Comment({ comment, postComment }: CommentProps) {
+function Comment({ session, comment, postComment }: CommentProps) {
     return (
         <div>
             <div className="py-4">
@@ -29,6 +33,7 @@ async function Comment({ comment, postComment }: CommentProps) {
                 ) : (
                     <div>
                         <CommentBlock
+                            session={session}
                             commentId={comment.id}
                             authorId={comment.authorId}
                             slug={comment.slug}
@@ -38,7 +43,7 @@ async function Comment({ comment, postComment }: CommentProps) {
                             createdAt={comment.createdAt}
                             imageUrl={comment.author.image ?? undefined}
                             postComment={postComment}
-                            deleteComment={deleteComment}
+                            deleteComment={deleteTutorialComment}
                         />
                     </div>
                 )}
@@ -51,6 +56,7 @@ async function Comment({ comment, postComment }: CommentProps) {
                     ) : (
                         <div className="ml-12">
                             <CommentBlock
+                                session={session}
                                 commentId={reply.id}
                                 authorId={reply.authorId}
                                 slug={reply.slug}
@@ -61,7 +67,7 @@ async function Comment({ comment, postComment }: CommentProps) {
                                 imageUrl={reply.author.image ?? undefined}
                                 isReply
                                 postComment={postComment}
-                                deleteComment={deleteComment}
+                                deleteComment={deleteTutorialComment}
                             />
                         </div>
                     )}

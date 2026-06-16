@@ -10,7 +10,7 @@ import Link from "next/link";
 /**
  * Represents the Forgot Password page of the application.
  * Allows users to request a password reset email by entering their email address.
- * Displays success message upon email submission or provides inputs for resubmission.
+ * Displays a success message upon email submission or provides inputs for resubmission.
  */
 function ForgotPasswordPage() {
     const [email, setEmail] = useState<string>("");
@@ -74,7 +74,7 @@ function ForgotPasswordPage() {
                             required
                             onChange={(e) => setEmail(e.target.value)}
                             onKeyDown={(e) => {
-                                if (e.key === "Enter") handleForgotPassword();
+                                if (e.key === "Enter") void handleForgotPassword();
                             }}
                         />
                     </CardBody>

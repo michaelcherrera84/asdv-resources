@@ -2,7 +2,7 @@ import ResourceCard from "@/components/resources/resource-card";
 import Link from "next/link";
 
 /**
- * Contribute card component.
+ * Contribute Card component.
  *
  * Displays links to contribute to the site.
  */

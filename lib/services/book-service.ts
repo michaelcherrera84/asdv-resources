@@ -7,14 +7,14 @@ import { redirect } from "next/navigation";
 /**
  * Retrieves all books from the database.
  */
-export function getBooks() {
+export function getBooksService() {
     return db.select().from(books).orderBy(books.semesters, books.courses, books.title);
 }
 
 /**
  * Retrieves all unique semesters from the books table.
  */
-export async function getBookSemesters() {
+export async function getBookSemestersService() {
     const results = await db.select({ semesters: books.semesters }).from(books);
     return [...new Set(results.flatMap((r) => r.semesters ?? []))].sort();
 }
@@ -34,7 +34,7 @@ export async function getBookSemesters() {
  * - Uses `.returning()` to retrieve the inserted row
  * - Returns the first inserted record
  */
-export async function createBook(data: unknown) {
+export async function createBookService(data: unknown) {
     const session = await getSession();
 
     if (!session || !session.user || session.user.role !== "admin") {
@@ -43,7 +43,7 @@ export async function createBook(data: unknown) {
     // Validate and sanitize incoming data. parse() throws if validation fails.
     const validated = bookSchema.parse(data);
     // Insert validated book data into the database. returning() returns inserted rows from the database.
-    const inserted = await db.insert(books).values(validated).returning();
+    const [inserted] = await db.insert(books).values(validated).returning();
 
-    return inserted[0];
+    return inserted;
 }

@@ -2,10 +2,19 @@
 
 import Button from "@/components/ui/button";
 import { Tutorial } from "@/db/schema";
-import { approveTutorial, removeTutorial } from "@/actions/tutorial-actions";
+import { approveTutorial, deleteTutorial } from "@/actions/tutorial-actions";
 import { useRouter } from "next/navigation";
+import { JSX } from "react";
 
-function TutorialApprovalButtons({ tutorial }: { tutorial: Tutorial }) {
+/**
+ * Renders approval and rejection buttons for a given tutorial, allowing an admin
+ * user to approve or reject tutorials with corresponding actions and feedback.
+ *
+ * @param {Object} props - The properties object.
+ * @param {Tutorial} props.tutorial - The tutorial object containing details such as its ID.
+ * @return {JSX.Element} A JSX element containing "Approve" and "Reject" buttons with corresponding functionality.
+ */
+function TutorialApprovalButtons({ tutorial }: { tutorial: Tutorial }): JSX.Element {
     const router = useRouter();
 
     const handleApprove = async () => {
@@ -25,7 +34,7 @@ function TutorialApprovalButtons({ tutorial }: { tutorial: Tutorial }) {
 
     const handleReject = async () => {
         try {
-            const deleted = await removeTutorial(tutorial.id);
+            const deleted = await deleteTutorial(tutorial.id);
             if (deleted) {
                 alert("Tutorial rejected successfully!");
                 router.push("/admin/tutorials/approve");

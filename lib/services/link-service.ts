@@ -8,14 +8,14 @@ import { redirect } from "next/navigation";
 /**
  * Retrieves all links from the database.
  */
-export function getLinks() {
-    return db.select().from(links);
+export async function getLinksService() {
+    return db.select().from(links).orderBy(links.category, links.subcategory, links.displayName);
 }
 
 /**
  * Retrieves featured links from the database.
  */
-export function getFeaturedLinks() {
+export async function getFeaturedLinksService() {
     return db.select().from(links).where(eq(links.featured, true)).orderBy(links.displayName);
 }
 
@@ -34,7 +34,7 @@ export function getFeaturedLinks() {
  * - Uses `.returning()` to retrieve the inserted row
  * - Returns the first inserted record
  */
-export async function createLink(data: unknown) {
+export async function createLinkService(data: unknown) {
     const session = await getSession();
 
     if (!session || !session.user || session.user.role !== "admin") {
@@ -44,7 +44,7 @@ export async function createLink(data: unknown) {
     // Validate and sanitize incoming data. parse() throws if validation fails.
     const validated = linkSchema.parse(data);
     // Insert validated book data into the database. returning() returns inserted rows from the database.
-    const inserted = await db.insert(links).values(validated).returning();
+    const [inserted] = await db.insert(links).values(validated).returning();
 
-    return inserted[0];
+    return inserted;
 }

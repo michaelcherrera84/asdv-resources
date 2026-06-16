@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
  *
  * Responsibilities:
  * - Display account controls for authenticated users
- * - Display sign in / sign up links for guests
+ * - Display sign-in / sign-up links for guests
  *
  * Rendering behavior:
  * - Authenticated users see the AccountDropdown menu

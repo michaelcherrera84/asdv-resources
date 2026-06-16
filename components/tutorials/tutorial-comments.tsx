@@ -1,7 +1,8 @@
-import { getTutorialComments } from "@/lib/services/tutorial-service";
+import { getTutorialCommentsService } from "@/lib/services/tutorial-service";
 import Comment from "@/components/user-comments/comment";
 import CommentForm from "@/components/user-comments/comment-form";
-import { postComment, deleteComment } from "@/actions/tutorial-actions";
+import { createTutorialComment, deleteTutorialComment } from "@/actions/tutorial-actions";
+import { getSession } from "@/lib/auth/auth";
 
 /**
  * TutorialComments component.
@@ -9,10 +10,12 @@ import { postComment, deleteComment } from "@/actions/tutorial-actions";
  * @param slug - The slug of the tutorial.
  */
 async function TutorialComments({ slug }: { slug: string }) {
+    const session = await getSession();
+
     let comments;
 
     try {
-        comments = await getTutorialComments(slug);
+        comments = await getTutorialCommentsService(slug);
     } catch (error) {
         console.error("Error fetching data:", error);
         return (
@@ -24,18 +27,19 @@ async function TutorialComments({ slug }: { slug: string }) {
     }
 
     return (
-        <section className="lg:max-w-2/3">
+        <section className="lg:max-w-2/3" id="comments">
             <h2 className="py-4 text-lg font-bold">Comments</h2>
             <div className="mb-4">
-                <CommentForm slug={slug} postComment={postComment} />
+                <CommentForm slug={slug} postComment={createTutorialComment} session={session ?? undefined} />
             </div>
             {comments.length > 0 ? (
                 comments?.map((comment) => (
                     <Comment
+                        session={session ?? undefined}
                         key={comment.id}
                         comment={comment}
-                        postComment={postComment}
-                        deleteComment={deleteComment}
+                        postComment={createTutorialComment}
+                        deleteComment={deleteTutorialComment}
                     />
                 ))
             ) : (

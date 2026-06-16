@@ -8,8 +8,8 @@ import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeHighlight from "rehype-highlight";
 import { TutorialPreview } from "@/lib/validators/tutorial";
 import { User } from "@/db/auth-schema";
-import { getAuthor } from "@/actions/tutorial-actions";
-import { useEffect, useState } from "react";
+import { getTutorialAuthor } from "@/actions/tutorial-actions";
+import { JSX, useEffect, useState } from "react";
 
 /**
  * Renders a tutorial component displaying details such as the title, description, author, content,
@@ -19,13 +19,13 @@ import { useEffect, useState } from "react";
  * @param {TutorialPreview} param0.tutorial - The tutorial object containing preview details like title, description, content, author, tags, and creation date.
  * @return {JSX.Element} React component representing the tutorial content and metadata.
  */
-function Tutorial({ tutorial }: { tutorial: TutorialPreview }) {
+function Tutorial({ tutorial }: { tutorial: TutorialPreview }): JSX.Element {
     const [author, setAuthor] = useState<User | undefined>(undefined);
 
     useEffect(() => {
         if (tutorial.author) {
             try {
-                getAuthor(tutorial.author).then(setAuthor);
+                getTutorialAuthor(tutorial.author).then(setAuthor);
             } catch (error) {
                 console.error("Error fetching author:", error);
             }

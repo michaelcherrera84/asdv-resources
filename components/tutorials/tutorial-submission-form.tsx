@@ -78,7 +78,7 @@ function TutorialSubmissionForm(): JSX.Element {
 
         localStorage.setItem("tutorial_preview", JSON.stringify(tutorial));
 
-        const newWindow = window.open("/resources/tutorials/submit/preview", "_blank");
+        window.open("/resources/tutorials/submit/preview", "_blank");
     };
 
     const handleCancel = () => {

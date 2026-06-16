@@ -1,6 +1,6 @@
 import { resend } from "./resend";
 import { EmailTemplate } from "@/components/email-template";
-import { getUserByEmail } from "@/lib/services/user-service";
+import { getUserByEmailService } from "@/lib/services/user-service";
 
 type SendResetPasswordEmailProps = {
     to: string;
@@ -8,7 +8,7 @@ type SendResetPasswordEmailProps = {
 };
 
 export async function sendResetPasswordEmail({ to, resetURL }: SendResetPasswordEmailProps) {
-    const user = await getUserByEmail(to);
+    const user = await getUserByEmailService(to);
 
     if (!user) {
         throw new Error("User not found.");

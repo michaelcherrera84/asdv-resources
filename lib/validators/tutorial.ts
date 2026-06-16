@@ -12,7 +12,7 @@ export const tutorialSchema = z.object({
     content: z.string().min(1),
     tags: z.array(z.string()).optional().nullable(),
     createdAt: z.date(),
-    approved: z.boolean(),
+    approved: z.boolean().default(false),
 });
 
 export type Tutorial = z.infer<typeof tutorialSchema>;

@@ -1,4 +1,4 @@
-import { getTutorialBySlug } from "@/lib/services/tutorial-service";
+import { getTutorialBySlugService } from "@/lib/services/tutorial-service";
 import TutorialComments from "@/components/tutorials/tutorial-comments";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { Metadata } from "next";
@@ -15,8 +15,7 @@ export async function generateMetadata({ params }: TutorialProps): Promise<Metad
     const { slug } = await params;
 
     try {
-        const tutorialData = await getTutorialBySlug(slug);
-        const tutorial = tutorialData[0];
+        const tutorial = await getTutorialBySlugService(slug);
 
         if (!tutorial) return { title: "Tutorial Not Found" };
 
@@ -37,15 +36,13 @@ export async function generateMetadata({ params }: TutorialProps): Promise<Metad
 async function TutorialPage({ params }: TutorialProps) {
     const { slug } = await params;
 
-    let tutorialData;
+    let tutorial;
     try {
-        tutorialData = await getTutorialBySlug(slug);
+        tutorial = await getTutorialBySlugService(slug);
     } catch (error) {
         console.error("Error fetching tutorial:", error);
         throw new Error("Failed to fetch tutorial");
     }
-
-    const tutorial = tutorialData[0];
 
     if (!tutorial) {
         throw new Error("Tutorial not found");

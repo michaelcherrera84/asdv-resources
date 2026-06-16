@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 /**
  * Props for the ResourceMobileSheet component.
  */
 interface ResourceMobileSheetProps {
-    children: React.ReactNode;
+    children: ReactNode;
     // Whether the sheet is open or closed
     isOpen: boolean;
 }

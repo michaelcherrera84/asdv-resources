@@ -8,7 +8,7 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth/auth-client";
 
 /**
- * Sign up form component.
+ * Sign Up Form component.
  *
  * Responsibilities:
  * - Collect new user registration data
@@ -169,7 +169,7 @@ function SignUpForm() {
         <form
             onSubmit={(event) => {
                 event.preventDefault();
-                handleSubmit(new FormData(event.currentTarget));
+                void handleSubmit(new FormData(event.currentTarget));
             }}
             className="flex flex-col gap-4"
         >

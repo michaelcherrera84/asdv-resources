@@ -1,4 +1,4 @@
-import { getTutorials, getTutorialsByTags } from "@/lib/services/tutorial-service";
+import { getTutorialsService, getTutorialsByTagsService } from "@/lib/services/tutorial-service";
 import { Metadata } from "next";
 import TutorialCard from "@/components/tutorials/tutorial-card";
 import { Tutorial } from "@/db/schema";
@@ -7,7 +7,7 @@ import TutorialSearch from "@/components/tutorials/tutorial-search";
 import BottomDrawer from "@/components/ui/bottom-drawer";
 
 /**
- * Metadata for the tutorials page.
+ * Metadata for the Tutorials page.
  */
 export const metadata: Metadata = {
     title: "ASDV Resources - Tutorials",
@@ -23,7 +23,7 @@ interface TutorialProps {
 /**
  * Tutorials page component.
  * Displays a list of user-comments.
- * Each tutorial is a link to its detailed page.
+ * Each tutorial card is a link to its detailed page.
  */
 async function TutorialsPage({ searchParams }: TutorialProps) {
     const params = await searchParams;
@@ -42,9 +42,9 @@ async function TutorialsPage({ searchParams }: TutorialProps) {
     let tutorials: Tutorial[];
 
     if (tags) {
-        tutorials = await getTutorialsByTags(tagsArray);
+        tutorials = await getTutorialsByTagsService(tagsArray);
     } else {
-        tutorials = await getTutorials();
+        tutorials = await getTutorialsService();
     }
 
     return (

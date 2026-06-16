@@ -1,8 +1,9 @@
 import { Tutorial } from "@/db/schema";
 import { User } from "@/db/auth-schema";
-import { getTutorialAuthor } from "@/lib/services/tutorial-service";
+import { getTutorialAuthorService } from "@/lib/services/tutorial-service";
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
+import { JSX } from "react";
 
 interface TutorialCardProps {
     tutorial: Tutorial;
@@ -14,12 +15,12 @@ interface TutorialCardProps {
  *
  * @param {Object} props - The properties object.
  * @param {Tutorial} props.tutorial - The tutorial object containing details such as title, description, tags, author, and creation date.
- * @return {JSX.Element} A card component representing the tutorial with its details.
+ * @return {Promise<JSX.Element>} A card component representing the tutorial with its details.
  */
-async function TutorialCard({ tutorial, viewLink }: TutorialCardProps) {
+async function TutorialCard({ tutorial, viewLink }: TutorialCardProps): Promise<JSX.Element> {
     let tutorialAuthor: User | undefined;
     if (tutorial.author) {
-        tutorialAuthor = await getTutorialAuthor(tutorial.author);
+        tutorialAuthor = await getTutorialAuthorService(tutorial.author);
     }
     return (
         <Card key={tutorial.slug} className="mb-6 min-h-56">

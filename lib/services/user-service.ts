@@ -6,7 +6,7 @@ import { db } from "@/db";
  * Get user by id
  * @param id user id
  */
-export async function getUserById(id: string) {
+export async function getUserByIdService(id: string) {
     const [userData] = await db.select().from(user).where(eq(user.id, id)).limit(1);
     return userData;
 }
@@ -15,7 +15,7 @@ export async function getUserById(id: string) {
  * Get users by ids
  * @param ids user ids
  */
-export function getUsersByIds(ids: string[]) {
+export function getUsersByIdsService(ids: string[]) {
     return db.select().from(user).where(inArray(user.id, ids));
 }
 
@@ -23,7 +23,7 @@ export function getUsersByIds(ids: string[]) {
  * Get user by email
  * @param email user email
  */
-export async function getUserByEmail(email: string) {
+export async function getUserByEmailService(email: string) {
     const [userData] = await db.select().from(user).where(eq(user.email, email)).limit(1);
     return userData;
 }
@@ -32,7 +32,14 @@ export async function getUserByEmail(email: string) {
  * Get user by username
  * @param username user username
  */
-export async function getUserByUsername(username: string) {
+export async function getUserByUsernameService(username: string) {
     const [userData] = await db.select().from(user).where(eq(user.username, username)).limit(1);
     return userData;
+}
+
+/**
+ * Get all admins
+ */
+export async function getAdminsService() {
+    return db.select().from(user).where(eq(user.role, "admin"));
 }

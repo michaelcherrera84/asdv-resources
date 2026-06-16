@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import ResourceMobileSheet from "@/components/resources/resource-mobile-sheet";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 /**
  * Props for the ResourceCard component.
@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 type ResourceCardProps = {
     title: string;
     link?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
 };
 
 /**

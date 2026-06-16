@@ -1,4 +1,4 @@
-import { getUnapprovedTutorials } from "@/lib/services/tutorial-service";
+import { getUnapprovedTutorialsService } from "@/lib/services/tutorial-service";
 import TutorialCard from "@/components/tutorials/tutorial-card";
 import { getSession } from "@/lib/auth/auth";
 import { JSX } from "react";
@@ -18,7 +18,7 @@ async function TutorialsApprovalPage(): Promise<JSX.Element> {
         throw new Error("Unauthorized");
     }
 
-    const tutorials = await getUnapprovedTutorials();
+    const tutorials = await getUnapprovedTutorialsService();
 
     return (
         <main className="flex flex-col gap-6 py-12 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">

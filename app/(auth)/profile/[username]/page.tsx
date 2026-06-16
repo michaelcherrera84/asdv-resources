@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getSession } from "@/lib/auth/auth";
-import { getUserByUsername } from "@/lib/services/user-service";
+import { getUserByUsernameService } from "@/lib/services/user-service";
 import ProfileCard from "@/components/auth/profile-card";
 import { User } from "@/lib/validators/user";
 
@@ -38,7 +38,7 @@ async function ProfilePage({ params }: ProfilePageProps) {
     if (!username) throw new Error("Username is required");
 
     const editable = session?.user.username === username;
-    const profile = await getUserByUsername(username);
+    const profile = await getUserByUsernameService(username);
 
     return (
         <main className="flex items-center justify-center px-2 py-12">

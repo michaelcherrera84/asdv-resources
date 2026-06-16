@@ -1,22 +1,24 @@
 import { db } from "@/db";
-import { tutorialComments, TutorialCommentWithRepliesAndAuthor, tutorials } from "@/db/schema";
+import { Tutorial, tutorialComments, TutorialCommentWithRepliesAndAuthor, tutorials } from "@/db/schema";
 import { and, arrayOverlaps, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import {
     tutorialCommentInsertSchema,
     tutorialDeleteCommentSchema,
     tutorialInsertSchema,
 } from "@/lib/validators/tutorial";
-import { getUserById, getUsersByIds } from "@/lib/services/user-service";
+import { getAdminsService, getUserByIdService, getUsersByIdsService } from "@/lib/services/user-service";
 import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 import { User } from "@/db/auth-schema";
 import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
+import { NotificationInsert } from "@/lib/validators/notification";
+import { createNotificationService } from "@/lib/services/notification-service";
 
 /**
- * Retrieves all user-comments from the database.
+ * Retrieves all user comments from the database.
  */
-export function getTutorials() {
+export function getTutorialsService() {
     return db.select().from(tutorials).where(eq(tutorials.approved, true)).orderBy(desc(tutorials.createdAt));
 }
 
@@ -25,14 +27,15 @@ export function getTutorials() {
  *
  * @param {string} id - The unique identifier of the tutorial to retrieve.
  */
-export function getTutorialById(id: string) {
-    return db.select().from(tutorials).where(eq(tutorials.id, id));
+export async function getTutorialByIdService(id: string) {
+    const [tutorial] = await db.select().from(tutorials).where(eq(tutorials.id, id));
+    return tutorial;
 }
 
 /**
- * Retrieves recent user-comments from the database.
+ * Retrieves recent user comments from the database.
  */
-export function getRecentTutorials() {
+export function getRecentTutorialsService() {
     noStore();
     return db.select().from(tutorials).where(eq(tutorials.approved, true)).orderBy(desc(tutorials.createdAt)).limit(5);
 }
@@ -41,7 +44,7 @@ export function getRecentTutorials() {
  * Retrieves tutorials by tags from the database.
  * @param tags tutorial tags
  */
-export async function getTutorialsByTags(tags: string[]) {
+export async function getTutorialsByTagsService(tags: string[]) {
     return db
         .select()
         .from(tutorials)
@@ -61,14 +64,15 @@ export async function getTutorialsByTags(tags: string[]) {
  * Retrieves a tutorial by slug from the database.
  * @param slug tutorial slug
  */
-export const getTutorialBySlug = cache(async (slug: string) => {
-    return db.select().from(tutorials).where(eq(tutorials.slug, slug));
+export const getTutorialBySlugService = cache(async (slug: string) => {
+    const [tutorial] = await db.select().from(tutorials).where(eq(tutorials.slug, slug));
+    return tutorial;
 });
 
 /**
  * Retrieves all unapproved tutorials from the database.
  */
-export async function getUnapprovedTutorials() {
+export async function getUnapprovedTutorialsService() {
     const session = await getSession();
     if (!session || !session.user || session.user.role !== "admin") {
         throw new Error("Unauthorized");
@@ -76,18 +80,34 @@ export async function getUnapprovedTutorials() {
     return db.select().from(tutorials).where(eq(tutorials.approved, false)).orderBy(asc(tutorials.createdAt));
 }
 
-export async function approveTutorialUpdate(tutorialId: string) {
-    const updated = await db.update(tutorials).set({ approved: true }).where(eq(tutorials.id, tutorialId)).returning();
-    return updated[0];
+/**
+ * Approves a tutorial by setting its `approved` status to true in the database.
+ *
+ * @param {string} tutorialId - The unique identifier of the tutorial to approve.
+ * @return {Promise<Tutorial>} A promise that resolves to the updated tutorial record.
+ */
+export async function approveTutorialService(tutorialId: string): Promise<Tutorial> {
+    const session = await getSession();
+
+    if (!session || !session.user || session.user.role !== "admin") {
+        throw new Error("Unauthorized");
+    }
+
+    const [updated] = await db
+        .update(tutorials)
+        .set({ approved: true })
+        .where(eq(tutorials.id, tutorialId))
+        .returning();
+    return updated;
 }
 
 /**
  * Retrieves the author of a tutorial from the database.
  */
-export async function getTutorialAuthor(authorId: string): Promise<User | undefined> {
+export async function getTutorialAuthorService(authorId: string): Promise<User | undefined> {
     let author;
     try {
-        author = await getUserById(authorId);
+        author = await getUserByIdService(authorId);
     } catch (error) {
         console.error("Error fetching tutorial author:", error);
         return undefined;
@@ -100,7 +120,7 @@ export async function getTutorialAuthor(authorId: string): Promise<User | undefi
  *
  * @param {unknown} data - The input data for creating the tutorial, expected to be validated against a predefined schema.
  */
-export async function createTutorial(data: unknown) {
+export async function createTutorialService(data: unknown) {
     const session = await getSession();
 
     if (!session || !session.user) {
@@ -108,8 +128,27 @@ export async function createTutorial(data: unknown) {
     }
 
     const validated = tutorialInsertSchema.parse(data);
-    const inserted = await db.insert(tutorials).values(validated).returning();
-    return inserted[0];
+
+    if (validated.author != session.user.id) {
+        throw new Error("Unauthorized");
+    }
+
+    const [inserted] = await db.insert(tutorials).values(validated).returning();
+
+    const admins = await getAdminsService();
+
+    admins.map(async (admin) => {
+        const notification: NotificationInsert = {
+            senderId: validated.author!,
+            receiverId: admin.id,
+            message: "submitted a tutorial for review.",
+            link: `/admin/tutorials/approve`,
+        };
+
+        await createNotificationService(notification);
+    });
+
+    return inserted;
 }
 
 /**
@@ -117,25 +156,25 @@ export async function createTutorial(data: unknown) {
  *
  * @param {string} tutorialId - The ID of the tutorial to be deleted.
  */
-export async function deleteTutorial(tutorialId: string) {
+export async function deleteTutorialService(tutorialId: string) {
     const session = await getSession();
 
     if (!session || !session.user) {
         redirect("/sign-in");
     }
 
-    const tutorial = await getTutorialById(tutorialId);
+    const tutorial = await getTutorialByIdService(tutorialId);
 
     if (!tutorial) {
         throw new Error("Tutorial not found");
     }
 
-    if (tutorial[0].author != session.user.id || session.user.role !== "admin") {
+    if (tutorial.author != session.user.id && session.user.role !== "admin") {
         throw new Error("Unauthorized");
     }
 
-    const deleted = await db.delete(tutorials).where(eq(tutorials.id, tutorialId)).returning();
-    return deleted[0];
+    const [deleted] = await db.delete(tutorials).where(eq(tutorials.id, tutorialId)).returning();
+    return deleted;
 }
 
 /**
@@ -145,7 +184,7 @@ export async function deleteTutorial(tutorialId: string) {
  * - Belong to the given slug
  * - Are not replies (replyToId is NULL)
  *
- * Results are ordered by most recent first.
+ * Results are ordered by the most recent first.
  *
  * @param slug - The unique slug identifier of the tutorial
  */
@@ -197,7 +236,7 @@ function getCommentReplies(commentIds: string[]) {
  * @param tutorialSlug - The unique slug identifier of the tutorial
  * @returns Array of root comments with attached replies
  */
-export async function getTutorialComments(tutorialSlug: string): Promise<TutorialCommentWithRepliesAndAuthor[]> {
+export async function getTutorialCommentsService(tutorialSlug: string): Promise<TutorialCommentWithRepliesAndAuthor[]> {
     const roots = await getRootComments(tutorialSlug);
     const replies = await getCommentReplies(roots.map((comment) => comment.id));
 
@@ -206,7 +245,7 @@ export async function getTutorialComments(tutorialSlug: string): Promise<Tutoria
     // Remove duplicate IDs
     const uniqueAuthorIds = [...new Set(authorIds)];
     // Fetch all authors at once
-    const authors = await getUsersByIds(uniqueAuthorIds);
+    const authors = await getUsersByIdsService(uniqueAuthorIds);
 
     const authorMap = new Map(authors.map((author) => [author.id, author]));
 
@@ -230,10 +269,19 @@ export async function getTutorialComments(tutorialSlug: string): Promise<Tutoria
 }
 
 /**
+ * Retrieves a comment by its ID.
+ * @param id comment id
+ */
+export async function getTutorialCommentByIdService(id: string) {
+    const [comment] = await db.select().from(tutorialComments).where(eq(tutorialComments.id, id));
+    return comment;
+}
+
+/**
  * Creates a new comment for a tutorial in the database.
  * @param data comment data
  */
-export async function createTutorialComment(data: unknown) {
+export async function createTutorialCommentService(data: unknown) {
     const session = await getSession();
 
     if (!session || !session.user) {
@@ -241,15 +289,38 @@ export async function createTutorialComment(data: unknown) {
     }
 
     const validated = tutorialCommentInsertSchema.parse(data);
-    const inserted = await db.insert(tutorialComments).values(validated).returning();
-    return inserted[0];
+    const [inserted] = await db.insert(tutorialComments).values(validated).returning();
+
+    const tutorial = await getTutorialBySlugService(validated.slug);
+    let message;
+    let commentAuthor;
+    if (validated.replyToId) {
+        const comment = await getTutorialCommentByIdService(validated.replyToId);
+        commentAuthor = comment.authorId;
+        message = `replied to your comment on ${tutorial.title}`;
+    } else message = `commented on ${tutorial.title}`;
+
+    const notification: NotificationInsert = {
+        senderId: validated.authorId,
+        receiverId: commentAuthor
+            ? commentAuthor
+            : tutorial.author && tutorial.author != validated.authorId
+              ? tutorial.author
+              : "",
+        message: message,
+        link: `/resources/tutorials/${validated.slug}#comments`,
+    };
+
+    await createNotificationService(notification);
+
+    return inserted;
 }
 
 /**
  * Updates an existing comment in the database.
  * @param data comment data
  */
-export async function deleteTutorialComment(data: unknown) {
+export async function deleteTutorialCommentService(data: unknown) {
     const session = await getSession();
 
     if (!session || !session.user) {
@@ -261,10 +332,10 @@ export async function deleteTutorialComment(data: unknown) {
         throw new Error("Unauthorized");
     }
 
-    const updated = await db
+    const [updated] = await db
         .update(tutorialComments)
         .set(validated)
         .where(eq(tutorialComments.id, validated.id))
         .returning();
-    return updated[0];
+    return updated;
 }
