@@ -117,7 +117,7 @@ function ResetPasswordForm() {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         onKeyDown={(e) => {
-                            if (e.key === "Enter") handleResetPassword();
+                            if (e.key === "Enter") void handleResetPassword();
                         }}
                     />
                 </CardBody>

@@ -1,3 +1,5 @@
+import { HTMLAttributes, Ref } from "react";
+
 /**
  * Main card component.
  *
@@ -14,7 +16,7 @@ function MainCard({
     children,
     ref,
     ...props
-}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
+}: HTMLAttributes<HTMLDivElement> & { ref?: Ref<HTMLDivElement> }) {
     return (
         <div
             className={`inset-shadow-md mb-1 flex flex-col rounded-md shadow-md inset-shadow-xs ${className}`}
@@ -34,7 +36,7 @@ function MainCard({
  * @param children children of the card header
  * @param props additional props to be added to the card header
  */
-export function CardHeader({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function CardHeader({ className = "", children, ...props }: HTMLAttributes<HTMLDivElement>) {
     return (
         <div className={`flex flex-col items-center sm:items-start ${className}`} {...props}>
             {children}
@@ -49,7 +51,7 @@ export function CardHeader({ className = "", children, ...props }: React.HTMLAtt
  * @param children children of the card body
  * @param props additional props to be added to the card body
  */
-export function CardBody({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function CardBody({ className = "", children, ...props }: HTMLAttributes<HTMLDivElement>) {
     return (
         <div className={`flex flex-1 flex-col ${className}`} {...props}>
             {children}
@@ -64,7 +66,7 @@ export function CardBody({ className = "", children, ...props }: React.HTMLAttri
  * @param children children of the card footer
  * @param props additional props to be added to the card footer
  */
-export function CardFooter({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function CardFooter({ className = "", children, ...props }: HTMLAttributes<HTMLDivElement>) {
     return (
         <div className={`flex flex-col ${className}`} {...props}>
             {children}

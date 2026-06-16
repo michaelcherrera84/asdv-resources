@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { db } from "@/db";
-import { links } from "@/db/schema";
+import { ImportantLink } from "@/db/schema";
 import { Metadata } from "next";
+import { getLinksService } from "@/lib/services/link-service";
 
 /**
  * Metadata for the LinksPage component.
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
  * execute on the server before rendering.
  */
 async function LinksPage() {
-    let allLinks;
+    let allLinks: ImportantLink[];
     try {
         /**
          * Retrieve all links ordered by:
@@ -40,7 +40,7 @@ async function LinksPage() {
          *
          * Ordering ensures predictable grouped rendering.
          */
-        allLinks = await db.select().from(links).orderBy(links.category, links.subcategory, links.displayName);
+        allLinks = await getLinksService();
     } catch (error) {
         console.error("Error fetching links:", error);
         throw new Error("Failed to fetch links");

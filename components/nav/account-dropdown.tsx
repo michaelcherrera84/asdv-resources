@@ -36,8 +36,10 @@ function AccountDropdown() {
     const handleSignOut = async () => {
         await authClient.signOut();
 
+        router.refresh();
+
         // Redirect user to the home page.
-        router.replace("/");
+        requestAnimationFrame(() => router.replace("/"));
     };
 
     // Do not render dropdown when user is not authenticated.
@@ -65,7 +67,7 @@ function AccountDropdown() {
 
             {/*
                 Dropdown menu container.
-                anchor="bottom end" positions the menu below and aligned to the right side of the button.
+                anchor="bottom end" places the menu below and aligned to the right side of the button.
             */}
             <MenuItems
                 anchor="bottom end"

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ResourceCard from "@/components/resources/resource-card";
 import { ImportantLink } from "@/db/schema";
-import { getFeaturedLinks } from "@/lib/services/link-service";
+import { getFeaturedLinksService } from "@/lib/services/link-service";
 
 /**
  * Links card component.
@@ -12,7 +12,7 @@ async function LinksCard() {
     let importantLinks: ImportantLink[] = [];
 
     try {
-        importantLinks = await getFeaturedLinks();
+        importantLinks = await getFeaturedLinksService();
     } catch (error) {
         console.error("Error fetching links:", error);
         return (

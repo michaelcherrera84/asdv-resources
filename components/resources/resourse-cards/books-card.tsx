@@ -1,4 +1,4 @@
-import { getBookSemesters } from "@/lib/services/book-service";
+import { getBookSemestersService } from "@/lib/services/book-service";
 import ResourceCard from "@/components/resources/resource-card";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ import Link from "next/link";
 async function BooksCard() {
     let semesters;
     try {
-        semesters = await getBookSemesters();
+        semesters = await getBookSemestersService();
     } catch (error) {
         console.error("Error fetching books:", error);
         return (

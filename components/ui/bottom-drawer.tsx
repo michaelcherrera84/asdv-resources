@@ -1,10 +1,10 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-function BottomDrawer({ children }: { children: React.ReactNode }) {
+function BottomDrawer({ children }: { children: ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (

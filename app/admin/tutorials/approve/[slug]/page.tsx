@@ -1,13 +1,23 @@
-import { getTutorialBySlug } from "@/lib/services/tutorial-service";
+import { getTutorialBySlugService } from "@/lib/services/tutorial-service";
 import Tutorial from "@/components/tutorials/tutorial";
 import { getSession } from "@/lib/auth/auth";
 import TutorialApprovalButtons from "@/components/tutorials/tutorial-approval-buttons";
+import { JSX } from "react";
 
 type TutorialProps = {
     params: Promise<{ slug: string }>;
 };
 
-async function TutorialApprovalPage({ params }: TutorialProps) {
+/**
+ * Renders a tutorial approval page with options to approve or view the tutorial.
+ * This function ensures the user is authenticated as an admin before proceeding.
+ *
+ * @param {Object} props - The component properties.
+ * @param {Promise<{ slug: string }>} props.params - The route parameters.
+ * @return {Promise<JSX.Element>} The JSX element representing the tutorial approval page.
+ * @throws {Error} If the user is not authenticated, not an admin, or if the tutorial cannot be fetched.
+ */
+async function TutorialApprovalPage({ params }: TutorialProps): Promise<JSX.Element> {
     const session = await getSession();
     if (!session?.user || session.user.role !== "admin") {
         throw new Error("Unauthorized");
@@ -15,15 +25,13 @@ async function TutorialApprovalPage({ params }: TutorialProps) {
 
     const { slug } = await params;
 
-    let tutorialData;
+    let tutorial;
     try {
-        tutorialData = await getTutorialBySlug(slug);
+        tutorial = await getTutorialBySlugService(slug);
     } catch (error) {
         console.error("Error fetching tutorial:", error);
         throw new Error("Failed to fetch tutorial");
     }
-
-    const tutorial = tutorialData[0];
 
     if (!tutorial) {
         throw new Error("Tutorial not found");

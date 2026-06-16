@@ -1,6 +1,7 @@
 import Link from "next/link";
 import MobileNav from "./mobile-nav";
 import AuthNav from "./auth-nav";
+import Notifications from "@/components/nav/notifications";
 
 /**
  * Main navigation component.
@@ -12,16 +13,14 @@ import AuthNav from "./auth-nav";
  */
 async function Navbar() {
     return (
-        <header className="bg-primary z-20 flex h-16 items-center justify-center sm:justify-between sm:px-4 md:px-8">
-            <div className="bg-primary text-white">
-                {/* Mobile navigation menu displayed on small screens */}
-                <MobileNav />
+        <header className="bg-primary relative z-20 flex h-16 items-center justify-center sm:justify-between sm:px-4 md:px-8">
+            <MobileNav />
 
-                {/* Logo */}
-                <Link href="/" className="text-lg font-black md:text-2xl">
-                    ASDV Resources
-                </Link>
-            </div>
+            <Link href="/" className="text-lg font-black text-white md:text-2xl">
+                ASDV Resources
+            </Link>
+
+            <Notifications className="absolute! top-1/2 right-17 -translate-y-1/2 sm:hidden" />
 
             {/* Navigation links displayed on larger screens */}
             <nav className="hidden items-center gap-6 bg-transparent font-normal text-white sm:flex md:gap-14">
@@ -38,7 +37,10 @@ async function Navbar() {
                 </div>
 
                 {/* Authentication links or account controls */}
-                <AuthNav />
+                <div className="flex items-center gap-4">
+                    <Notifications />
+                    <AuthNav />
+                </div>
             </nav>
         </header>
     );

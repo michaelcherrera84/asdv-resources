@@ -1,4 +1,4 @@
-import { createLink } from "@/lib/services/link-service";
+import { createLinkService } from "@/lib/services/link-service";
 import { z, ZodError } from "zod";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/auth";
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
     try {
         // Parse JSON data from the incoming request body.
-        // Expected shape is validated later in the service layer using a Zod schema.
+        // The expected shape is validated later in the service layer using a Zod schema.
         const body = await req.json();
 
         // Create a new link using the service layer.
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         // - Input validation
         // - Database interaction
         // - Returning the created record
-        const link = await createLink(body);
+        const link = await createLinkService(body);
 
         // Return the created link with HTTP 201 (Created).
         return Response.json(link, { status: 201 });

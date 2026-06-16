@@ -61,7 +61,7 @@ function ProfileCard({ profile, editable }: ProfileCardProps) {
      * - Updates the user's profile information through the `authClient.updateUser` method.
      * - If provided, updates the user's email address using the `authClient.changeEmail` method.
      * - Handles errors during these operations by logging them and displaying an alert to the user.
-     * - Resets the editing and saving states upon completion, and refreshes the page data.
+     * - Resets the editing and saving states upon completion and refreshes the page data.
      *
      * @async
      * @function

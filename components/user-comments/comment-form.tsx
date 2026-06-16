@@ -1,19 +1,20 @@
 "use client";
 
 import { Textarea } from "@headlessui/react";
-import { authClient } from "@/lib/auth/auth-client";
 import Button from "@/components/ui/button";
 import { useState } from "react";
 import { TutorialCommentInsert } from "@/lib/validators/tutorial";
+import { Session } from "@/lib/auth/auth";
 
 /**
  * Props for the CommentForm component.
  */
 interface CommentProps {
+    session?: Session;
     slug: string;
     replyToId?: string;
     autoFocus?: boolean;
-    // Callback method to handle successful comment submission (e.g. hide the reply form)
+    // Callback method to handle successful comment submission (e.g., hide the reply form)
     onSubmitSuccess?: () => void;
     // Callback method to handle postComment action
     postComment: (data: TutorialCommentInsert) => void;
@@ -23,9 +24,8 @@ interface CommentProps {
  * Comment form component.
  * Allows users to post comments or reply to existing comments.
  */
-function CommentForm({ slug, replyToId, autoFocus = false, onSubmitSuccess, postComment }: CommentProps) {
+function CommentForm({ session, slug, replyToId, autoFocus = false, onSubmitSuccess, postComment }: CommentProps) {
     const [commentContent, setCommentContent] = useState("");
-    const { data: session } = authClient.useSession();
 
     if (!session?.user) return null;
 

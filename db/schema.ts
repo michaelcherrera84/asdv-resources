@@ -91,3 +91,18 @@ export type TutorialCommentWithAuthor = TutorialComment & {
         image: string | null;
     };
 };
+
+/**
+ * Notifications table.
+ */
+export const notifications = pgTable("notifications", {
+    id: serial("id").primaryKey(),
+    senderId: text("sender"),
+    receiverId: text("receiver").notNull(),
+    message: text("message").notNull(),
+    link: text("link").notNull().default(""),
+    read: boolean("read").default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Notification = InferSelectModel<typeof notifications>;

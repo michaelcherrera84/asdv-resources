@@ -23,11 +23,11 @@
 import BookCard from "@/components/books/book-card";
 import Link from "next/link";
 import { SemesterSelector, CourseSelector } from "@/components/books/semester-selector";
-import { getBooks } from "@/lib/services/book-service";
+import { getBooksService } from "@/lib/services/book-service";
 import { Metadata } from "next";
 
 /**
- * Metadata for the books page.
+ * Metadata for the Books page.
  */
 export const metadata: Metadata = {
     title: "ASDV Resources - Course Materials",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 /**
  * Props passed to the BooksPage component by Next.js.
  *
- * searchParams is provided automatically for App Router pages and contains
+ * searchParams are provided automatically for App Router pages and contain
  * query string values from the current URL.
  */
 type BooksProps = {
@@ -69,7 +69,7 @@ async function BooksPage({ searchParams }: BooksProps) {
     let allBooks;
     try {
         // Retrieve all available books
-        allBooks = await getBooks();
+        allBooks = await getBooksService();
     } catch (error) {
         console.error("Error fetching books:", error);
         throw new Error("Failed to fetch books");

@@ -43,7 +43,7 @@ function MobileNav() {
         document.addEventListener("mousedown", handleClickOutside);
 
         /**
-         * Clean up listener when component unmounts.
+         * Clean up the listener when the component unmounts.
          * Prevents memory leaks and duplicate listeners.
          */
         return () => {
@@ -55,7 +55,7 @@ function MobileNav() {
         <div ref={navRef} className="absolute top-0 left-0 w-full sm:hidden">
             {/* Mobile navigation menu icon and toggle button */}
             <RxHamburgerMenu
-                className="relative top-5 left-2 cursor-pointer"
+                className="relative top-5 left-2 cursor-pointer text-white"
                 size={26}
                 onClick={() => {
                     setIsOpen(!isOpen);
@@ -63,7 +63,9 @@ function MobileNav() {
             />
 
             {/* Authenticated account controls */}
-            <div className="absolute top-3 right-2">{<AccountDropdown />}</div>
+            <div className="absolute top-3 right-2">
+                <AccountDropdown />
+            </div>
 
             {/* Mobile navigation menu
                 Navigation links are hidden by default and displayed when the mobile menu is open.

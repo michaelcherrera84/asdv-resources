@@ -1,5 +1,5 @@
 import { z, ZodError } from "zod";
-import { createBook } from "@/lib/services/book-service";
+import { createBookService } from "@/lib/services/book-service";
 import { getSession } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
     try {
         // Parse JSON data from the incoming request body.
-        // Expected shape is validated later in the service layer using a Zod schema.
+        // The expected shape is validated later in the service layer using a Zod schema.
         const body = await req.json();
 
         // Create a new book using the service layer.
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         // - Input validation
         // - Database interaction
         // - Returning the created record
-        const book = await createBook(body);
+        const book = await createBookService(body);
 
         // Return the created book with HTTP 201 (Created).
         return Response.json(book, { status: 201 });

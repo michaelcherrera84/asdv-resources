@@ -15,7 +15,7 @@ import Link from "next/link";
  * - Collect user credentials
  * - Submit credentials to the authentication client\
  * - Display authentication errors
- * - Redirect authenticated users to the resources page
+ * - Redirect authenticated users to the Resources page
  */
 function SignInForm({ redirect }: { redirect: string }) {
     // Next.js router instance used for navigation and refreshing server-rendered data.
@@ -82,7 +82,7 @@ function SignInForm({ redirect }: { redirect: string }) {
 
         // Redirect authenticated user to the resources page.
         // replace() prevents returning to the sign-in page when using the browser back button.
-        router.replace(redirect);
+        requestAnimationFrame(() => router.replace(redirect));
     }
 
     return (

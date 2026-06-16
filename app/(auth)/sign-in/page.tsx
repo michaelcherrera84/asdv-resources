@@ -18,7 +18,7 @@ type Props = {
 };
 
 /**
- * Sign in page component.
+ * Sign-in page component.
  */
 export default async function SignInPage({ searchParams }: Props) {
     const params = await searchParams;

@@ -1,17 +1,17 @@
 import ResourceCard from "@/components/resources/resource-card";
 import Link from "next/link";
 import { Tutorial } from "@/db/schema";
-import { getRecentTutorials } from "@/lib/services/tutorial-service";
+import { getRecentTutorialsService } from "@/lib/services/tutorial-service";
 
 /**
  * Tutorials card component.
  *
- * Displays a list of recent user-comments.
+ * Displays a list of recent user comments.
  */
 async function TutorialsCard() {
     let recentTutorials: Tutorial[] = [];
     try {
-        recentTutorials = await getRecentTutorials();
+        recentTutorials = await getRecentTutorialsService();
     } catch (error) {
         console.error("Error fetching tutorials:", error);
         return (

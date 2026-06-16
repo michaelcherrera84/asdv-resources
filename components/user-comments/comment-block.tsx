@@ -2,17 +2,18 @@
 
 import Image from "next/image";
 import Button from "@/components/ui/button";
-import { authClient } from "@/lib/auth/auth-client";
 import CommentForm from "@/components/user-comments/comment-form";
 import { useState } from "react";
 import { TutorialCommentInsert, TutorialDeleteComment } from "@/lib/validators/tutorial";
 import Link from "next/link";
+import { Session } from "@/lib/auth/auth";
 
 /**
  * Props for the CommentBlock component.
  */
 interface CommentHeaderProps {
-    // Prop that connects comments to a comment-enabled item (e.g. a tutorial, a blog post, etc.)
+    session?: Session;
+    // Prop that connects comments to a comment-enabled item (e.g., a tutorial, a blog post, etc.)
     slug: string;
     commentId: string;
     authorId: string;
@@ -34,6 +35,7 @@ interface CommentHeaderProps {
  * Displays a comment with author information and reply options.
  */
 function CommentBlock({
+    session,
     slug,
     commentId,
     authorId,
@@ -46,7 +48,6 @@ function CommentBlock({
     postComment,
     deleteComment,
 }: CommentHeaderProps) {
-    const { data: session } = authClient.useSession();
     const [replyFormVisible, setReplyFormVisible] = useState<boolean>(false);
 
     const handleDeleteComment = async () => {
@@ -114,6 +115,7 @@ function CommentBlock({
             {replyFormVisible && (
                 <div className="mt-4 ml-12">
                     <CommentForm
+                        session={session}
                         slug={slug}
                         replyToId={commentId}
                         onSubmitSuccess={() => setReplyFormVisible(false)}

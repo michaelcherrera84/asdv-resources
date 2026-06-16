@@ -1,12 +1,12 @@
 "use server";
 
 import {
-    approveTutorialUpdate,
-    createTutorial,
-    createTutorialComment,
-    deleteTutorial,
-    deleteTutorialComment,
-    getTutorialAuthor,
+    approveTutorialService,
+    createTutorialService,
+    createTutorialCommentService,
+    deleteTutorialService,
+    deleteTutorialCommentService,
+    getTutorialAuthorService,
 } from "@/lib/services/tutorial-service";
 import { TutorialCommentInsert, TutorialDeleteComment, TutorialInsert } from "@/lib/validators/tutorial";
 import { revalidatePath } from "next/cache";
@@ -15,8 +15,8 @@ import { revalidatePath } from "next/cache";
  * Get the author of a tutorial
  * @param id tutorial id
  */
-export async function getAuthor(id: string) {
-    return await getTutorialAuthor(id);
+export async function getTutorialAuthor(id: string) {
+    return await getTutorialAuthorService(id);
 }
 
 /**
@@ -24,7 +24,7 @@ export async function getAuthor(id: string) {
  * @param data tutorial data
  */
 export async function submitTutorial(data: TutorialInsert) {
-    await createTutorial(data);
+    await createTutorialService(data);
 }
 
 /**
@@ -32,15 +32,15 @@ export async function submitTutorial(data: TutorialInsert) {
  * @param id tutorial id
  */
 export async function approveTutorial(id: string) {
-    return await approveTutorialUpdate(id);
+    return await approveTutorialService(id);
 }
 
 /**
  * Remove a tutorial
  * @param id tutorial id
  */
-export async function removeTutorial(id: string) {
-    const deleted = await deleteTutorial(id);
+export async function deleteTutorial(id: string) {
+    const deleted = await deleteTutorialService(id);
     revalidatePath("/resources/tutorials");
     revalidatePath("/admin/tutorials/approve");
     return deleted;
@@ -50,8 +50,8 @@ export async function removeTutorial(id: string) {
  * Post a comment on a tutorial
  * @param data comment data
  */
-export async function postComment(data: TutorialCommentInsert) {
-    await createTutorialComment(data);
+export async function createTutorialComment(data: TutorialCommentInsert) {
+    await createTutorialCommentService(data);
     revalidatePath(`/resources/tutorials/${data.slug}`);
 }
 
@@ -59,7 +59,7 @@ export async function postComment(data: TutorialCommentInsert) {
  * Hide a comment on a tutorial
  * @param data comment data
  */
-export async function deleteComment(data: TutorialDeleteComment) {
-    await deleteTutorialComment(data);
+export async function deleteTutorialComment(data: TutorialDeleteComment) {
+    await deleteTutorialCommentService(data);
     revalidatePath(`/resources/tutorials/${data.slug}`);
 }
