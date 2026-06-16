@@ -1,10 +1,11 @@
 import { IoNotifications } from "react-icons/io5";
 import { getNotificationsForUserService } from "@/lib/services/notification-service";
 import { getSession } from "@/lib/auth/auth";
-import { Menu, MenuButton, MenuHeading, MenuItems, MenuSection } from "@headlessui/react";
+import { Menu, MenuButton, MenuHeading, MenuItem, MenuItems, MenuSection } from "@headlessui/react";
 import { getUserByIdService } from "@/lib/services/user-service";
 import NotificationLink from "@/components/nav/notification-link";
 import { JSX } from "react";
+import ManageNotificationsButtons from "@/components/nav/manage-notifications-buttons";
 
 /**
  * Renders a notifications menu for the current logged-in user, displaying a list of user notifications
@@ -31,9 +32,17 @@ async function Notifications({ className = "" }: { className?: string }): Promis
             <MenuSection>
                 <MenuItems
                     anchor="bottom"
-                    className="z-50 mt-6 flex w-80 flex-col gap-4 rounded-md bg-white py-4 shadow shadow-gray-600 outline-none [--anchor-offset:-55px]"
+                    className="z-50 flex w-80 flex-col gap-4 rounded-md bg-white py-4 shadow shadow-gray-600 outline-none [--anchor-gap:24px] [--anchor-padding:10px]"
                 >
-                    <MenuHeading className="text-primary px-4 text-xl font-black">Notifications</MenuHeading>
+                    <MenuHeading className="flex items-center justify-between px-4">
+                        <span className="text-primary text-xl font-black">Notifications</span>
+                        {notifications.length > 0 && <ManageNotificationsButtons userId={session.user.id} />}
+                    </MenuHeading>
+                    {!notifications.length && (
+                        <MenuItem as="p" className="px-4 text-sm text-gray-500 italic">
+                            There are no recent notifications.
+                        </MenuItem>
+                    )}
                     {notifications.map(async (notification) => {
                         if (!notification.senderId) return null;
                         const author = await getUserByIdService(notification.senderId);
