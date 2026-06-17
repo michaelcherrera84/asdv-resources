@@ -98,6 +98,17 @@ export async function approveTutorialService(tutorialId: string): Promise<Tutori
         .set({ approved: true })
         .where(eq(tutorials.id, tutorialId))
         .returning();
+
+    if (updated && updated.author && updated.author != session.user.id) {
+        const notification: NotificationInsert = {
+            senderId: session.user.id,
+            receiverId: updated.author,
+            link: `/resources/tutorials/${updated.slug}`,
+            message: `Your tutorial, <b><u>${updated.title}</u></b>, has been approved!`,
+        };
+        await createNotificationService(notification);
+    }
+
     return updated;
 }
 
@@ -141,7 +152,7 @@ export async function createTutorialService(data: unknown) {
         const notification: NotificationInsert = {
             senderId: validated.author!,
             receiverId: admin.id,
-            message: "submitted a tutorial for review.",
+            message: `${session.user.name} submitted a tutorial for review.`,
             link: `/admin/tutorials/approve`,
         };
 
@@ -294,11 +305,12 @@ export async function createTutorialCommentService(data: unknown) {
     const tutorial = await getTutorialBySlugService(validated.slug);
     let message;
     let commentAuthor;
+    const sender = await getUserByIdService(validated.authorId);
     if (validated.replyToId) {
         const comment = await getTutorialCommentByIdService(validated.replyToId);
         commentAuthor = comment.authorId;
-        message = `replied to your comment on ${tutorial.title}`;
-    } else message = `commented on ${tutorial.title}`;
+        message = `${sender.name} replied to your comment on ${tutorial.title}`;
+    } else message = `${sender.name} commented on ${tutorial.title}`;
 
     const notification: NotificationInsert = {
         senderId: validated.authorId,

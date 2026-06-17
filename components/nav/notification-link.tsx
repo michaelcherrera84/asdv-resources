@@ -6,13 +6,14 @@ import { User } from "@/db/auth-schema";
 import { deleteNotification, markNotificationsAsRead } from "@/actions/notification-actions";
 import { useRouter } from "next/navigation";
 import { MenuItem } from "@headlessui/react";
-import { JSX, MouseEvent } from "react";
+import { JSX, MouseEvent, ReactNode } from "react";
 import Button from "@/components/ui/button";
 import { FaXmark } from "react-icons/fa6";
 
 interface NotificationLinkProps {
     notification: Notification;
     author: User;
+    message: ReactNode;
 }
 
 /**
@@ -29,7 +30,7 @@ interface NotificationLinkProps {
  * @param {User} props.author - The author details of the notification.
  * @return {JSX.Element} The rendered notification link as a menu item.
  */
-function NotificationLink({ notification, author }: NotificationLinkProps): JSX.Element {
+function NotificationLink({ notification, author, message }: NotificationLinkProps): JSX.Element {
     const router = useRouter();
 
     /**
@@ -144,9 +145,7 @@ function NotificationLink({ notification, author }: NotificationLinkProps): JSX.
                                 </div>
                             )}
                             <div>
-                                <p>
-                                    {author.name} {notification.message}
-                                </p>
+                                {message}
                                 <span className="text-xs text-gray-500">{getRelativeTime(notification.createdAt)}</span>
                             </div>
                             {!notification.read && <div className="min-h-2 min-w-2 rounded-full bg-blue-500" />}
