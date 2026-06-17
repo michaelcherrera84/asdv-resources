@@ -46,8 +46,16 @@ async function Notifications({ className = "" }: { className?: string }): Promis
                     {notifications.map(async (notification) => {
                         if (!notification.senderId) return null;
                         const author = await getUserByIdService(notification.senderId);
+                        const message = <p dangerouslySetInnerHTML={{ __html: notification.message }} />;
 
-                        return <NotificationLink notification={notification} author={author} key={notification.id} />;
+                        return (
+                            <NotificationLink
+                                notification={notification}
+                                message={message}
+                                author={author}
+                                key={notification.id}
+                            />
+                        );
                     })}
                 </MenuItems>
             </MenuSection>
