@@ -25,7 +25,7 @@ async function TutorialsCard() {
         <ResourceCard title="Tutorials" link="/resources/tutorials">
             {recentTutorials.map((tutorial) => (
                 <Link href={`/resources/tutorials/${tutorial.slug}`} key={tutorial.id}>
-                    - {tutorial.title}
+                    &bull;&nbsp; {tutorial.title}
                 </Link>
             ))}
         </ResourceCard>

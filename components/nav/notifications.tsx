@@ -46,6 +46,11 @@ async function Notifications({ className = "" }: { className?: string }): Promis
                     {notifications.map(async (notification) => {
                         if (!notification.senderId) return null;
                         const author = await getUserByIdService(notification.senderId);
+
+                        // It is necessary to pass this ReactNode to the NotificationLink component to prevent a
+                        // situation where two clicks are necessary for an onClick to occur. The
+                        // `dangerouslySetInnerHTML`, when used in the NotificationLink component would often result
+                        // in a canceled click.
                         const message = <p dangerouslySetInnerHTML={{ __html: notification.message }} />;
 
                         return (

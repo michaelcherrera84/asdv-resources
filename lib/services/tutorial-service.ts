@@ -16,7 +16,7 @@ import { NotificationInsert } from "@/lib/validators/notification";
 import { createNotificationService } from "@/lib/services/notification-service";
 
 /**
- * Retrieves all user comments from the database.
+ * Retrieves all approved tutorials from the database.
  */
 export function getTutorialsService() {
     return db.select().from(tutorials).where(eq(tutorials.approved, true)).orderBy(desc(tutorials.createdAt));
@@ -33,7 +33,7 @@ export async function getTutorialByIdService(id: string) {
 }
 
 /**
- * Retrieves recent user comments from the database.
+ * Retrieves recent tutorials from the database.
  */
 export function getRecentTutorialsService() {
     noStore();

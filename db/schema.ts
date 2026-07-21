@@ -93,6 +93,23 @@ export type TutorialCommentWithAuthor = TutorialComment & {
 };
 
 /**
+ * Blogs table.
+ */
+export const blogs = pgTable("blogs", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: text("slug").notNull().unique(),
+    title: text("title").notNull(),
+    author: text("author"),
+    description: text("description"),
+    content: text("content").notNull(),
+    tags: text("tags").array(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    approved: boolean().default(false),
+});
+
+export type Blog = InferSelectModel<typeof blogs>;
+
+/**
  * Notifications table.
  */
 export const notifications = pgTable("notifications", {

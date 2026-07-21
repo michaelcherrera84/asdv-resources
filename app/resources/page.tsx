@@ -1,7 +1,7 @@
 import LinksCard from "@/components/resources/resourse-cards/links-card";
 import TutorialsCard from "@/components/resources/resourse-cards/tutorials-card";
 import BooksCard from "@/components/resources/resourse-cards/books-card";
-import BlogCard from "@/components/resources/resourse-cards/blog-card";
+import BlogCard from "@/components/resources/resourse-cards/blogs-card";
 import ApplicationsCard from "@/components/resources/resourse-cards/applications-card";
 import { Metadata } from "next";
 import { getSession } from "@/lib/auth/auth";
