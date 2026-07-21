@@ -10,9 +10,16 @@ import { JSX, MouseEvent, ReactNode } from "react";
 import Button from "@/components/ui/button";
 import { FaXmark } from "react-icons/fa6";
 
+/**
+ * Props for the NotificationLink component.
+ */
 interface NotificationLinkProps {
     notification: Notification;
     author: User;
+    // It is necessary to pass this ReactNode to the NotificationLink component to prevent a
+    // situation where two clicks are necessary for an onClick to occur. The
+    // `dangerouslySetInnerHTML`, when used in the NotificationLink component would often result
+    // in a canceled click.
     message: ReactNode;
 }
 
