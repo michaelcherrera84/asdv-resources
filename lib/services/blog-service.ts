@@ -56,7 +56,7 @@ export function getRecentBlogsService() {
  * @param {string} authorId - The unique identifier of the author.
  * @return {Promise<object | undefined>} A Promise resolving to the author object if found, or undefined if an error occurs.
  */
-export async function getBlogAuthorService(authorId: string): Promise<object | undefined> {
+export async function getBlogAuthorService(authorId: string) {
     let author;
     try {
         author = await getUserByIdService(authorId);
@@ -73,7 +73,7 @@ export async function getBlogAuthorService(authorId: string): Promise<object | u
  * @param {string[]} tags - An array of tags to filter the blogs. Tags are case-insensitively matched after being converted to lowercase.
  * @return {Promise<object[]>} A promise that resolves to an array of blog objects that match the specified tags and are approved.
  */
-export async function getBlogsByTagsService(tags: string[]): Promise<object[]> {
+export async function getBlogsByTagsService(tags: string[]) {
     return db
         .select()
         .from(blogs)
