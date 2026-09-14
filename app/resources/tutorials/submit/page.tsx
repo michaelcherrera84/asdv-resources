@@ -3,6 +3,15 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/button";
 import { JSX } from "react";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the tutorial submission page.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Tutorials Submission",
+    description: "Guidelines for submitting a tutorial to the ASDV Resources platform.",
+};
 
 /**
  * Renders the Tutorial Submission Guidelines page, which outlines the steps and information required for users to submit

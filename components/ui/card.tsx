@@ -19,7 +19,7 @@ function MainCard({
 }: HTMLAttributes<HTMLDivElement> & { ref?: Ref<HTMLDivElement> }) {
     return (
         <div
-            className={`inset-shadow-md mb-1 flex flex-col rounded-md shadow-md inset-shadow-xs ${className}`}
+            className={`mb-1 flex flex-col rounded-md shadow-md inset-shadow-xs ${className}`}
             style={{ ...style }}
             {...props}
             ref={ref}

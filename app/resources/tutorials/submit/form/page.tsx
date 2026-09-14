@@ -1,4 +1,13 @@
 import TutorialSubmissionForm from "@/components/tutorials/tutorial-submission-form";
+import { Metadata } from "next";
+
+/**
+ * Metadata for the tutorial submission form.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Submit Tutorial",
+    description: "Form for submitting a new tutorial.",
+};
 
 /**
  * Tutorial submission page component.

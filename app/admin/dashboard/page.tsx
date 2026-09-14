@@ -1,6 +1,18 @@
 import TutorialsCard from "@/components/admin/dashboard-cards/tutorials-card";
 import { getSession } from "@/lib/auth/auth";
 import { JSX } from "react";
+import { Metadata } from "next";
+
+/**
+ * Represents metadata for the "Admin Dashboard" page of the ASDV Resources.
+ *
+ * @property {string} title - The title of the page.
+ * @property {string} description - A brief description of the page's purpose or functionality.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Admin Dashboard",
+    description: "Dashboard for administrative tasks and app management.",
+};
 
 /**
  * Renders the Admin Dashboard page. Ensures the user is authenticated

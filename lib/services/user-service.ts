@@ -1,6 +1,7 @@
 import { eq, inArray } from "drizzle-orm";
-import { user } from "@/db/auth-schema";
+import { User, user } from "@/db/auth-schema";
 import { db } from "@/db";
+import { userUpdateSchema } from "@/lib/validators/user";
 
 /**
  * Get user by id
@@ -42,4 +43,23 @@ export async function getUserByUsernameService(username: string) {
  */
 export async function getAdminsService() {
     return db.select().from(user).where(eq(user.role, "admin"));
+}
+
+/**
+ * Get all non-admin users
+ */
+export async function getUsersService() {
+    return db.select().from(user).where(eq(user.role, "user"));
+}
+
+/**
+ * Update a user
+ * @param data user data
+ */
+export async function updateUserService(data: Partial<User>) {
+    if (!data.id) {
+        throw new Error("User id is required");
+    }
+    const validated = userUpdateSchema.parse(data);
+    await db.update(user).set(validated).where(eq(user.id, validated.id));
 }

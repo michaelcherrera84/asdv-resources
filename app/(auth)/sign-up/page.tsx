@@ -3,6 +3,12 @@ import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/card";
 import SignUpForm from "@/components/auth/sign-up-form";
 import { Metadata } from "next";
 
+/**
+ * Represents metadata for the "Sign Up" page of the ASDV Resources.
+ *
+ * @property {string} title - The title of the page.
+ * @property {string} description - A brief description of the page's purpose or functionality.
+ */
 export const metadata: Metadata = {
     title: "ASDV Resources - Sign Up",
     description: "Create an account to join the discussion.",
