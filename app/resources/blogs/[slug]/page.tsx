@@ -1,6 +1,7 @@
 import { getBlogBySlugService } from "@/lib/services/blog-service";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Blog from "@/components/blogs/blog";
+import { Metadata } from "next";
 
 interface BlogProps {
     params: Promise<{ slug: string }>;
@@ -9,7 +10,7 @@ interface BlogProps {
 /**
  * Generates metadata for the blog page.
  */
-export async function generateMetadata({ params }: BlogProps) {
+export async function generateMetadata({ params }: BlogProps): Promise<Metadata> {
     const { slug } = await params;
 
     try {

@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/**
+ * Zod scheme for validating user data.
+ */
 export const userSchema = z.object({
     id: z.string(),
     name: z.string().min(1),
@@ -17,3 +20,16 @@ export const userSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
+
+/**
+ * Zod scheme for validating user update data.
+ */
+export const userUpdateSchema = userSchema.pick({
+    id: true,
+    username: true,
+    role: true,
+    name: true,
+    email: true,
+    emailVerified: true,
+});
+export type UserUpdate = z.infer<typeof userUpdateSchema>;

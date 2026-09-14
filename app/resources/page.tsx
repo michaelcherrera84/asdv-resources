@@ -7,6 +7,9 @@ import { Metadata } from "next";
 import { getSession } from "@/lib/auth/auth";
 import ContributeCard from "@/components/resources/resourse-cards/contribute-card";
 
+/**
+ * Metadata for the resources landing page.
+ */
 export const metadata: Metadata = {
     title: "ASDV Resources - Resources Dashboard",
     description: "Explore a curated collection of resources for students in Application Software Development.",

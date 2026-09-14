@@ -91,6 +91,11 @@ function AccountDropdown() {
                                 Dashboard
                             </Link>
                         </MenuItem>
+                        <MenuItem>
+                            <Link href="/admin/users" className="px-3 hover:bg-gray-100">
+                                Users
+                            </Link>
+                        </MenuItem>
                     </MenuSection>
                 )}
 

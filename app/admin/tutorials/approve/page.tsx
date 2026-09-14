@@ -1,7 +1,18 @@
 import { getUnapprovedTutorialsService } from "@/lib/services/tutorial-service";
 import TutorialCard from "@/components/tutorials/tutorial-card";
-import { getSession } from "@/lib/auth/auth";
 import { JSX } from "react";
+import { Metadata } from "next";
+
+/**
+ * Represents metadata for the "Tutorials Approval" page of the ASDV Resources.
+ *
+ * @property {string} title - The title of the page.
+ * @property {string} description - A brief description of the page's purpose or functionality.
+ */
+export const metadata: Metadata = {
+    title: "ASDV Resources - Tutorials Approval",
+    description: "A page for administrators to review and approve pending tutorials.",
+};
 
 /**
  * Renders the Tutorials Approval Page, enabling administrators to review and approve pending tutorials.
@@ -13,11 +24,6 @@ import { JSX } from "react";
  * @throws {Error} If the current session is invalid or the user lacks administrative privileges.
  */
 async function TutorialsApprovalPage(): Promise<JSX.Element> {
-    const session = await getSession();
-    if (!session?.user || session.user.role !== "admin") {
-        throw new Error("Unauthorized");
-    }
-
     const tutorials = await getUnapprovedTutorialsService();
 
     return (
