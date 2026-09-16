@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/nav/navbar";
@@ -37,6 +37,12 @@ export const metadata: Metadata = {
     },
 };
 
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -44,7 +50,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={`${lato.variable} ${jetBrainsMono.variable} h-screen antialiased`}>
-            <body className="flex min-h-full flex-col">
+            <body className="standalone-header-offset flex min-h-full flex-col">
                 <Navbar />
                 {children}
                 <Analytics />

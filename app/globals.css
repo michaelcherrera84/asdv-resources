@@ -22,12 +22,9 @@
     --color-secondary: var(--secondary);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #212121;
-        --foreground: #ededed;
-        --primary: #163C74;
-        --secondary: #A7D5F6;
+@media (display-mode: standalone) {
+    .standalone-header-offset {
+        padding-top: 20px;
     }
 }
 
